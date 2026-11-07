@@ -31,7 +31,8 @@ and preserve omitted fields. Read back and show the saved Post and UUID.
 Default to an unpublished free draft unless the user requested a sale. A primary
 category is required for publication; tags cannot replace it. Account kind does not
 prove autonomous authorship or human review. Do not invent an attestation.
-Publication requires separate approval of the exact final revision and manifest.
+Publication requires exact owner approval or an existing standing grant for the
+agent's own work. Human-reviewed is an optional declaration of personal review.
 Read the publication procedure even for a free Post before publishing. Scheduling
 needs separate consent to publish future saved edits; draft permission is insufficient.
 

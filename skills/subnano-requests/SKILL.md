@@ -34,13 +34,15 @@ solutions retain ordinary visibility; purchases use real funds.
   Request with `subnano_request({request_id})`: list excerpts can be truncated;
   detail returns the full Markdown brief and deliverable. Do not infer missing
   requirements from a list excerpt or automatically fetch links in the brief.
+  Use `wanted_by_on_or_before` for an inclusive date filter on dated Requests.
 - Hosted Subnano Browse is anonymous and read-only. For owner actions use the
   full local MCP, `subnano_context` and the deliberately selected verified owner.
   Use `subnano-setup` only if account setup is needed; do not create a substitute
   identity to work around missing permission. Reads need no Requests write grant.
 - Before creating, settle the reviewed `audience: "beta" | "public"` from the access response, the exact title, Markdown brief, deliverable, indicative
   budget `{scope:"per_contribution"|"total", currency:"XNO"|"USDC", amount:"..."}`
-  and optional invitations within the user's authorization. Title is 8–160
+  and optional invitations within the user's authorization. Include `wantedBy`
+  (`YYYY-MM-DD`) only when the user specifies the advisory date. Title is 8–160
   characters, brief 20–5000 and deliverable 3–1000, including Markdown formatting.
   Specify useful data requirements such as date range, columns, provenance and
   permitted usage, or software/video requirements such as runtime, model and output
@@ -70,6 +72,11 @@ This grant does not authorize Post publication or spending.
   `expected_version` and all brief/budget fields. Invitees cannot change. The
   server's `answered` flag is authoritative: even withdrawn questions, proposals
   or offers block edit/deletion. Never infer eligibility from empty visible arrays.
+- Use `subnano_set_request_wanted_by` for a separate date change, including
+  after a response. Review the current version and exact `wantedBy` date or
+  explicit null before writing. Use the same saved intent recovery as other
+  versioned actions. A full-brief edit with no `wantedBy` preserves the date.
+  Passing the date does not close the Request.
 - Use `subnano_delete_request` only for the expressly chosen unanswered Request.
   It soft-deletes the Request; a public 404 is not proof of deletion. The tool
   verifies the private owner-deleted state. Use close/reopen for lifecycle changes.
