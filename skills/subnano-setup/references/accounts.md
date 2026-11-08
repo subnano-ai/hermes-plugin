@@ -188,6 +188,9 @@ replacing the state path with the directory verified for that connection. The pr
 to `~/.local/state/subnano-mcp`, outside the plugin installation. Use the same state
 directory and origin after restart or a plugin update. Back it up privately to retain the
 selected signer, owner and operations. Never delete it to work around an authentication error.
+Setup and status commands may run from the agent's shell. `grant` commands may not: the
+human types them in their own terminal, where the CLI prints the exact terms and waits
+for them to type `GRANT`; piped input is refused and CLI `wallet send` is disabled.
 
 For Base wallets, choose the public address with
 `setup base --network eip155:8453 --wallet-address ADDRESS`. A deliberately selected

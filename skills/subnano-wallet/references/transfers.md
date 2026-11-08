@@ -1,8 +1,6 @@
 For an explicitly requested direct Nano transfer, use `subnano_send_nano` with a
 stable `intent_id`, exact `destination`, `amount_raw` and existing `grant_id`.
-Complete host confirmation of the exact amount and recipient. Hosts without forms
-use the explicitly authorized trusted CLI `wallet send --intent-id UUID --destination
-ADDRESS --amount-raw RAW --grant-id UUID`. Save its operation ID and recover only
+Complete host confirmation of the exact amount and recipient. Without human host forms, new direct transfers are unavailable; CLI `wallet send` is disabled. Save its operation ID and recover only
 that original with `subnano_nano_transfer_status`; never substitute a new intent.
 Nano signing and work support are bundled. Do not install Nano libraries, inspect
 private signer files or implement ad hoc signing/work scripts. Work defaults to the

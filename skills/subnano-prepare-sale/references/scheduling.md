@@ -8,7 +8,7 @@ Retain the original command UUID (`commandId` on HTTP, `command_id` on MCP), exa
 
 ### Local MCP scheduling consent and recovery
 
-Trusted terminal commands (outside model-controlled MCP) create or revoke a separate one-use scheduling grant:
+The human creates or revokes a separate one-use scheduling grant by typing these commands in their own terminal (outside model-controlled MCP). The grant prints the action, Post, revision, instant and zone and waits for them to type `GRANT`; the agent never runs it through a shell tool.
 
 ```sh
 subnano-mcp grant schedule --input-file /private/schedule.json

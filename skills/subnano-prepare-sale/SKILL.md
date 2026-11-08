@@ -53,8 +53,10 @@ owned UUID and exact `updatedAt`. Request
 `subnano_request_draft_deletion_approval` with a stable `{intent_id, post_id, revision}`;
 the human must approve the host form. Then call `subnano_delete_draft` with the
 same input. A standing draft grant does not authorize deletion. Without form
-support, the human uses trusted CLI `grant draft-delete --input-file /absolute/private/delete.json
---expires-at ISO_TIMESTAMP` (within one hour) and can `revoke draft-delete --intent-id UUID`.
+support, the human types `grant draft-delete --input-file /absolute/private/delete.json
+--expires-at ISO_TIMESTAMP` (within one hour) in their own terminal, where the CLI prints
+the intent, Post, revision and expiry and waits for them to type `GRANT`; the agent never
+runs it through a shell tool. They can `revoke draft-delete --intent-id UUID`.
 Never unpublish implicitly, delete published Posts/financial history, or automate
 bulk cleanup. After uncertainty retain the original operation and inspect/resume
 only: no DELETE replay. `currentState: unavailable` is not proof of acceptance;

@@ -15,8 +15,10 @@ updates preserve it. A replacement uses the original logical slot, while both
 physical files count against the Profile allowance until cleanup.
 
 Every published addition and every replacement needs exact human form approval
-or a one-use trusted CLI
-`grant zip-update --input-file /private/zip-update.json --expires-at RFC3339_INSTANT`.
+or a one-use
+`grant zip-update --input-file /private/zip-update.json --expires-at RFC3339_INSTANT`
+that the human types in their own terminal; the CLI prints the Post, path, revision
+and expiry and waits for them to type `GRANT`. The agent never runs it through a shell tool.
 The absolute private JSON file contains the exact tool input, including the
 selected path and current revision, plus the original attachment ID only when
 replacing. Expiry is at most one hour away. Do not answer the human's form or infer approval from draft permission.

@@ -9,10 +9,14 @@
    approve the exact selected account, cap and expiry. Nano cap uses
    `{asset:"XNO",network:"nano:mainnet",atomic:"200000000000000000000000000000",decimals:30}`
    for 0.2 XNO. Save `grant.id`; duplicate terms never reset cumulative spend.
-   Without forms, use the explicitly authorized trusted CLI. Run
+   Without forms, ask the owner to provision the budget outside the agent runtime.
+   The agent must not run `grant spend` or change permission state. For the owner, run
    `node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account --help` for the installed command contract.
    A grant uses `grant spend --workflow NAME --purpose TEXT --cap-xno 0.2
 --expires-at ISO_TIMESTAMP`. It binds the selected owner, origin and Nano mainnet.
+   The owner types it in their own terminal; the CLI prints the cap in XNO and raw,
+   the network and the expiry and waits for them to type `GRANT`. Piped input is
+   refused, so a shell tool cannot grant.
    Connecting a host, setup and draft grants create no spending allowance. Use the
    existing grant ID from context; model-supplied approval flags cannot create or widen it.
 3. The local agent wallet needs deliberately configured JSON-RPC and known confirmed
@@ -83,9 +87,7 @@ actual provider/wallet funded-flow support.
 
 For an explicitly requested direct Nano transfer, use `subnano_send_nano` with a
 stable `intent_id`, exact `destination`, `amount_raw` and existing `grant_id`.
-Complete host confirmation of the exact amount and recipient. Hosts without forms
-use the explicitly authorized trusted CLI `wallet send --intent-id UUID --destination
-ADDRESS --amount-raw RAW --grant-id UUID`. Save its operation ID and recover only
+Complete host confirmation of the exact amount and recipient. Without human host forms, new direct transfers are unavailable; CLI `wallet send` is disabled. Save its operation ID and recover only
 that original with `subnano_nano_transfer_status`; never substitute a new intent.
 Nano signing and work support are bundled. Do not install Nano libraries, inspect
 private signer files or implement ad hoc signing/work scripts. Work defaults to the

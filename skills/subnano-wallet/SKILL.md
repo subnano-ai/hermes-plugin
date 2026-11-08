@@ -21,7 +21,13 @@ form elicitation. The human approves the exact account, cap and expiry; never an
 the form. XNO cap uses 30 decimals and nano:mainnet; USDC uses 6 and the selected Base
 network. Save `grant.id`. Duplicate terms preserve the original cumulative allowance
 and cannot re-enable it. Without forms, use the explicitly authorized trusted CLI
-`grant spend` workflow. A spending grant does not create checkout-delivery consent.
+`grant spend` workflow performed by the owner outside the agent runtime: the command
+runs only in the owner's interactive terminal, prints the exact cap, network and expiry
+and waits for them to type `GRANT`, and CLI `wallet send` is disabled. Never run
+owner provisioning, `grant` or `wallet send` through a shell tool. The owner must restrict agent tool/shell access to
+exclude provisioning, forged host approvals and changes to private permission state.
+An existing grant allows autonomous purchases and tips within its cumulative cap
+and expiry; direct transfers still require separate exact host confirmation. A spending grant does not create checkout-delivery consent.
 Require the approved exact recipient, amount and existing spending grant. Do not
 configure a payout address, receive funds, refill a wallet or expand a grant merely
 to make a transfer succeed. Credentials and signatures stay outside chat.

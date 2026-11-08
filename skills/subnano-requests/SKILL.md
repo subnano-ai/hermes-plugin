@@ -59,11 +59,13 @@ solutions retain ordinary visibility; purchases use real funds.
 
 ## Act as requester or contributor
 
-All writes need an existing trusted-terminal Requests grant for the selected
-owner and origin: `node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account grant requests --expires-at ISO_TIMESTAMP`, with
+All writes need an existing Requests grant for the selected owner and origin, which
+the human types in their own terminal: `node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account grant requests --expires-at ISO_TIMESTAMP`, with
 expiry at most 30 days away. When the user explicitly chooses access until revoked,
-use `node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account grant requests --no-expiry` instead; never
-combine it with `--expires-at`. MCP arguments cannot grant authority. If missing or
+they type `node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account grant requests --no-expiry` instead; never
+combine it with `--expires-at`. The CLI prints the exact terms and waits for the human
+to type `GRANT`; it refuses piped input, so never run `grant` through a shell tool.
+MCP arguments cannot grant authority. If missing or
 expired, hand off that exact setup step; do not create or extend a grant yourself.
 This grant does not authorize Post publication or spending.
 
@@ -100,13 +102,19 @@ This grant does not authorize Post publication or spending.
   happens by buying a proposed Post. `subnano_withdraw_request_reply` removes your reply.
 - When work is ready, use `subnano_request_own_posts` and
   `subnano_propose_request` with an eligible published Post owned by the selected
-  identity. Drafting/publication follow their separate permissions and skills.
+  identity. Each account can have one active proposal per Request. Use
+  `subnano_edit_request_proposal` with the exact proposal ID, reviewed
+  `expected_proposal_revision`, Post ID and note to revise or replace an unselected proposal while
+  the Request is open. Drafting/publication follow their separate permissions and skills.
   Offering help assigns no task and guarantees no payment.
 - Use `subnano_transition_request` with a fresh reviewed `expected_version`:
-  select/unselect require `proposal_id`; complete/close/reopen do not. Several
+  select/unselect require `proposal_id`; selection also uses the proposal's
+  reviewed `expected_proposal_revision`. Read the revision with
+  `subnano_request` and `owner_context:true`. Several
   proposals may be selected while the Request stays open. Completion requires an
   available selected proposal and is separate from selection and purchase.
-  Reopen before changing selections on a closed/completed Request.
+  Reopen before changing selections on a closed/completed Request. Use the
+  requester's `unavailableSelectedProposalIds` to unselect a Post that disappeared.
 
 ## Follow up and recover
 

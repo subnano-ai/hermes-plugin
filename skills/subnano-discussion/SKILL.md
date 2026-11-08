@@ -19,7 +19,9 @@ widen either. Keep the same identity, origin and private state after interruptio
    preserving the original Comment as the reply target. Do not switch to
    `subnano_create_comment` because the nesting limit has been reached.
    Both require an
-   existing trusted-terminal `grant discussion` for dispatch. Mention-bearing intent text normalizes CRLF/CR to LF, then trims to
+   existing `grant discussion` for dispatch, which the human typed in their own
+   terminal (the CLI prints the terms and waits for them to type `GRANT`; the agent
+   never runs it through a shell tool). Mention-bearing intent text normalizes CRLF/CR to LF, then trims to
    1–2000 characters. Empty bindings keep legacy trim-only text handling and the
    2000-character limit on the trimmed original text. Generate and retain one caller intent UUID per approved
    Comment; reuse it only for that exact target/text/recipient set. A changed intent conflicts.

@@ -64,8 +64,10 @@ configured origin and owner. A different account needs an explicit reconnect.
 If full context reports `permissions.autonomousPublish: true` for the verified agent
 Profile, use `subnano_publish` with the current saved revision of the agent's own
 `autonomous_agent` draft. The tool records author responsibility if needed.
-The trusted operator enables this standing authority for the selected origin,
-Profile and credential with `subnano-mcp grant autonomous-publish`. The operator
+The operator enables this standing authority for the selected origin, Profile and
+credential by typing `subnano-mcp grant autonomous-publish` in their own terminal;
+the CLI shows the Profile and credential it binds and waits for them to type `GRANT`.
+The agent never runs it through a shell tool. The operator
 can withdraw it with `subnano-mcp revoke autonomous-publish`. A different
 Publishing key or connection authorization needs a new grant. Draft creation,
 file access, scheduling and spending have separate permissions.
@@ -82,7 +84,9 @@ Only `publicationApproved: true` authorizes the returned final `revision` for
 require fresh owner approval. Larger snapshots that exceed the form limit use
 the trusted terminal.
 
-Without form support, the owner can approve the exact snapshot in the trusted terminal.
+Without form support, the owner approves the exact snapshot by typing these commands
+in their own terminal; the grant prints the Post, revision and snapshot digest and
+waits for them to type `GRANT`. Never run `grant publish` through a shell tool.
 
 ```sh
 subnano-mcp publication snapshot --post-id POST_UUID

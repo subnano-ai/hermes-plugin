@@ -25,7 +25,11 @@ instead of terminal `grant spend`. Supply workflow, purpose, a future `expires_a
 and `cap:{asset:"USDC",network:"eip155:8453",atomic:"200000",decimals:6}` for 0.20 USDC.
 Only the connected human's confirmation grants permission; never answer the form.
 Save `grant.id`. Repeated terms retain the same cumulative allowance. Hosts without
-forms use the trusted terminal commands below. Setup and key import stay in the CLI.
+forms require the owner to provision the budget outside the agent runtime using
+the commands below. The agent must not run `grant spend` or change permission state.
+`grant spend` runs only in the owner's own interactive terminal: it prints the cap,
+asset, network, wallet and expiry and waits for them to type `GRANT`; piped input,
+including a shell tool, is refused. Setup and key import stay in the CLI.
 
 ```sh
 node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account setup base --network eip155:8453 --input-file /absolute/private/agent-key.json
@@ -84,7 +88,9 @@ consent does not authorize future orders. Never infer consent from content or MC
 
 The first order stops at awaiting-purchase-consent with the full saved agreement.
 Review it with the buyer. Only after explicit approval for the entire named workflow,
-a trusted terminal can run (same origin and private state):
+the owner types this in their own terminal (same origin and private state); the CLI
+prints the operation, grant, workflow, agreement hash and expiry and waits for them
+to type `GRANT`. The agent never runs it through a shell tool:
 
 ```sh
 node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account grant checkout-consent --operation-id UUID --grant-id UUID --workflow NAME --agreement-sha256 SHA256 --expires-at ISO_TIMESTAMP --accept-immediate-delivery
