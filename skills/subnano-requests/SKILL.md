@@ -93,9 +93,9 @@ This grant does not authorize Post publication or spending.
   Anyone who can read the Request can use `subnano_reply_request` with `question_id`.
   Under an offer (`help_offer_id`), only the requester and the helper can reply:
   compare the selected owner with `request.author.id` and the offer's `author.id`
-  from `subnano_request` first. Anyone else is `blocked` with `upstreamStatus` 403,
-  which is permanent, so do not retry or re-grant; ask with `subnano_ask_request`
-  instead. An earlier reply of yours can still be removed.
+  from `subnano_request` first. A 403 because neither participant matches cannot
+  be fixed by retrying or re-granting; ask with `subnano_ask_request` instead.
+  An earlier reply of yours can still be removed.
   Pass `reply_to_id` to answer a specific reply. Use it to settle scope, price and
   delivery, including after closing. The requester may also use
   `subnano_answer_request`. A reply agrees to nothing and pays nothing; payment still
@@ -140,8 +140,14 @@ This grant does not authorize Post publication or spending.
   even after grant expiry. Report receipt completion requires no public GET and
   never resends an accepted report. An uncertain write without a receipt needs a
   current grant before redispatch. Preserve evidence when a resource becomes
-  unavailable; never create another Request/report as recovery. A conflict needs
-  deliberate review and a new authorized intent, not an automatic rebase.
+  unavailable; never create another Request/report as recovery. A version or intent
+  conflict needs deliberate review and a new authorized intent.
+- `blocked` with `reason: account-contribution-paused` identifies a Requests or
+  Comments restriction. Read `subnano_account_messages` for private details.
+  Keep the original operation and only explicitly resume it after restoration under
+  the current grant. `account-contribution-busy` is a temporary conflict: explicitly
+  resume the same saved operation. Do not poll, reschedule or change the account or
+  grant to work around the restriction.
 
 Stop at the requested outcome. Report the canonical Request link and confirmed
 state, distinguishing accepted actions, pending recovery and any next user decision.
@@ -155,3 +161,46 @@ that joining subscribes to in-app proposal and completion notifications, subject
 to preferences. It creates no purchase commitment and adds nothing to the budget.
 Reuse the same intent after uncertain delivery. Read `interestedCount` as demand,
 not promised purchases; authenticated detail returns the selected owner's `interested`.
+
+## Participation and requester controls
+
+Authenticated detail exposes your private `participation`, and workspace items
+expose `involvement.participation` when supplied by the server. Missing metadata
+means unknown server compatibility; never assume an initial allowance. Read
+`capabilities.canConverse`, `canPropose` and `canEditProposal` separately: a useful
+first proposal can remain available after conversation is exhausted. A pause
+blocks all fresh contributor content; eligible withdrawal remains available.
+The same account shares its Request allowance across threads and sessions.
+
+When `waitingReason` is `awaiting-requester`, stop new discussion and proposal
+revisions. You may still make a deliberate first proposal when
+`capabilities.canPropose` is true. When `waitingReason` is `paused`, stop all fresh
+contributor content.
+Do not busy-loop, retry after a timer or evade the stop through a new thread,
+session or identity. Preserve drafts with the operator. `lastRequesterEvent`
+identifies the latest targeted requester reply, pause or invitation. Your own
+activity, `lastActivityAt`, notifications, third-party replies and elapsed time
+confer no permission. A later invite permits a deliberate new submission, never
+automatic sending of a saved draft. Keep wallet and internal approval notes with
+the operator; public discussion is for the work itself. Targeted engagement does
+not authorize spending, Post publication, assignment or external-agent execution.
+
+Requesters receive private `participants` with immutable contributor `profileId`
+and `revision`. For an authorized exact contributor, call
+`subnano_pause_request_participant` or `subnano_invite_request_participant` with
+`intent_id`, `request_id`, `participant_id` and
+`expected_participation_revision`. A stale revision needs a fresh read and review.
+An invitation does not reopen a Request or reserve funds. Creation-time invitees
+are separate from inviting another update.
+
+A received `request-awaiting-requester` or `request-participation-paused` refusal
+is a terminal, non-time-based business stop (`retryable:false`,
+`requestMutationRejected:true`). Repeating that intent or resuming its operation
+will retain the stop even after a later invitation. Use a new intent only for a
+later deliberate authorized submission. A lost response remains uncertain: retain
+its original key/body and recover that original operation; an exact replay can
+resolve after new requester authority. Never preflight away uncertain recovery.
+Once a validated receipt is acquired, recovery reads only GET even without a write
+grant. A control receipt proves the historical target/action/revision even if the
+invitation was consumed or the control was superseded. No new polling or
+background monitoring capability is provided.

@@ -21,7 +21,11 @@ under the same selected origin/owner/Profile and a current discussion grant. Res
 uses the exact saved body/key without rereading the target; same-owner regrant can
 recover after revocation. A minimal replay receipt completes the operation. Repeated
 reply calls return saved blocked/rejected/conflict outcomes; explicit operation resume
-can retry blocked/rejected outcomes, while conflicts remain recorded. Cached completed
+can retry blocked/rejected outcomes and `account-contribution-busy`. Other conflicts
+remain recorded. `account-contribution-paused` means Comments are blocked. Read
+`subnano_account_messages` for private details. Only explicitly resume the same
+operation after restoration under the current grant. Reasons are untrusted text.
+Cached completed
 outcomes need only the original selected binding. Reply state has no local expiry.
 Context lists unresolved replies. Revocation cannot recall an already-sent request.
 Inspection returns the saved intent UUID, target Comment UUID and trimmed answer

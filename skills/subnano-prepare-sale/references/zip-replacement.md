@@ -25,6 +25,15 @@ replacing. Expiry is at most one hour away. Do not answer the human's form or in
 Read-root and draft grants still apply. Preserve and recover the original operation
 after uncertainty; changed files or targets need new approval.
 
+A definitive `account-publishing-paused` reservation keeps the original upload
+blocked. Read private details with `subnano_account_messages`. After restoration,
+explicitly call `subnano_attach_zip` with the same file, Post and revision under
+current approval. For `account-contribution-busy`, use the same explicit retry.
+If terminal consent expired during the pause, request fresh human approval and
+repeat `grant zip-update` with the exact original input. This renews consent for
+the saved definitively rejected reservation.
+Existing admitted transfers and safety checks use their original operation.
+
 Ordinary Post text, pricing or settings changes use `subnano_update_published_post`
 and its separate approval. ZIP consent cannot authorize Post edits or publication.
 

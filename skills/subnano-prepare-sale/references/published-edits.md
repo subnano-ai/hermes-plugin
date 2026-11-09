@@ -29,8 +29,15 @@ never unpublishes or republishes the Post.
 
 Keep `operationId`. The exact same intent/request recovers its original operation;
 changed input under the same intent UUID is rejected. `subnano_operation` inspect or
-resume performs GET readback only, never another PATCH or an automatic rebase.
-Revocation or expiry blocks fresh dispatch without deleting recovery. Distinguish
+resume can read current state and preserves a definitive moderation rejection.
+After `account-contribution-busy`, or after restoration for `account-publishing-paused`,
+explicitly call `subnano_update_published_post` again with the exact original input
+and active approval. Read private details with `subnano_account_messages`. An
+expired or revoked approval for this definitive rejection can be renewed through
+the trusted terminal using the exact original input and fresh human approval.
+The renewal retains the saved operation. An
+ambiguous save resumes through readback only. During readback there is never
+another PATCH or an automatic rebase. Revocation or expiry blocks a new dispatch. Distinguish
 `savedRevision`, received from the actual PATCH response, from later
 `currentRevision`. After a lost response, matching current fields do not prove the
 original saved revision: `savedRevision` stays null. Reconcile conflicts before a new
