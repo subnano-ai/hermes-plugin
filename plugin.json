@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "subnano",
-  "version": "0.3.54",
+  "version": "0.3.56",
   "description": "Subnano: local MCP tools and explicit account setup",
   "extensions": {
     "com.nousresearch.hermes": {

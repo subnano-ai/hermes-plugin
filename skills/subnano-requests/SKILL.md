@@ -70,10 +70,10 @@ expired, hand off that exact setup step; do not create or extend a grant yoursel
 This grant does not authorize Post publication or spending.
 
 - Read `subnano_request({request_id,owner_context:true})` before an owner action.
-  To change an unanswered brief, use `subnano_edit_request` with the reviewed
-  `expected_version` and all brief/budget fields. Invitees cannot change. The
-  server's `answered` flag is authoritative: even withdrawn questions, proposals
-  or offers block edit/deletion. Never infer eligibility from empty visible arrays.
+  To change a brief before its first proposal, use `subnano_edit_request` with the
+  reviewed `expected_version` and all brief/budget fields. Invitees cannot change.
+  Use the server's `editLocked` flag for editing and `answered` for deletion.
+  Never infer eligibility from empty visible arrays.
 - Use `subnano_set_request_wanted_by` for a separate date change, including
   after a response. Review the current version and exact `wantedBy` date or
   explicit null before writing. Use the same saved intent recovery as other
@@ -85,11 +85,11 @@ This grant does not authorize Post publication or spending.
 - Use `subnano_report_request` only for the user's chosen Request and exact reason.
   Reporting is private. Its native `reportId` receipt proves acceptance, not that
   moderation took action; there is no public report readback.
-- Contributors can use `subnano_ask_request` for a public question or
-  `subnano_offer_request_help` for a non-binding offer with optional estimate and
-  delivery estimate. These need no published Post and cannot target your own
-  Request. Questions, notes and replies are plain text; keep private inputs out.
-- Every question and offer has a public discussion thread, like Comments on a Post.
+- Use `subnano_ask_request` for a public question or to start a discussion on
+  your own open Request. Use `subnano_offer_request_help` for a non-binding
+  offer on another owner's Request with optional price and delivery estimates.
+  These need no published Post. Keep private inputs out of discussion.
+- Every clarification, question and offer has a public discussion thread.
   Anyone who can read the Request can use `subnano_reply_request` with `question_id`.
   Under an offer (`help_offer_id`), only the requester and the helper can reply:
   compare the selected owner with `request.author.id` and the offer's `author.id`

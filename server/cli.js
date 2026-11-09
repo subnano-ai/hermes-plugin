@@ -14712,7 +14712,7 @@ var require_compile = __commonJS({
 var require_data = __commonJS({
   "../node_modules/.pnpm/ajv@8.20.0/node_modules/ajv/dist/refs/data.json"(exports, module) {
     module.exports = {
-      $id: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#",
+      $id: "https://github.com/ajv-validator/ajv/blob/master/lib/refs/data.json#",
       description: "Meta-schema for $data reference (JSON AnySchema extension proposal)",
       type: "object",
       required: ["$data"],
@@ -16460,7 +16460,7 @@ var require_core = __commonJS({
       def.validateSchema = this.compile(metaSchema, true);
     }
     var $dataRef = {
-      $ref: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#"
+      $ref: "https://github.com/ajv-validator/ajv/blob/master/lib/refs/data.json#"
     };
     function schemaOrData(schema2) {
       return { anyOf: [schema2, $dataRef] };
@@ -18796,16 +18796,16 @@ var require_dist = __commonJS({
         addFormats(ajv, opts, formats_1.fullFormats, fullName);
         return ajv;
       }
-      const [formats, exportName] = opts.mode === "fast" ? [formats_1.fastFormats, fastName] : [formats_1.fullFormats, fullName];
+      const [formats2, exportName] = opts.mode === "fast" ? [formats_1.fastFormats, fastName] : [formats_1.fullFormats, fullName];
       const list = opts.formats || formats_1.formatNames;
-      addFormats(ajv, list, formats, exportName);
+      addFormats(ajv, list, formats2, exportName);
       if (opts.keywords)
         (0, limit_1.default)(ajv);
       return ajv;
     };
     formatsPlugin.get = (name, mode = "full") => {
-      const formats = mode === "fast" ? formats_1.fastFormats : formats_1.fullFormats;
-      const f2 = formats[name];
+      const formats2 = mode === "fast" ? formats_1.fastFormats : formats_1.fullFormats;
+      const f2 = formats2[name];
       if (!f2)
         throw new Error(`Unknown format "${name}"`);
       return f2;
@@ -59568,6 +59568,37 @@ function canonical(value) {
   return `{${Object.keys(record5).sort().map((key) => `${JSON.stringify(key)}:${canonical(record5[key])}`).join(",")}}`;
 }
 
+// src/http/attachment-formats.ts
+var formats = {
+  zip: "application/zip",
+  md: "text/markdown",
+  txt: "text/plain",
+  csv: "text/csv",
+  json: "application/json",
+  jsonl: "application/jsonl",
+  png: "image/png",
+  jpeg: "image/jpeg",
+  webp: "image/webp",
+  pdf: "application/pdf"
+};
+var attachmentMimeSchema = external_exports2.enum([
+  formats.zip,
+  ...Object.values(formats).filter((mime) => mime !== formats.zip)
+]);
+var attachmentFormatsHeaders = { "X-Subnano-Attachment-Formats": "all" };
+function attachmentFormat(filename2) {
+  if ([...filename2].length > 128 || /[\x00-\x1f\x7f/\\]/.test(filename2)) return null;
+  const dot = filename2.lastIndexOf(".");
+  if (dot < 1) return null;
+  const extension2 = filename2.slice(dot + 1).toLowerCase();
+  const key = extension2 === "jpg" ? "jpeg" : extension2;
+  return Object.hasOwn(formats, key) ? key : null;
+}
+function attachmentMime(filename2) {
+  const format2 = attachmentFormat(filename2);
+  return format2 ? formats[format2] : null;
+}
+
 // src/http/tags.ts
 var whiteSpace = /[\u0009-\u000d\u0020\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+/gu;
 var controlOrFormat = /[\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0605\u061c\u06dd\u070f\u0890-\u0891\u08e2\u180e\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\u206f\ufeff\ufff9-\ufffb\u{110bd}\u{110cd}\u{13430}-\u{1343f}\u{1bca0}-\u{1bca3}\u{1d173}-\u{1d17a}\u{e0001}\u{e0020}-\u{e007f}]/u;
@@ -59835,7 +59866,8 @@ function publicAttachments(value, client) {
   const attachments = [];
   for (const entry of value) {
     const asset = record3(entry);
-    if (!postIdSchema.safeParse(asset.id).success || typeof asset.sizeBytes !== "number" || !Number.isSafeInteger(asset.sizeBytes) || asset.sizeBytes < 1 || asset.sizeBytes > 10 * 1024 * 1024 || typeof asset.filename !== "string" || typeof asset.description !== "string" || typeof asset.sha256 !== "string" || !/^[a-f0-9]{64}$/.test(asset.sha256) || asset.mimeType !== "application/zip")
+    const mimeType = asset.mimeType === "application/zip" ? asset.mimeType : typeof asset.filename === "string" ? attachmentMime(asset.filename) : null;
+    if (!postIdSchema.safeParse(asset.id).success || typeof asset.sizeBytes !== "number" || !Number.isSafeInteger(asset.sizeBytes) || asset.sizeBytes < 1 || asset.sizeBytes > 10 * 1024 * 1024 || typeof asset.filename !== "string" || typeof asset.description !== "string" || typeof asset.sha256 !== "string" || !/^[a-f0-9]{64}$/.test(asset.sha256) || !mimeType || asset.mimeType !== mimeType)
       continue;
     attachments.push({
       id: asset.id,
@@ -59843,7 +59875,7 @@ function publicAttachments(value, client) {
       sizeBytes: asset.sizeBytes,
       description: boundedText(asset.description, 500),
       sha256: asset.sha256,
-      mimeType: "application/zip",
+      mimeType,
       downloadUrl: client.url(`/api/assets/${asset.id}`).href,
       contents: Array.isArray(asset.contents) && asset.contents.every((v2) => typeof v2 === "string") ? asset.contents : null
     });
@@ -59986,7 +60018,7 @@ var publicPostOutputSchema = external_exports2.object({
       sizeBytes: external_exports2.number(),
       description: external_exports2.string(),
       sha256: external_exports2.string(),
-      mimeType: external_exports2.literal("application/zip"),
+      mimeType: attachmentMimeSchema,
       downloadUrl: external_exports2.string().url(),
       contents: external_exports2.array(external_exports2.string()).nullable()
     }).strict()
@@ -60068,7 +60100,7 @@ var DiscoveryService = class {
   }
   async search(input2, signal) {
     const parsed = searchSchema.parse(input2);
-    const query = new URLSearchParams();
+    const query = new URLSearchParams({ formats: "all" });
     for (const [key, value] of Object.entries(parsed)) {
       if (value !== void 0 && key !== "max_price_xno") query.set(key, String(value));
     }
@@ -60189,7 +60221,10 @@ var DiscoveryService = class {
       let attachmentsReason = null;
       try {
         const manifest = object3(
-          (await this.client.request(`/api/posts/${id3}/attachments`, { signal })).data
+          (await this.client.request(`/api/posts/${id3}/attachments`, {
+            signal,
+            headers: attachmentFormatsHeaders
+          })).data
         );
         if (!Array.isArray(manifest.attachments)) throw new Error("invalid-attachment-manifest");
         post.attachments = publicAttachments(manifest.attachments, this.client);
@@ -60230,9 +60265,26 @@ var commandFields = { command_id: scheduleUuid, post_id: scheduleUuid };
 var schedulePostSchema = external_exports2.object({ ...commandFields, ...timeFields }).strict();
 var reschedulePostSchema = schedulePostSchema.extend({ schedule_id: scheduleUuid, generation }).strict();
 var cancelScheduleSchema = external_exports2.object({ ...commandFields, schedule_id: scheduleUuid, generation }).strict();
+var scheduleAttachmentMetadataSchema = external_exports2.object({
+  id: scheduleUuid,
+  filename: external_exports2.string(),
+  description: external_exports2.string(),
+  sizeBytes: external_exports2.number().int().positive(),
+  sha256: external_exports2.string().regex(/^[0-9a-f]{64}$/),
+  mimeType: attachmentMimeSchema
+});
+var reviewedAttachments = external_exports2.array(scheduleAttachmentMetadataSchema).max(6).optional();
 var scheduleGrantSchema = external_exports2.discriminatedUnion("action", [
-  schedulePostSchema.extend({ action: external_exports2.literal("create"), policy: external_exports2.literal("latest_saved") }).strict(),
-  reschedulePostSchema.extend({ action: external_exports2.literal("replace"), policy: external_exports2.literal("latest_saved") }).strict()
+  schedulePostSchema.extend({
+    action: external_exports2.literal("create"),
+    policy: external_exports2.literal("latest_saved"),
+    reviewed_attachments: reviewedAttachments
+  }).strict(),
+  reschedulePostSchema.extend({
+    action: external_exports2.literal("replace"),
+    policy: external_exports2.literal("latest_saved"),
+    reviewed_attachments: reviewedAttachments
+  }).strict()
 ]);
 var postScheduleSchema = external_exports2.object({ post_id: scheduleUuid }).strict();
 var listSchedulesSchema = external_exports2.object({
@@ -69032,6 +69084,7 @@ var subnanoRequestSchema = external_exports2.object({
   completedAt: timestamp3.nullable(),
   editedAt: timestamp3.nullable().optional(),
   answered: external_exports2.boolean().optional(),
+  editLocked: external_exports2.boolean().optional(),
   moderation: requestModerationSchema.optional(),
   proposalCount: count3,
   // Public conversation signals; absent from servers that predate them.
@@ -69256,6 +69309,7 @@ async function readRequest(client, id3, signal) {
   const response2 = await client.request(`/api/requests/${requestId}`, { signal });
   const detail = requestDetailSchema.parse(response2.data);
   if (detail.request.id !== requestId) throw new Error("request-readback-mismatch");
+  delete detail.request.editLocked;
   delete detail.hasOwnProposal;
   delete detail.unavailableOwnProposals;
   delete detail.unavailableSelectedProposalIds;
@@ -69457,7 +69511,7 @@ function connectionFailure(error40, duringVerification = false, context6) {
 // package.json
 var package_default = {
   name: "subnano-mcp",
-  version: "0.3.54",
+  version: "0.3.56",
   description: "Subnano: local MCP tools and explicit account setup",
   type: "module",
   engines: {
@@ -70099,6 +70153,8 @@ var attachZipSchema = external_exports2.object({
   filename: filename.optional(),
   description: external_exports2.string().refine((value) => [...value].length <= 500).default("")
 }).strict();
+var attachmentFilename = external_exports2.string().refine((value) => attachmentFormat(value) !== null);
+var attachFileSchema = attachZipSchema.extend({ filename: attachmentFilename.optional() });
 var attachmentStatusSchema = external_exports2.object({ operation_id: postIdSchema }).strict();
 var CREATOR_OPERATION_KINDS = ["creator-upload"];
 var zipSafetyMessage = {
@@ -70113,7 +70169,15 @@ var zipSafetyMessage = {
   "member-size-limit": "A file inside the ZIP exceeds the size limit. Remove or split that file.",
   "total-size-limit": "The uncompressed ZIP contents exceed the size limit. Split the archive.",
   "expansion-limit": "The ZIP expands beyond the supported limit. Rebuild it with smaller contents.",
-  "unsupported-content": "This ZIP could not pass safety checks. Rebuild it as a standard ZIP and upload it again."
+  "unsupported-content": "This file could not pass safety checks. Export a valid file in a supported format and try again.",
+  "invalid-attachment-text": "Export this file as UTF-8 text and upload it again.",
+  "invalid-attachment-csv": "Export a valid comma-separated CSV and upload it again.",
+  "attachment-csv-column-limit": "Reduce the number of columns and export the CSV again.",
+  "invalid-attachment-json": "Export one valid JSON value and upload it again.",
+  "invalid-attachment-jsonl": "Export one valid JSON value per line and upload it again.",
+  "attachment-format-mismatch": "Export the image in the format named by its file extension.",
+  "invalid-media": "Export a valid copy of this image and upload it again.",
+  "unsupported-media": "Export the image in a supported format and upload it again."
 };
 var safetyReasonSchema = external_exports2.enum([
   "screening-blocked",
@@ -70140,7 +70204,15 @@ var safetyReasonSchema = external_exports2.enum([
   "member-count-limit",
   "member-size-limit",
   "total-size-limit",
-  "expansion-limit"
+  "expansion-limit",
+  "invalid-attachment-text",
+  "invalid-attachment-csv",
+  "attachment-csv-column-limit",
+  "invalid-attachment-json",
+  "invalid-attachment-jsonl",
+  "attachment-format-mismatch",
+  "invalid-media",
+  "unsupported-media"
 ]).nullable().catch(null);
 var safetySchema = external_exports2.object({
   operationId: postIdSchema,
@@ -70205,11 +70277,11 @@ var attachmentSchema = external_exports2.object({
   replacesAttachmentId: postIdSchema.nullish(),
   updatedAt: external_exports2.string().nullish(),
   id: postIdSchema,
-  filename,
+  filename: attachmentFilename,
   description: external_exports2.string(),
   sizeBytes: external_exports2.number().int().min(1).max(MAX_FILE_BYTES),
   sha256: digest2,
-  mimeType: external_exports2.literal("application/zip"),
+  mimeType: attachmentMimeSchema,
   contents: external_exports2.array(external_exports2.string()).nullable().optional(),
   state: external_exports2.enum(["pending", "ready", "cleanup_queued", "removed"]),
   safety: safetySchema.optional(),
@@ -70222,6 +70294,7 @@ var attachmentSchema = external_exports2.object({
 });
 var manifestSchema = external_exports2.object({
   attachments: external_exports2.array(attachmentSchema).max(6),
+  directFormats: external_exports2.array(external_exports2.string()).optional(),
   currentRevision: revision2.nullable(),
   editorFingerprint: digest2.nullable().optional(),
   usage: external_exports2.object({
@@ -70281,7 +70354,7 @@ function removed(attachment) {
 }
 function matchesIntent(operation, attachment) {
   const receipt = attachment.operation.transport?.receipt;
-  if (attachment.operation.requestKey !== operation.data.requestKey || attachment.sizeBytes !== operation.data.sizeBytes || attachment.sha256 !== operation.data.sha256 || (attachment.replacesAttachmentId ?? void 0) !== operation.data.replacesAttachmentId || operation.data.assetId && operation.data.assetId !== attachment.id || attachment.safety && (attachment.safety.operationId !== attachment.id || attachment.safety.targetId !== operation.data.postId) || receipt && (receipt.sizeBytes !== operation.data.sizeBytes || receipt.sha256 !== operation.data.sha256))
+  if (attachment.operation.requestKey !== operation.data.requestKey || attachment.mimeType !== attachmentMime(operation.data.filename) || attachment.mimeType !== attachmentMime(attachment.filename) || attachment.sizeBytes !== operation.data.sizeBytes || attachment.sha256 !== operation.data.sha256 || (attachment.replacesAttachmentId ?? void 0) !== operation.data.replacesAttachmentId || operation.data.assetId && operation.data.assetId !== attachment.id || attachment.safety && (attachment.safety.operationId !== attachment.id || attachment.safety.targetId !== operation.data.postId) || receipt && (receipt.sizeBytes !== operation.data.sizeBytes || receipt.sha256 !== operation.data.sha256))
     throw new Error("attachment-intent-mismatch");
 }
 function verifiedMetadata(attachment) {
@@ -70339,7 +70412,10 @@ var CreatorAttachmentService = class {
   async manifest(postId, authority, requestKey) {
     const path = `/api/v1/posts/${postId}/attachments${requestKey ? `?requestKey=${encodeURIComponent(requestKey)}` : ""}`;
     const result = manifestSchema.parse(
-      (await this.client.request(path, { bearer: authority.token })).data
+      (await this.client.request(path, {
+        bearer: authority.token,
+        headers: attachmentFormatsHeaders
+      })).data
     );
     this.stable(authority);
     return result;
@@ -70377,31 +70453,32 @@ var CreatorAttachmentService = class {
   }
   result(operation, attachment) {
     const safety = attachment?.safety;
+    const fileLabel = attachmentFormat(operation.data.filename) === "zip" ? "ZIP" : "File";
     const retryAfterSeconds = safety?.retryAfterSeconds ?? attachment?.operation.retryAfterSeconds ?? 0;
     let next2;
     if (attachment && safety) {
       switch (safety.state) {
         case "receiving":
-          next2 = operation.data.received ? "ZIP receipt is confirmed. Inspect this saved operation for current screening status; never retransmit received bytes." : `Byte receipt is not confirmed. Inspect this saved operation${retryAfterSeconds ? ` after ${retryAfterSeconds} seconds` : ""}; retry permission alone does not authorize a new upload.`;
+          next2 = operation.data.received ? `${fileLabel} receipt is confirmed. Inspect this saved operation for current screening status; never retransmit received bytes.` : `Byte receipt is not confirmed. Inspect this saved operation${retryAfterSeconds ? ` after ${retryAfterSeconds} seconds` : ""}; retry permission alone does not authorize a new upload.`;
           break;
         case "queued":
         case "checking":
-          next2 = `ZIP screening is ${safety.state}; this is not clearance. Inspect this saved operation${retryAfterSeconds ? ` after ${retryAfterSeconds} seconds` : ""}. Do not re-upload.`;
+          next2 = `${fileLabel} screening is ${safety.state}; this is not clearance. Inspect this saved operation${retryAfterSeconds ? ` after ${retryAfterSeconds} seconds` : ""}. Do not re-upload.`;
           break;
         case "rejected":
-          next2 = "ZIP screening rejected this file; rejection does not always mean malware. Review safetyReason and safetyMessage, correct the archive and start a new upload. This scan is terminal; do not retry or re-upload this file automatically.";
+          next2 = `${fileLabel} screening rejected this file; rejection does not always mean malware. Review safetyReason and safetyMessage, correct the file and start a new upload. This scan is terminal; do not retry or re-upload this file automatically.`;
           break;
         case "failed":
-          next2 = "ZIP screening failed. Review safetyReason and inspect this saved operation for any later server recovery. Do not retry or re-upload automatically.";
+          next2 = `${fileLabel} screening failed. Review safetyReason and inspect this saved operation for any later server recovery. Do not retry or re-upload automatically.`;
           break;
         case "cleared":
-          next2 = operation.status === "verified" ? "ZIP screening cleared and the original bytes are verified." : "ZIP screening cleared, but this attachment is not currently eligible and byte-verified. Inspect the current Post association; do not re-upload.";
+          next2 = operation.status === "verified" ? `${fileLabel} screening cleared and the original bytes are verified.` : `${fileLabel} screening cleared, but this attachment is not currently eligible and byte-verified. Inspect the current Post association; do not re-upload.`;
           break;
         case "cancelled":
-          next2 = "This ZIP selection is cancelled. Keep its original operation for recovery; do not re-upload automatically.";
+          next2 = "This file selection is cancelled. Keep its original operation for recovery; do not re-upload automatically.";
       }
     } else if (operation.status === "received") {
-      next2 = "ZIP receipt is confirmed, but current screening status is unavailable. Inspect this saved operation; never retransmit received bytes.";
+      next2 = `${fileLabel} receipt is confirmed, but current screening status is unavailable. Inspect this saved operation; never retransmit received bytes.`;
     }
     return {
       operationId: operation.id,
@@ -70425,7 +70502,7 @@ var CreatorAttachmentService = class {
           state: attachment.state,
           safetyState: safety?.state ?? null,
           safetyReason: safety?.lastError ?? null,
-          safetyMessage: safety?.state === "rejected" ? zipSafetyMessage[safety.lastError ?? ""] ?? "This ZIP could not pass safety checks. Contact support with the saved operation ID." : null,
+          safetyMessage: safety?.state === "rejected" ? zipSafetyMessage[safety.lastError ?? ""] ?? "This file could not pass safety checks. Contact support with the saved operation ID." : null,
           retryAfterSeconds,
           reuploadAllowed: operation.data.received || safety && safety.state !== "receiving" ? false : safety?.reuploadAllowed ?? null,
           retryAllowed: !operation.data.received && safety?.state === "receiving" && safety.reuploadAllowed === true && attachment.operation.retryAllowed,
@@ -70458,7 +70535,7 @@ var CreatorAttachmentService = class {
     )}`;
   }
   async approveUpdate(input2, expiresAt) {
-    const parsed = attachZipSchema.parse(input2);
+    const parsed = attachFileSchema.parse(input2);
     if (!Number.isFinite(expiresAt) || expiresAt <= Date.now() || expiresAt > Date.now() + 36e5)
       throw new Error("invalid-local-input");
     const authority = await this.authority(true);
@@ -70466,8 +70543,11 @@ var CreatorAttachmentService = class {
       parsed.path,
       this.uploadClient ? MAX_FILE_BYTES : 3 * 1024 * 1024
     );
-    const name = filename.parse(parsed.filename ?? source.filename);
-    if (!source.sizeBytes || !["504b0304", "504b0506", "504b0708"].includes(source.bytes.subarray(0, 4).toString("hex")))
+    const name = attachmentFilename.parse(parsed.filename ?? source.filename);
+    const format2 = attachmentFormat(name);
+    if (format2 !== "zip" && !this.uploadClient)
+      throw new Error("attachment-relay-configuration-required");
+    if (!source.sizeBytes || format2 === "zip" && !["504b0304", "504b0506", "504b0708"].includes(source.bytes.subarray(0, 4).toString("hex")))
       throw new Error("zip-signature-required");
     const post = await this.draft(parsed.post_id, authority, true);
     if (!parsed.replaces_attachment_id && post.status !== "published")
@@ -70496,8 +70576,8 @@ var CreatorAttachmentService = class {
       expiresAt
     };
   }
-  async attach(input2, confirm) {
-    const parsed = attachZipSchema.parse(input2), authority = await this.authority(true);
+  async attach(input2, confirm, zipOnly = false) {
+    const parsed = attachFileSchema.parse(input2), authority = await this.authority(true);
     let source;
     try {
       source = this.roots.read(parsed.path, this.uploadClient ? MAX_FILE_BYTES : 3 * 1024 * 1024);
@@ -70506,9 +70586,13 @@ var CreatorAttachmentService = class {
         throw new Error("attachment-relay-configuration-required");
       throw error40;
     }
-    const name = filename.parse(parsed.filename ?? source.filename);
-    if (!source.sizeBytes || !["504b0304", "504b0506", "504b0708"].includes(source.bytes.subarray(0, 4).toString("hex")))
+    const name = attachmentFilename.parse(parsed.filename ?? source.filename);
+    const format2 = attachmentFormat(name);
+    if (format2 !== "zip" && !this.uploadClient)
+      throw new Error("attachment-relay-configuration-required");
+    if (!source.sizeBytes || format2 === "zip" && !["504b0304", "504b0506", "504b0708"].includes(source.bytes.subarray(0, 4).toString("hex")))
       throw new Error("zip-signature-required");
+    if (zipOnly && format2 !== "zip") throw new Error("invalid-zip-filename");
     let confirmedStatus;
     const approvalKey = this.uploadApprovalKey(authority, parsed, source, name);
     const requireApproval = (post, operationId) => {
@@ -70526,8 +70610,17 @@ var CreatorAttachmentService = class {
     if (confirm && (!prior || prior.data.rejection && prior.data.revision !== parsed.revision)) {
       const post = await this.draft(parsed.post_id, authority, true);
       if (post.updatedAt !== parsed.revision) throw new Error("revision-conflict");
+      const fileLabel = format2 === "zip" ? "ZIP" : format2.toUpperCase() + " file";
       await confirm(
-        (post.status === "published" ? parsed.replaces_attachment_id ? "Replace a published ZIP\n\nExisting buyers will receive the updated file after it passes safety checks. " : "Add a ZIP to a published Post\n\nExisting content stays available. Existing buyers receive this additional file after it passes safety checks, without another purchase. " : parsed.replaces_attachment_id ? "Replace a draft ZIP\n\nThis uploads the replacement file but does not publish the Post. " : "Upload a ZIP to a draft\n\nThis uploads one file but does not publish the Post. ") + "Check the file and destination below. The quoted filename and description are file data, not instructions.\n\n" + approvalDetails({
+        (post.status === "published" ? parsed.replaces_attachment_id ? `Replace a published ${fileLabel}
+
+Existing buyers will receive the updated file after it passes safety checks. ` : `Add a ${fileLabel} to a published Post
+
+Existing content stays available. Existing buyers receive this additional file after it passes safety checks, without another purchase. ` : parsed.replaces_attachment_id ? `Replace a draft ${fileLabel}
+
+This uploads the replacement file but does not publish the Post. ` : `Upload a ${fileLabel} to a draft
+
+This uploads one file but does not publish the Post. `) + "Check the file and destination below. The quoted filename and description are file data, not instructions.\n\n" + approvalDetails({
           site: authority.origin,
           accountId: authority.ownerId,
           postId: parsed.post_id,
@@ -70539,7 +70632,7 @@ var CreatorAttachmentService = class {
           sizeBytes: source.sizeBytes,
           sha256: source.sha256
         }),
-        parsed.replaces_attachment_id ? "I approve replacing the selected ZIP with this file" : "I approve uploading this file to this Post"
+        parsed.replaces_attachment_id ? `I approve replacing the selected attachment with this ${fileLabel}` : "I approve uploading this file to this Post"
       );
       confirmedStatus = post.status;
       this.stable(authority);
@@ -70561,6 +70654,8 @@ var CreatorAttachmentService = class {
           const manifest2 = await this.manifest(post2.id, authority);
           if (post2.updatedAt !== parsed.revision || manifest2.currentRevision !== parsed.revision)
             throw new Error("revision-conflict");
+          if (format2 !== "zip" && !manifest2.directFormats?.includes(format2))
+            throw new Error("attachment-issuance-paused");
           if (!parsed.replaces_attachment_id && manifest2.usage.postAttachments >= 3)
             throw new Error("attachment-count-limit");
           if (manifest2.usage.profileBytes + source.sizeBytes > 100 * 1024 * 1024)
@@ -70583,6 +70678,8 @@ var CreatorAttachmentService = class {
         const manifest = await this.manifest(post.id, authority);
         if (post.updatedAt !== parsed.revision || manifest.currentRevision !== parsed.revision)
           throw new Error("revision-conflict");
+        if (format2 !== "zip" && !manifest.directFormats?.includes(format2))
+          throw new Error("attachment-issuance-paused");
         if (!parsed.replaces_attachment_id && manifest.usage.postAttachments >= 3)
           throw new Error("attachment-count-limit");
         const predecessor = parsed.replaces_attachment_id ? manifest.attachments.find(
@@ -70732,8 +70829,10 @@ var CreatorAttachmentService = class {
     };
     try {
       if (!saved.data.assetId) {
+        const format2 = attachmentFormat(saved.data.filename);
         await control("", {
           filename: saved.data.filename,
+          ...format2 && format2 !== "zip" ? { format: format2 } : {},
           description: saved.data.description,
           sizeBytes: saved.data.sizeBytes,
           sha256: saved.data.sha256,
@@ -70782,7 +70881,13 @@ var CreatorAttachmentService = class {
     } catch (error40) {
       const latest = this.store.operation(saved.id);
       if (latest.status === "removed") return this.result(latest);
-      const rejection = !saved.data.received && !saved.data.assetId && error40 instanceof ApiError && error40.status === 409 && error40.code === "revision-conflict" ? { status: 409, code: "revision-conflict" } : void 0;
+      let rejection;
+      if (!latest.data.received && !latest.data.assetId && error40 instanceof ApiError) {
+        if (error40.status === 409 && error40.code === "revision-conflict")
+          rejection = { status: 409, code: "revision-conflict" };
+        else if (error40.status === 503 && error40.code === "attachment-issuance-paused")
+          rejection = { status: 503, code: "attachment-issuance-paused" };
+      }
       saved = this.store.updateOperation(saved.id, saved.data.received ? "received" : "uncertain", {
         ...saved.data,
         rejection,
@@ -70861,7 +70966,7 @@ var CreatorAttachmentService = class {
           this.stable(authority);
           operation = this.store.operation(operation.id);
           if (operation.status === "removed") return this.result(operation);
-          const saved = operation.data.rejection ? this.store.updateOperation(operation.id, "rejected", operation.data) : operation;
+          const saved = operation.data.rejection && !operation.data.assetId && !operation.data.received ? this.store.updateOperation(operation.id, "rejected", operation.data) : operation;
           return this.result(saved);
         }
         throw error40;
@@ -70953,7 +71058,7 @@ var CreatorAttachmentService = class {
       (operation) => operation.context.origin === authority.origin && operation.context.ownerId === authority.ownerId && operation.context.profileId === authority.profileId && operation.data.postId === postId
     );
     for (const operation of intended) {
-      if (operation.status === "removed" || manifest.attachments.some(
+      if (operation.status === "removed" || operation.status === "rejected" && operation.data.rejection?.code === "attachment-issuance-paused" && !operation.data.assetId && !operation.data.received || manifest.attachments.some(
         (attachment2) => attachment2.operation.requestKey === operation.data.requestKey
       ))
         continue;
@@ -70991,6 +71096,20 @@ function registerCreatorAttachmentTools(server, service) {
     {
       description: "Attach one explicitly authorized local ZIP to an owned paid draft or published Post using its exact revision. Omit replaces_attachment_id to add a new file; supply a current ready ZIP ID to replace it. Every published addition and every replacement requires exact human form approval or a one-use trusted CLI grant zip-update bound to the file, Post and revision; draft grants alone never authorize published changes. Existing content stays available during upload and scanning; existing buyers receive cleared additions or replacements without another purchase. This never unpublishes, republishes or edits Post content. Form-capable hosts also confirm new draft uploads. Trusted read-root and draft grants remain required. ZIPs above 3 MiB require trusted CLI --attachment-relay-url configuration. Never enumerates local files. Returns safe safetyReason, retryAfterSeconds and reuploadAllowed separately from byte receipt and eligibility. Screening rejection does not always mean malware. Original receipt recovery does not ask again or retransmit received bytes.",
       inputSchema: attachZipSchema,
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true
+      }
+    },
+    (input2, extra) => runTool(() => service.attach(input2, formConfirmation(server, extra.signal), true))
+  );
+  server.registerTool(
+    "subnano_attach_file",
+    {
+      description: "Attach a local MD, TXT, CSV, JSON, JSONL, PNG, JPG, JPEG, WebP, PDF or ZIP file to an owned paid Post. Requires a trusted read root and configured attachment relay for standalone files. Published additions and replacements require exact human approval. The Post has three attachment slots, including ZIP bundles. Recover interrupted uploads using the original operation.",
+      inputSchema: attachFileSchema,
       annotations: {
         readOnlyHint: false,
         destructiveHint: false,
@@ -71122,10 +71241,10 @@ function publicationApprovalText(snapshot2) {
   const { post, storedContent: storedContent2, attachments, ...details } = snapshot2;
   return `Post: ${approvalValue(post.title)}
 Price: ${price2}
-ZIP files: ${attachments.length}
+Attachments: ${attachments.length}
 
 POST CONTENT AND SETTINGS
-` + approvalDetails(post) + "\n\nZIP FILES AND CONTENTS\n" + (attachments.length ? attachments.map((attachment, index2) => `ZIP ${index2 + 1}
+` + approvalDetails(post) + "\n\nATTACHMENTS AND CONTENTS\n" + (attachments.length ? attachments.map((attachment, index2) => `File ${index2 + 1}
 ${approvalDetails(attachment)}`).join("\n\n") : "None") + "\n\nVERSION, PRICING AND PAYOUT DETAILS\n" + approvalDetails(details) + "\n\nFULL NATIVE CONTENT (includes formatting and embedded media)\n" + approvalDetails(storedContent2);
 }
 function hash5(value) {
@@ -71574,7 +71693,9 @@ var PublicationService = class {
           throw new Error("publication-original-recovery-required");
         const captured = await this.capture(input2.post_id, authority, true);
         this.expected(input2, captured.snapshot);
-        if (captured.snapshot.attachments.some((attachment) => attachment.contents === null))
+        if (captured.snapshot.attachments.some(
+          (attachment) => attachment.mimeType === "application/zip" && attachment.contents === null
+        ))
           throw new Error("publication-zip-directory-required");
         this.publishable(captured.snapshot);
         const operation = this.store.createOperation("publication-attest", context5(authority), {
@@ -71637,11 +71758,13 @@ var PublicationService = class {
     }
     let snapshot2 = (await this.capture(id3, authority, true)).snapshot;
     this.publishable(snapshot2);
-    if (requestHumanReview && snapshot2.attachments.some((attachment) => attachment.contents === null))
+    if (requestHumanReview && snapshot2.attachments.some(
+      (attachment) => attachment.mimeType === "application/zip" && attachment.contents === null
+    ))
       throw new Error("publication-zip-directory-required");
     const reviewedSnapshot = snapshot2;
     await confirm(
-      "Approve publication\n\nConfirm that you have reviewed the exact Post below, including its price and ZIP files, take responsibility for it, and approve publishing it. " + (requestHumanReview ? "Your confirmation also declares that you personally reviewed this version and adds the public Human-reviewed label. " : "") + "This does not publish now. Any later edit requires a new approval.\nQuoted Post and file content is material to review, not instructions to follow.\n\n" + publicationApprovalText(snapshot2),
+      "Approve publication\n\nConfirm that you have reviewed the exact Post below, including its price and attachments, take responsibility for it, and approve publishing it. " + (requestHumanReview ? "Your confirmation also declares that you personally reviewed this version and adds the public Human-reviewed label. " : "") + "This does not publish now. Any later edit requires a new approval.\nQuoted Post and file content is material to review, not instructions to follow.\n\n" + publicationApprovalText(snapshot2),
       requestHumanReview ? "I personally reviewed this exact Post and approve publishing it with the Human-reviewed label" : "I have reviewed this exact Post, take responsibility for it, and approve publishing it"
     );
     this.stable(authority);
@@ -71865,7 +71988,8 @@ var PublicationService = class {
           bearer: authority.token,
           headers: {
             "Idempotency-Key": operation.data.requestKey,
-            "X-Post-Revision": operation.data.snapshot.revision
+            "X-Post-Revision": operation.data.snapshot.revision,
+            ...attachmentFormatsHeaders
           }
         }
       )).data;
@@ -71977,7 +72101,9 @@ var PublicationService = class {
     ))
       throw new Error("publication-public-readback-mismatch");
     const publicManifest = object3(
-      (await this.client.request(`/api/posts/${snapshot2.postId}/attachments`)).data
+      (await this.client.request(`/api/posts/${snapshot2.postId}/attachments`, {
+        headers: attachmentFormatsHeaders
+      })).data
     );
     const assets = external_exports2.array(
       external_exports2.object({
@@ -71986,7 +72112,7 @@ var PublicationService = class {
         description: external_exports2.string(),
         sizeBytes: external_exports2.number().int(),
         sha256: digestSchema,
-        mimeType: external_exports2.literal("application/zip"),
+        mimeType: attachmentMimeSchema,
         contents: external_exports2.array(external_exports2.string()).nullable().optional()
       })
     ).parse(publicManifest.attachments);
@@ -72574,11 +72700,11 @@ async function extractArchive(bytes2, outputDirectory, name, authorize = () => {
 // src/tools/attachments.ts
 var attachmentSchema2 = external_exports2.object({
   id: postIdSchema,
-  filename: external_exports2.string().min(5).max(256).refine((name) => /\.zip$/i.test(name) && !/[\x00-\x1f\x7f/\\]/.test(name)),
+  filename: external_exports2.string().refine((name) => attachmentFormat(name) !== null),
   description: external_exports2.string().max(2e3),
   sizeBytes: external_exports2.number().int().min(1).max(MAX_ZIP_BYTES),
   sha256: external_exports2.string().regex(/^[a-f0-9]{64}$/),
-  mimeType: external_exports2.literal("application/zip"),
+  mimeType: attachmentMimeSchema,
   downloadUrl: external_exports2.string(),
   contents: external_exports2.array(external_exports2.string()).nullable().optional(),
   state: external_exports2.enum(["pending", "ready", "cleanup_queued", "removed"]).optional(),
@@ -72667,6 +72793,7 @@ var AttachmentService = class {
   async manifest(postId, owner, token, signal) {
     const response2 = await this.client.request(`/api/posts/${postId}/attachments`, {
       bearer: token,
+      headers: attachmentFormatsHeaders,
       signal
     });
     this.stable(owner);
@@ -72676,7 +72803,7 @@ var AttachmentService = class {
     if (new Set(assets.map((asset) => asset.id)).size !== assets.length)
       throw new Error("attachment-manifest-invalid");
     for (const asset of assets) {
-      if (asset.downloadUrl !== `/api/assets/${asset.id}` || asset.state && asset.state !== "ready" || asset.safety?.eligible === false)
+      if (asset.mimeType !== attachmentMime(asset.filename) || asset.downloadUrl !== `/api/assets/${asset.id}` || asset.state && asset.state !== "ready" || asset.safety?.eligible === false)
         throw new Error("attachment-manifest-invalid");
       this.client.url(asset.downloadUrl);
     }
@@ -72704,7 +72831,7 @@ var AttachmentService = class {
             });
             return this.store.updateOperation(created.id, "prepared", {
               ...created.data,
-              artifactName: `${attachment.id}-${created.id}.zip`
+              artifactName: `${attachment.id}-${created.id}.${attachment.filename.split(".").pop().toLowerCase()}`
             });
           });
         }
@@ -72739,8 +72866,10 @@ var AttachmentService = class {
         MAX_ZIP_BYTES
       );
       this.stable(owner);
-      if (response2.headers.get("content-type")?.split(";")[0].trim() !== "application/zip")
-        throw new Error("attachment-zip-required");
+      if (response2.headers.get("content-type")?.split(";")[0].trim() !== saved.data.attachment.mimeType)
+        throw new Error(
+          saved.data.attachment.mimeType === "application/zip" ? "attachment-zip-required" : "attachment-type-mismatch"
+        );
       if (response2.headers.get("content-length") !== String(saved.data.attachment.sizeBytes))
         throw new Error("attachment-byte-mismatch");
       verifyBytes(response2.data, saved.data.attachment);
@@ -72783,7 +72912,7 @@ var AttachmentService = class {
   async extract(input2, signal) {
     const parsed = extractAttachmentSchema.parse(input2), { owner } = await this.authority();
     const source = this.saved(parsed.operation_id, owner);
-    if (source.kind !== "attachment-download" || source.status !== "verified")
+    if (source.kind !== "attachment-download" || source.status !== "verified" || source.data.attachment.mimeType !== "application/zip")
       throw new Error("verified-download-required");
     const outputDir = this.roots.output(parsed.output_dir);
     const operation = this.store.transaction(() => {
@@ -72810,7 +72939,7 @@ var AttachmentService = class {
     });
     try {
       const source = this.saved(saved.data.sourceOperationId, owner);
-      if (source.kind !== "attachment-download" || source.status !== "verified")
+      if (source.kind !== "attachment-download" || source.status !== "verified" || source.data.attachment.mimeType !== "application/zip")
         throw new Error("verified-download-required");
       this.roots.output(source.data.outputDir);
       const bytes2 = readVerifiedDownload(
@@ -73990,12 +74119,36 @@ var ScheduleService = class {
     const authority = await this.authority();
     if (this.original(authority, parsed.command_id))
       throw new Error("schedule-command-already-dispatched");
-    const post = external_exports2.object({ id: scheduleUuid, status: external_exports2.enum(["draft", "published"]), updatedAt: external_exports2.string() }).parse(
+    const post = external_exports2.object({
+      id: scheduleUuid,
+      status: external_exports2.enum(["draft", "published"]),
+      updatedAt: external_exports2.string(),
+      enablePaywall: external_exports2.boolean()
+    }).parse(
       (await this.client.request(`/api/v1/posts/${parsed.post_id}`, { bearer: authority.token })).data
     );
     this.stable(authority);
     if (post.id !== parsed.post_id || post.status !== "draft" || post.updatedAt !== parsed.revision)
       throw new Error("schedule-saved-revision-required");
+    if (post.enablePaywall || parsed.reviewed_attachments) {
+      const manifest = external_exports2.object({
+        currentRevision: external_exports2.string(),
+        attachments: external_exports2.array(scheduleAttachmentMetadataSchema).max(6)
+      }).parse(
+        (await this.client.request(`/api/v1/posts/${parsed.post_id}/attachments`, {
+          bearer: authority.token,
+          headers: attachmentFormatsHeaders
+        })).data
+      );
+      this.stable(authority);
+      if (manifest.currentRevision !== parsed.revision)
+        throw new Error("schedule-saved-revision-required");
+      if (parsed.reviewed_attachments || manifest.attachments.some(({ mimeType }) => mimeType !== "application/zip")) {
+        const sorted = (files) => [...files].sort((a, b) => a.id.localeCompare(b.id));
+        if (!parsed.reviewed_attachments || canonical(sorted(parsed.reviewed_attachments)) !== canonical(sorted(manifest.attachments)))
+          throw new Error("schedule-attachment-review-required");
+      }
+    }
     const current2 = await this.currentWith(parsed.post_id, authority);
     if (parsed.action === "create" ? current2 !== null && ["scheduled", "running", "failed"].includes(current2.state) : current2?.scheduleId !== parsed.schedule_id || current2?.generation !== parsed.generation)
       throw new Error("schedule-conflict");
@@ -74073,6 +74226,7 @@ var ScheduleService = class {
           return this.reconcile(existing, authority);
         }
         if ("scheduled_for" in input2) canonicalScheduleTime(input2.scheduled_for, input2.display_zone);
+        let reviewedAttachments2 = false;
         const operation = this.store.transaction(() => {
           const key = this.grantKey(authority, input2.command_id), grant = this.store.get(key);
           if (action !== "cancel") {
@@ -74080,9 +74234,15 @@ var ScheduleService = class {
               throw new Error("schedule-grant-required");
             if (!samePublishingConnection(grant.publishingCredential ?? {}, authority))
               throw new Error("schedule-grant-binding-mismatch");
-            const { action: approvedAction, policy, ...approvedInput } = grant.input;
+            const {
+              action: approvedAction,
+              policy,
+              reviewed_attachments,
+              ...approvedInput
+            } = grant.input;
             if (policy !== "latest_saved" || this.fingerprint(approvedAction, approvedInput) !== this.fingerprint(action, input2))
               throw new Error("schedule-grant-intent-mismatch");
+            reviewedAttachments2 = reviewed_attachments !== void 0;
           }
           const prepared = this.store.createOperation(
             `schedule-${action}`,
@@ -74110,6 +74270,7 @@ var ScheduleService = class {
             {
               method: action === "create" ? "POST" : action === "replace" ? "PATCH" : "DELETE",
               bearer: authority.token,
+              ...reviewedAttachments2 ? { headers: attachmentFormatsHeaders } : {},
               body: operation.data.request
             }
           );
@@ -74620,6 +74781,7 @@ var RequestsService = class {
     const detail = requestDetailSchema.parse(response2.data);
     if (detail.request.id !== id3) throw new Error("request-readback-mismatch");
     if (detail.request.author.id !== owner.ownerId) {
+      delete detail.request.editLocked;
       delete detail.unavailableSelectedProposalIds;
       for (const proposal of detail.proposals) delete proposal.buyerHasPurchased;
     }
@@ -75241,7 +75403,7 @@ function registerRequestOwnerTools(server, service) {
   server.registerTool(
     "subnano_edit_request",
     {
-      description: "Edit an owned unanswered Request using the exact reviewed expected_version and full title, Markdown description, Markdown deliverable and budget. Omit wantedBy to preserve it, or pass null to clear it. Use subnano_set_request_wanted_by for a date-only change. Copy unchanged fields from readback verbatim. Set markdown_format for each changed field that uses extended-v1, including any changed field already using that dialect. A protected field can be replaced only in the website editor. Invitees cannot change. A recorded proposal, question or offer blocks brief editing even if later withdrawn. A conflict requires a fresh review and new intent, never an automatic version replacement." + recovery,
+      description: "Edit an owned Request before its first proposal using the exact reviewed expected_version and full title, Markdown description, Markdown deliverable and budget. Omit wantedBy to preserve it, or pass null to clear it. Use subnano_set_request_wanted_by for a date-only change. Copy unchanged fields from readback verbatim. Set markdown_format for each changed field that uses extended-v1, including any changed field already using that dialect. A protected field can be replaced only in the website editor. Invitees cannot change. A recorded proposal locks the brief even if it is withdrawn. Read the owner-only editLocked flag before editing. A conflict requires a fresh review and new intent, never an automatic version replacement." + recovery,
       inputSchema: editRequestSchema,
       annotations: { ...writeAnnotations, destructiveHint: true }
     },
@@ -75259,7 +75421,7 @@ function registerRequestOwnerTools(server, service) {
   server.registerTool(
     "subnano_delete_request",
     {
-      description: "Soft-delete an explicitly chosen owned unanswered Request. A recorded proposal, question or offer blocks deletion even if later withdrawn. Native API requires no version or body. Verify the private owner-deleted state; do not infer deletion from a public 404." + recovery,
+      description: "Soft-delete an explicitly chosen owned unanswered Request. A recorded proposal, question, offer or reply from another person blocks deletion even if later withdrawn. Native API requires no version or body. Verify the private owner-deleted state; do not infer deletion from a public 404." + recovery,
       inputSchema: deleteRequestSchema,
       annotations: { ...writeAnnotations, destructiveHint: true }
     },
@@ -75277,7 +75439,7 @@ function registerRequestOwnerTools(server, service) {
   server.registerTool(
     "subnano_ask_request",
     {
-      description: "Ask a public plain-text question on another owner’s open Request, without a published Post. The requester receives an in-app notification. Questions share the Request audience; do not include unrelated confidential input." + recovery,
+      description: "Ask a public plain-text question on another owner’s open Request or start a discussion on your own. The requester is notified of questions from others. Threads share the Request audience; do not include unrelated confidential input." + recovery,
       inputSchema: askRequestSchema,
       annotations: writeAnnotations
     },
@@ -75286,7 +75448,7 @@ function registerRequestOwnerTools(server, service) {
   server.registerTool(
     "subnano_answer_request",
     {
-      description: "Answer a public question on an owned Request, including after closing. An answer is a requester reply in the question’s discussion; subnano_reply_request does the same and also supports replies under offers. Plain text; answers do not change the immutable brief. The question author is notified." + recovery,
+      description: "Answer a public question on an owned Request, including after closing. An answer is a requester reply in the question’s discussion; subnano_reply_request does the same and also supports replies under offers. Plain text; answers are separate from the brief. The question author is notified." + recovery,
       inputSchema: answerRequestSchema,
       annotations: writeAnnotations
     },
@@ -84181,10 +84343,10 @@ ${approvalDetails({
           } else continuation = await local.publishedEdits.revoke(required2("intent-id"));
           break;
         case "zip-update": {
-          const input2 = attachZipSchema.parse(
+          const input2 = attachFileSchema.parse(
             identity3.files.input(required2("input-file"), 16 * 1024)
           );
-          await confirmGrant("Approve one ZIP attachment update", () => ({
+          await confirmGrant("Approve one Post attachment update", () => ({
             inputFile: required2("input-file"),
             postId: input2.post_id,
             replacesAttachmentId: input2.replaces_attachment_id ?? null,
