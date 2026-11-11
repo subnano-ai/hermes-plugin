@@ -14,24 +14,20 @@ ZIP remains available until the new one clears screening; failed or cancelled
 updates preserve it. A replacement uses the original logical slot, while both
 physical files count against the Profile allowance until cleanup.
 
-Every published addition and every replacement needs exact human form approval
-or a one-use
-`grant zip-update --input-file /private/zip-update.json --expires-at RFC3339_INSTANT`
-that the human types in their own terminal; the CLI prints the Post, path, revision
-and expiry and waits for them to type `GRANT`. The agent never runs it through a shell tool.
-The absolute private JSON file contains the exact tool input, including the
-selected path and current revision, plus the original attachment ID only when
-replacing. Expiry is at most one hour away. Do not answer the human's form or infer approval from draft permission.
-Read-root and draft grants still apply. Preserve and recover the original operation
-after uncertainty; changed files or targets need new approval.
+Published additions and replacements follow `permissionPolicy` public-content
+rules. Agent mode does not ask; human mode confirms the exact file/target or follows
+the owner's browser public-content choice. Read folders remain separately constrained.
+Scheduled edits follow free/paid publication policy. File bytes, Post, revision,
+metadata, length and SHA-256 must still match the saved exact operation. A changed
+selection is deliberate new work; uncertainty resumes the original operation.
+A live unused legacy one-use approval may still apply but cannot be created.
 
 A definitive `account-publishing-paused` reservation keeps the original upload
 blocked. Read private details with `subnano_account_messages`. After restoration,
 explicitly call `subnano_attach_zip` with the same file, Post and revision under
 current approval. For `account-contribution-busy`, use the same explicit retry.
-If terminal consent expired during the pause, request fresh human approval and
-repeat `grant zip-update` with the exact original input. This renews consent for
-the saved definitively rejected reservation.
+Evaluate the same original input under current authority after restoration; never
+recreate an uncertain transfer or reuse another file's consent.
 Existing admitted transfers and safety checks use their original operation.
 
 Ordinary Post text, pricing or settings changes use `subnano_update_published_post`

@@ -3,23 +3,21 @@
 Check that the installed full local server exposes `subnano_update_published_post`.
 Hosted Subnano Browse retains exactly nine anonymous read-only tools. Read the owned
 Post with `subnano_read_draft`, including its exact `updatedAt` revision and
-`contentEditability`. Draft grants and `--temporary-draft` never permit a published
+`contentEditability`. Private draft access does not authorize a published
 edit; `subnano_update_draft` remains unpublished-only.
 
 Prepare `{intent_id, post_id, revision, ...intendedFields}` in an absolute owner-only
 `0600` JSON file with a stable intent UUID. Preserve omitted fields. Omit any Markdown
 section whose `editable` is false, and always omit published `slug`, even unchanged.
-Present the exact edit for approval before the human authorizes that same file in
-their own terminal with `node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account grant published-edit --input-file
-/absolute/private/edit.json --expires-at ISO_TIMESTAMP`; the CLI prints the Post,
-revision, changed fields and expiry and waits for them to type `GRANT`. The agent
-never runs `grant` through a shell tool. Then call
-`subnano_update_published_post` with the exact approved file's object. The request's
-Post, revision, intent and fields are bound to origin, owner, Profile and publishing
-credential (account connection or legacy Publishing key) for one use; no MCP tool or `approved: true` can grant it. Never issue this trusted
-grant as a substitute for human approval. `permissions.publishedEdit` and the sanitized
-`publishedEditApprovals` list report authority. Withdraw an unused approval with
-`revoke published-edit --intent-id UUID` through the same trusted CLI.
+Call `subnano_update_published_post` with `{intent_id, post_id, revision, ...intendedFields}`.
+Agent mode allows the edit without a dialog. Human mode confirms the exact change,
+unless its current published-content choice allows it; editing a scheduled paid Post
+always asks. A live unused legacy one-use approval remains bound to origin, owner,
+Profile and publishing credential and may be revoked with
+`revoke published-edit --intent-id UUID`. `permissions.publishedEdit` and
+`publishedEditApprovals` are legacy compatibility facts; `permissionPolicy` governs
+new actions. `subnano_update_draft` remains unpublished-only. Preserve the exact
+request, selected binding and operation; tool arguments cannot authorize it.
 
 Native PATCH rules still govern pricing, accepted rails, provenance, review
 invalidation, publication readiness and payout settings. A required
@@ -32,12 +30,11 @@ changed input under the same intent UUID is rejected. `subnano_operation` inspec
 resume can read current state and preserves a definitive moderation rejection.
 After `account-contribution-busy`, or after restoration for `account-publishing-paused`,
 explicitly call `subnano_update_published_post` again with the exact original input
-and active approval. Read private details with `subnano_account_messages`. An
-expired or revoked approval for this definitive rejection can be renewed through
-the trusted terminal using the exact original input and fresh human approval.
+and current authority. Read private details with `subnano_account_messages`. An
+expired or revoked approval for this definitive rejection does not authorize a new dispatch; evaluate the original exact input under current policy.
 The renewal retains the saved operation. An
 ambiguous save resumes through readback only. During readback there is never
-another PATCH or an automatic rebase. Revocation or expiry blocks a new dispatch. Distinguish
+another PATCH or an automatic rebase. Current policy is checked again before a new dispatch. Distinguish
 `savedRevision`, received from the actual PATCH response, from later
 `currentRevision`. After a lost response, matching current fields do not prove the
 original saved revision: `savedRevision` stays null. Reconcile conflicts before a new

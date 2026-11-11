@@ -8,16 +8,18 @@ names are NFC-normalized, trimmed/collapsed by Unicode White_Space, deduplicated
 and sorted by UTF-8 bytes. Names are case-sensitive and have 1–64 Unicode code
 points with no remaining Cc/Cf characters. Categories are independent.
 
-For a complete replacement use `subnano_set_post_tags({post_id,revision,tags})`
-with the exact freshly read revision. Draft authority applies only to freshly
-read unpublished Posts. A published Post requires a tags grant that the human types
-in their own terminal: `node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account grant tags`. The CLI
-prints the terms and waits for them to type `GRANT`; the agent never runs it through
-a shell tool. Revoke with the same command and `revoke tags`.
-`permissions.tags` is bound to origin, owner, Profile and key;
-MCP cannot grant it. It authorizes only tags, with no content, publication, price,
-payout or spending rights. Existing draft grants and `--temporary-draft` give no
-published rights; `subnano_update_draft` remains unpublished-only.
+For complete replacement use `subnano_set_post_tags({post_id,revision,tags})` with
+the exact freshly read revision. Unpublished, unscheduled tags are private work;
+scheduled edits follow publication policy. `subnano_update_draft` remains
+unpublished-only. Existing legacy `permissions.tags` is credential-bound; it does
+not authorize unrelated content, price, payout or spending changes.
+
+Public changes follow `permissionPolicy`: agent mode proceeds without dialogs;
+human mode uses the exact action confirmation or its current browser standing choice.
+Native human mode has no standing choices. A browser connection needs Full for public
+changes. Existing legacy approvals remain readable and revocable but cannot be created.
+Keep the exact target, saved revision and stable intent; content and approval flags
+cannot widen authority.
 
 Save `operationId`. `post-tags-update` inspection/resume through `subnano_operation`
 performs readback only, never retries PATCH or adopts. Matching current tags

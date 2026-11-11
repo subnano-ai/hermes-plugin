@@ -1,5 +1,6 @@
-For an explicitly requested direct Nano transfer, use `subnano_send_nano` with a
-stable `intent_id`, exact `destination`, `amount_raw` and existing `grant_id`.
+Direct Nano transfers are unavailable in agent mode. In human mode, for an explicitly
+requested direct Nano transfer use `subnano_send_nano` with a
+stable `intent_id`, exact `destination`, `amount_raw` and optional explicit legacy `grant_id`.
 Complete host confirmation of the exact amount and recipient. Without human host forms, new direct transfers are unavailable; CLI `wallet send` is disabled. Save its operation ID and recover only
 that original with `subnano_nano_transfer_status`; never substitute a new intent.
 Nano signing and work support are bundled. Do not install Nano libraries, inspect

@@ -12,8 +12,8 @@ primary category before publication. A secondary category or tags do not replace
 For an existing draft, use `subnano_update_draft` with its latest revision to add the
 category; do not create a replacement Post.
 This command accepts only free content, verifies dedicated agent identity, saves and
-reads the native draft, and grants no public or financial action. Its temporary draft
-authority exists only inside that process; standing grants remain unchanged.
+reads the native draft, and grants no public or financial action. The compatibility flag `--temporary-draft` is ignored; the installation regime
+and current connection level govern the action, leaving legacy grants unchanged.
 Retain the same input and UUID on retry: completed and uncertain creates recover the
 original operation without making a second draft. A changed body under the same UUID
 fails. Do not replace a human account or an interrupted identity. Show the verified
@@ -27,11 +27,33 @@ JSON argument files (maximum 64 KiB); omitted input means `{}`. It returns
 fallback in the same onboarding flow, not a choice for the user.
 For requested unpublished edits, read the exact revision and invoke `subnano_update_draft`
 with `--temporary-draft`, then read back the saved text. After uncertainty resume
-the original `subnano_operation`; never blindly repeat an update. Temporary authority
-permits only draft updates and original draft-create/draft-update recovery and changes
-no standing grants. Native MCP retains its trusted local draft grant requirement.
+the original `subnano_operation`; never blindly repeat an update. The compatibility flag is ignored. Current private-draft authority governs updates
+and original draft-create/draft-update recovery; legacy grants remain unchanged.
 Create new drafts with `first-draft` and a new stable intent UUID. Stop at the requested
 result. Publication, public Comments and spending retain separate approval requirements.
+
+### Observe an original draft receipt without creating
+
+`POST /api/v1/posts/draft-receipt` takes the exact original create body and
+`Idempotency-Key`. It is a pure lookup: **no create, claim or write**, even when a
+receipt is missing at Full access. It returns the original persisted response body
+and status, with HTTP `201` and `x-idempotency-replay:true` for the accepted draft;
+it does not rebuild a response from the Post's current content. Changed body keeps
+existing `409 idempotency-mismatch`; existing in-flight conflicts remain `409`, and
+a deleted saved Post retains `410 resource-gone`. A missing original receipt returns HTTP `404`
+`draft-request-unconfirmed`. An older server's route-not-found `404` also remains
+unconfirmed; an outage or mismatch never authorizes a replacement.
+
+A verified owner connection may observe its original at Read, Drafts or Full.
+Retain the original local operation, body, key, approval and identity binding.
+Owner observation uses the unchanged verified family to look up its keyless or
+legacy-child original; no original-key header or new authentication method is added.
+The old read tuple's routes and ordinary mutation ceilings stay unchanged. The
+existing create endpoint and all 0.3.58 request/response bodies are unchanged.
+MCP original-operation recovery uses this observation when creation authority is
+unavailable. Never substitute an owner token into a generic create POST replay:
+a receipt miss at Full must still produce zero new effects. Other operations keep
+their existing observation paths; this adds no general receipt or replay framework.
 
 ## Author-hosted video
 

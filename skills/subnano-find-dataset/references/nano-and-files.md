@@ -4,21 +4,11 @@
    unknown prices are unavailable. Preview the selected Post and attachment manifest
    through `subnano_preview`. Read already-accessible content with `subnano_read_content`.
    Search, preview and selection never authorize purchase or allocate a quote.
-2. Spending needs an explicit workflow grant. On a form-capable host, use
-   `subnano_request_spending_grant({workflow,purpose,cap,expires_at})` and let the human
-   approve the exact selected account, cap and expiry. Nano cap uses
-   `{asset:"XNO",network:"nano:mainnet",atomic:"200000000000000000000000000000",decimals:30}`
-   for 0.2 XNO. Save `grant.id`; duplicate terms never reset cumulative spend.
-   Without forms, ask the owner to provision the budget outside the agent runtime.
-   The agent must not run `grant spend` or change permission state. For the owner, run
-   `node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account --help` for the installed command contract.
-   A grant uses `grant spend --workflow NAME --purpose TEXT --cap-xno 0.2
---expires-at ISO_TIMESTAMP`. It binds the selected owner, origin and Nano mainnet.
-   The owner types it in their own terminal; the CLI prints the cap in XNO and raw,
-   the network and the expiry and waits for them to type `GRANT`. Piped input is
-   refused, so a shell tool cannot grant.
-   Connecting a host, setup and draft grants create no spending allowance. Use the
-   existing grant ID from context; model-supplied approval flags cannot create or widen it.
+2. Inspect `permissionPolicy` for current money authority. Agent mode needs the
+   operator's rolling budget and standing immediate-delivery consent; no dialog opens.
+   Human browser mode uses its current budget or an exact amount/recipient confirmation;
+   native human mode asks for each payment. Use `grant_id` only when deliberately
+   selecting a live legacy cumulative allowance; do not create or expand one.
 3. The local agent wallet needs deliberately configured JSON-RPC and known confirmed
    funding. Trusted commands are `wallet configure --rpc-url URL [--representative ADDRESS]`,
    `wallet preflight`, `wallet balance`, and `wallet receive --send-hash HASH`. An unopened
@@ -41,9 +31,10 @@
    release that exposure. Expired signature imports save original evidence and require
    explicitly requested original recovery before another submission. No wallet brand or
    mobile transport is claimed without its separately approved funded trial.
-5. With the local agent signer, call `subnano_buy_post` with the selected `post_id`, existing `grant_id` and exact
+5. With the local agent signer, call `subnano_buy_post` with the selected `post_id`, optional legacy `grant_id` and exact
    expected `amount_raw`. The local executable counts confirmed plus unresolved spend
-   cumulatively across processes and restarts. It obtains validated work from the configured public server before the short
+   against the selected rolling budget (windowed confirmed spend plus all unresolved
+   reservations) or explicit legacy cumulative allowance across processes and restarts. It obtains validated work from the configured public server before the short
    quote, validates resource, price, network and destination, and saves the exact signed
    block and original proof before submission. Save the returned operation ID.
 6. For response loss, cancellation, quote expiry, blocked payout or receipt uncertainty,
@@ -59,10 +50,9 @@ requires exact native owner receipt plus the original confirmed block, and repor
 mismatching Payment-Response always requires reconciliation and cannot use this fallback.
 Creator payout delay is distinct from the reader's confirmed purchase entitlement.
 
-7. Inspect already-granted output roots in `subnano_context`. Configure the chosen
-   existing workspace with human-approved `subnano_request_file_grant` on form-capable
-   hosts, or through the trusted CLI if it has no output grant. Both `read_roots`
-   and `output_roots` are complete replacement lists; never answer the host form.
+7. Inspect allowed output roots in `subnano_context`. The operator configures
+   folders with `permissions allow-folder` or a private `permissions apply` input.
+   Human upload tools can confirm and remember an unknown read folder once.
    Call `subnano_download_attachment` with the native `post_id`, inspected `attachment_id`
    and absolute `output_dir`. The executable uses the original Post entitlement or saved
    settled Nano proof, checks exact length and SHA-256, and returns a local ZIP path and stable
@@ -85,8 +75,8 @@ Use the same private state directory and origin after restart. Trusted revocatio
 Local/private support and fixture tests do not claim public-directory eligibility or
 actual provider/wallet funded-flow support.
 
-For an explicitly requested direct Nano transfer, use `subnano_send_nano` with a
-stable `intent_id`, exact `destination`, `amount_raw` and existing `grant_id`.
+Direct Nano transfers are unavailable in agent mode. In human mode, for an explicitly requested transfer use `subnano_send_nano` with a
+stable `intent_id`, exact `destination`, `amount_raw` and optional legacy `grant_id`.
 Complete host confirmation of the exact amount and recipient. Without human host forms, new direct transfers are unavailable; CLI `wallet send` is disabled. Save its operation ID and recover only
 that original with `subnano_nano_transfer_status`; never substitute a new intent.
 Nano signing and work support are bundled. Do not install Nano libraries, inspect
@@ -96,4 +86,4 @@ retry or configure a user-approved work endpoint with `wallet configure --work-r
 Local CPU work exists only after the user explicitly chooses `wallet configure --local-work`;
 never enable it to work around a provider failure.
 
-The same separately approved [trusted workflow checkout consent](usdc.md#trusted-workflow-checkout-consent) can cover Nano Post purchases within its exact Nano grant. It never substitutes for spending authority or external signing.
+Standing current-terms delivery consent applies to the chosen rolling budget. Existing legacy [workflow checkout consent](usdc.md#trusted-workflow-checkout-consent) retains only its original grant binding; it never expands authority or substitutes for external signing.

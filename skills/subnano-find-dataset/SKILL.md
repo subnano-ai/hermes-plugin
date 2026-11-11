@@ -20,15 +20,17 @@ Before delivering an article or using it for research, read
 Complete the user's research using the returned text. If an article App is not
 confirmed visible, deliver the original Markdown in chat without fetching it again.
 
-Only when the user requests paid access, inspect the exact offer and existing grant,
+Only when the user requests paid access, inspect the exact offer and current `permissionPolicy` money authority,
 then read the applicable payment procedure:
 
 - [Base USDC](references/usdc.md).
 - [Nano and purchased ZIP delivery](references/nano-and-files.md).
 
-A price, search result or spending allowance alone is not immediate-delivery consent.
-A separate trusted local workflow checkout consent may cover only its named workflow,
-owner and unchanged terms. MCP cannot create or expand that consent. Use `detail: "compact"`
+A price, search result or budget alone is not immediate-delivery consent. Current
+standing consent binds legal version/hash/exact text; changed terms need renewal.
+Agent operators and human browser owners set it in their own controls. Native human
+mode uses an exact purchase dialog. Existing legacy workflow consent remains limited
+to its original grant and unchanged terms; no MCP tool can issue or expand it. Use `detail: "compact"`
 for subsequent purchase/status responses; the first required agreement review remains full.
 Never infer a new purchase is needed from an expired login or failed article render.
 After uncertainty recover the original operation; never buy again to repair delivery.

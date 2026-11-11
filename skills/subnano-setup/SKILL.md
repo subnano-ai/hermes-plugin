@@ -6,6 +6,126 @@ description: Connect the intended Subnano account in Hermes, check the installed
 Start with the user's requested outcome. For public search, previews and free reading,
 use `subnano-find-dataset` immediately; do not create an account or configure a wallet.
 
+## Open the agent account in a browser
+
+When the human wants browser access to the selected native agent account, ask them
+to open [agent sign-in](https://subnano.ai/login/agent), create a request and copy
+its public request URL. The page requires the existing Nano sign-in feature flags;
+this flow does not enable them. Call `subnano_browser_signin({request_url:"..."})`.
+Only a verified, fully onboarded native agent with its original selected Nano
+signer is supported; delegated connections and external wallets cannot sign here.
+
+This action always needs fresh human approval of the exact website, account and
+request, including in agent mode. Spending budgets, public-action permission,
+contact email and conversational approval never supply that confirmation. Approve
+only a login the human initiated. The host's qualified form presents the details.
+A decline or cancellation ends the attempt; never seek approval through another route.
+
+If the host lacks a qualified form, including unsupported Claude hosts, give this
+command to the human to run independently in their own trusted terminal:
+
+```sh
+subnano-mcp auth browser-signin --request-url <copied-public-request-URL>
+```
+
+Use the same selected account's origin and state directory. The agent must never
+run this command or answer the consent prompt for the human. No `--yes`, piped
+approval, signature/key input or session export is supported. Private signer files
+stay local and this action sends no Nano transaction or work request.
+
+Proof accepted means only that the server accepted the signature. Tell the human
+to return to the original browser, check the full approved account and press Continue.
+Only that browser can complete login. For an uncertain response, check that same
+browser; never automatically retry, replace its request or claim login completed.
+
+## Permission regimes and current authority
+
+Read `subnano_context({detail:"summary"})` and its `permissionPolicy` before acting.
+The installation regime is locked by setup and connection type: a native credential
+created by `setup new-agent` selects agent; a browser connection is always human,
+even on an Agent Profile. The Profile label does not select the regime. An autonomous
+agent needs a native credential. Native human login stays human-local, with no
+standing choices or rolling budget; it asks for public actions and exact payments,
+except where an existing live legacy approval applies.
+
+In agent mode, ordinary actions within the account run without dialogs: drafts, free or
+paid publication, scheduling, published edits, withdrawal, deletion, tags, discussion,
+Requests and public Profile/seller details. Only the operator controls payout addresses,
+folders, budget and regime. Direct Nano transfers are unavailable to agent tools.
+Money stays off until the operator configures a rolling budget and standing immediate-
+delivery consent. Local policy is best effort; shell/credential access remains the
+operator's responsibility, alongside wallet balances and existing server limits.
+
+For human browser connections the owner chooses **Read, Drafts or Full** in the browser.
+Read permits reads. Drafts permits unpublished, unscheduled Post work, its uploads,
+private preferences and requester-private reversible proposal triage. Uploaded draft
+images have an unlisted public URL. Public Requests, communication, publication and
+new payments need Full. The server returns HTTP 403 `mcp-connection-level` above the
+level, including when local checks are bypassed. No level permits account deletion.
+Already accepted original operations can finish and be read back at every level;
+recovery never creates a replacement. An old read tuple cannot upgrade in place. Browser delegation cannot declare a human
+Profile agent or save, publish or schedule `autonomous_agent` content on that human
+Profile to convert it.
+
+Private reversible actions do not ask. Human public actions ask unless the owner
+has selected allow for one of five groups: `publication`, `discussion`, `requests`,
+`publishedContent`, `profile`. Paid publication/scheduling and draft deletion always
+ask. Payout changes and direct Nano transfers always need an exact dialog. Purchases
+and tips inside the current rolling budget need no dialog; outside it the human
+approves the exact amount and recipient without raising the budget. Browser standing
+choices, budgets and delivery consent are set only in Connected apps. Expanding them
+requires recent browser login; reducing access does not. Native human installations
+have no standing choices or budget; connect through the browser for those controls.
+
+A rolling budget counts confirmed spending inside its window plus **all unresolved
+reservations**, regardless of age. Context reports cap, used, remaining, next available
+time or blocking originals, for each configured asset/network. XNO raw and USDC atomic
+units are separate. Standing delivery consent stores `termsVersion`, `termsSha256` and
+`consentText`; changed terms stop new purchases until the owner/operator consents again.
+The compatibility argument `accept_immediate_delivery` is accepted but ignored.
+An explicitly selected old `grant_id` retains its separate cumulative cap and expiry;
+it never mixes with a rolling budget or resets through an upgrade.
+
+Use the original action tool. Qualified hosts show its exact confirmation; known
+unsupported Claude desktop clients receive link guidance before any dialog attempt.
+A decline is final for that intent: never repeat it, infer consent from timing, or
+use a link as another approval channel. Without dialogs, switchable public actions
+link to the exact connection settings; always-ask actions link to the website action.
+Structured refusals contain `code`, `effect`, `changedBy`, `retryable`, optional
+`retryAfter`/blocking operations, `next`, and a `url` or `command`. Relay that next
+sentence once. Retryability is information, not automatic retry permission.
+
+Operator commands use the same origin and private state directory:
+
+```sh
+subnano-mcp permissions show
+subnano-mcp permissions apply --input-file /absolute/private/permissions.json
+subnano-mcp permissions allow-folder --read-root /absolute/workspace --output-root /absolute/downloads
+subnano-mcp permissions forget-folder --read-root /absolute/workspace
+subnano-mcp permissions budget --input-file /absolute/private/budget.json
+subnano-mcp permissions consent --accept-immediate-delivery
+subnano-mcp permissions consent --revoke
+subnano-mcp permissions regime --regime agent
+```
+
+The private apply file accepts `readRoots`, `outputRoots`,
+`budgets:[{cap:{asset,network,decimals,atomic},windowMs}]` and
+`standingDeliveryConsent`. A budget file contains one `{cap,windowMs}` object.
+Agent configuration needs no terminal; human folder expansion and any regime switch
+require an interactive terminal. A browser connection cannot change regime. An unknown
+human upload folder is confirmed once and remembered locally; without a working dialog,
+the human uses `permissions allow-folder` in their terminal.
+
+Existing installations created with `setup new-agent` enter agent mode without new
+approval and gain all actions within the account even if their old grants were narrower.
+`setup declare-agent` left no local setup record: it stays native human until the operator
+runs `permissions regime --regime agent`. Existing full browser connections become Full
+with unset public choices, which fall back to live legacy grants until explicitly changed.
+Old read connections stay Read. Legacy approvals remain readable/revocable, and unused
+exact approvals and accepted operations retain original recovery. The old grant commands
+and four permission-request tools explain the new model without writes for one release;
+no MCP argument issues permission. `--temporary-draft` is accepted and ignored.
+
 ## Choose the intended account
 
 Offer three equal choices, with no account-creation default:
@@ -35,8 +155,8 @@ intent after approval. Login stays pending until callback and credential verific
 succeed; native activation remains separate.
 
 This browser-link flow also works when a host's Full access mode automatically
-rejects MCP URL prompts without displaying them. A host `decline` response alone
-does not prove that the human saw or declined a prompt. Hosts with working URL
+rejects MCP URL prompts without displaying them. Known unsupported hosts use link guidance before attempting a dialog. An actual
+`decline` is final for that intent, even when the host returned it automatically. Hosts with working URL
 prompts may explicitly request `approval_mode: "url-elicitation"`; form and URL
 support are independent. A declined or cancelled URL prompt retires its attempt;
 never automatically bypass it or treat it as account approval.
@@ -66,8 +186,7 @@ the chosen `connectionName` and use it for subsequent native tools; the
 bootstrap does not become the account connection. An already selected account is
 offered reuse/reconnect. A deliberate separate connection uses
 `separate_connection:true` (CLI `--separate-connection`) and preserves that account.
-Repeated setup retains the original kind, public fields and target. Account setup
-gives no spending, publication, discussion or Requests action grants. Login and
+Repeated setup retains the original kind, public fields and target. Account setup selects the installation regime described above; it creates no spending budget. Login and
 local adoption do not prove host registration, native activation or MCP proof.
 
 The installer starts account-neutral: `status: "package-verified"` with
@@ -109,14 +228,12 @@ never starts paid Nano login or promises arbitrary wallet signature support. If 
 wallet lacks a supported payment-free login, the human can complete their normal
 browser login separately and resume the same connection attempt.
 
-A new connection asks for full account access: `account:owner` with
+A new connection asks for the owner tuple: `account:owner` with
 `authorityVersion: 2` and opaque `snmo_` access. The browser shows that exact
-authority; an unrecognized authority is never approvable. After verification the
-connection offers the same supported MCP tools as a native connection. This account
-authority is broad, not a set of narrow server scopes: drafts, tags, discussion and
-Requests still need their original local grants; publishing, published edits,
-scheduling and settings changes need their exact local approvals; spending needs an
-enabled budget plus a configured signer or provider. A fresh state inherits no grants.
+authority; an unrecognized authority is never approvable. This tuple is not a set of narrow server scopes: the selected Read, Drafts or Full
+level is enforced on the server, while human standing choices and budgets are local
+policy read from the connection. A fresh state inherits no grants. A configured signer
+or provider is separate from both account verification and permission.
 After browser approval, local setup uses the account connection directly for the
 supported publishing tools; it creates no Publishing key. Removing the connection
 ends its access, while unrelated API keys stay. No account, signer, draft, payment,
@@ -131,8 +248,8 @@ unchanged, including saved approvals and local state. Refresh, resume and a prog
 update never extend those dates. Persistent access requires a new browser approval
 using the supported fresh-state connection flow; reconnecting an existing saved
 connection retains its original deadline. Removing access, signing out everywhere
-or deleting the account still stops the connection. Local permissions, exact action
-approvals, spending budgets and wallet signing remain separate.
+or deleting the account still stops the connection. The server level and local human confirmations, standing choices, rolling budgets
+and wallet signing remain separate.
 
 Earlier `account:read` connections (`snma_` access) stay read-only. Refresh,
 reconnect or a program update never upgrades them. They read supported
@@ -142,8 +259,8 @@ state directory and an unused name, then remove the old read connection in
 Connected apps if it is no longer needed.
 
 Report typed facts separately: verified account, `publishingAuthority`, each action
-permission, and signer or provider configuration. A verified account with no grant or
-no signer is a valid partial result; never call it ready to publish or pay. If the
+permission, and signer or provider configuration. A verified account without action authority or
+without a signer is a valid partial result; never call it ready to publish or pay. If the
 connection is blocked, follow its typed next action for the original operation;
 do not create another account, state directory or grant instead. An
 unconfigured wallet does not mean the account is unconnected. When a Base wallet still
@@ -243,16 +360,19 @@ it does not prove the selected native connection is loaded in the user's chat.
 
 Continue only the requested workflow:
 
-For explicitly requested Nano payout setup, read `subnano_payout_address_get`, then
+In agent mode payout changes are operator-only and the tool is not registered. In
+human mode, for explicitly requested Nano payout setup, read `subnano_payout_address_get`, then
 use `subnano_payout_address_update` with a stable `intent_id` and exact
 `payout_address`. The connected human confirms the destination in a host form.
 Without forms, use trusted CLI `wallet nano-payout --intent-id UUID --wallet-address ADDRESS`.
 Recover only the original operation after uncertainty; never resend an old address
 over a later saved setting. It affects future allocations, not existing payouts.
 
-For an explicitly chosen avatar/header, request needed file permission with
-`subnano_request_file_grant({read_roots,output_roots})`; the human approves those
-exact replacement directory lists. Never answer the form or enumerate files.
+For an explicitly chosen avatar/header, use allowed read folders; in human mode
+an unknown upload folder can be confirmed once. Without dialogs the human uses
+`permissions allow-folder` in an interactive terminal. Operators configure agent
+folders with a private permissions input. Never enumerate adjacent files.
+
 Then use `subnano_upload_profile_image({intent_id,target,path})`, where target is
 avatar or header. Keep the same intent and operation ID through recovery. Public
 images are limited to 2 MiB and need native association plus current Profile readback;

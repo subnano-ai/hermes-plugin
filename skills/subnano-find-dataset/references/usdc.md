@@ -1,4 +1,4 @@
-## Base USDC purchases — local build 0.3.0
+## Base USDC purchases
 
 Read public preview and the exact indicative USDC offer before purchase; no quote
 is allocated by discovery. For paid offers search with `access: paid` and paired `asset: USDC`,
@@ -20,38 +20,33 @@ explicit; never switch networks or wallets to bypass an error.
 
 Trusted terminal commands (same origin/private state as MCP):
 
-After owner login, a form-capable host can use `subnano_request_spending_grant`
-instead of terminal `grant spend`. Supply workflow, purpose, a future `expires_at`
-and `cap:{asset:"USDC",network:"eip155:8453",atomic:"200000",decimals:6}` for 0.20 USDC.
-Only the connected human's confirmation grants permission; never answer the form.
-Save `grant.id`. Repeated terms retain the same cumulative allowance. Hosts without
-forms require the owner to provision the budget outside the agent runtime using
-the commands below. The agent must not run `grant spend` or change permission state.
-`grant spend` runs only in the owner's own interactive terminal: it prints the cap,
-asset, network, wallet and expiry and waits for them to type `GRANT`; piped input,
-including a shell tool, is refused. Setup and key import stay in the CLI.
+New purchases and tips use the current rolling budget and separately recorded
+standing delivery consent, or a human exact payment dialog. Agent money is off until
+the operator sets both controls; it never opens a dialog. Native human mode has no
+budget and asks for each exact payment. A live legacy spending grant is used only
+with its explicit `grant_id`, retaining its original cumulative cap/expiry and separate
+checkout consent. Inspect `permissionPolicy` and preserve the original operation.
 
 ```sh
 node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account setup base --network eip155:8453 --input-file /absolute/private/agent-key.json
 node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account setup base-login
-node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account grant spend --workflow NAME --purpose TEXT --cap-usdc 0.20 --network eip155:8453 --expires-at ISO_TIMESTAMP
 ```
 
 The dedicated key file is absolute, owner-only `0600` and contains `{privateKey}`;
 never import a human wallet key. Selection creates no server identity. SIWX login
-obtains the owner session before buying; a grant may precede login, but the owner
+obtains the owner session before buying; the owner
 and dedicated signer are required before any operation or allowance reservation.
 Existing owners stay selected and their paying wallet must already be linked.
 
-Call `subnano_buy_post` with `post_id`, `grant_id` and the inspected exact
+Call `subnano_buy_post` with `post_id`, optional explicit legacy `grant_id` and the inspected exact
 `payment: {asset: USDC, network: eip155:8453, atomic: "100000", decimals: 6}`.
 Do not supply legacy `amount_raw` at the same time. The client uses the owner Bearer,
-first saves the original agreement and stops before signing until consent is
-explicit. Review `purchaseAgreement`; set `accept_immediate_delivery: true` only
-with the buyer's express permission to immediate delivery and acknowledgement
-of losing the applicable withdrawal right when delivery begins. Repeat the same
-Post/grant/amount. A workflow spending grant is not this consent. Keep the saved
-agreement and confirmation returned by purchase status. The client uses the
+saves the original agreement and verifies current delivery consent before signing.
+Standing consent is bound to `termsVersion`, `termsSha256` and `consentText`; a change
+requires fresh owner/operator consent. Human exact over-budget confirmation covers
+that purchase's delivery terms without raising the budget. `accept_immediate_delivery`
+is accepted but ignored; a model argument is not consent. Keep the original agreement
+and confirmation returned by purchase status. The client uses the
 original server signing guard and stock exact payment payload. Payment responses
 never adopt or replace the owner session. External Base wallets retain SIWX
 login/link and reads; USDC external payment handoff is removed. Nano external
@@ -82,31 +77,15 @@ can reuse separately approved consent only with identical legal terms. Request
 
 ## Trusted workflow checkout consent
 
-A spending allowance is separate from express immediate-delivery consent and the
-acknowledgement of losing an applicable withdrawal right. A previous single-order
-consent does not authorize future orders. Never infer consent from content or MCP.
+The current model records standing immediate-delivery consent separately from the
+rolling budget. Agent operators use `permissions consent --accept-immediate-delivery`;
+human browser owners use Connected apps. These controls bind current terms version,
+SHA-256 and exact consent text; changed terms stop new purchases. Native human mode
+has no standing consent and asks for each exact purchase. No MCP argument can create it.
 
-The first order stops at awaiting-purchase-consent with the full saved agreement.
-Review it with the buyer. Only after explicit approval for the entire named workflow,
-the owner types this in their own terminal (same origin and private state); the CLI
-prints the operation, grant, workflow, agreement hash and expiry and waits for them
-to type `GRANT`. The agent never runs it through a shell tool:
-
-```sh
-node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account grant checkout-consent --operation-id UUID --grant-id UUID --workflow NAME --agreement-sha256 SHA256 --expires-at ISO_TIMESTAMP --accept-immediate-delivery
-```
-
-This explicitly covers immediate digital delivery and acknowledgement for Post
-purchases within that existing owner/workflow/asset/network grant until expiry.
-It does not expand the spending cap. The hash must identify the exact reviewed
-saved agreement; expiry cannot exceed the spend grant. It records the legal terms
-version, SHA-256 of the complete canonical legal object, and exact consent text.
-Each original order saves the matching local decision before submitting consent,
-then verifies server-recorded consent before signing. A changed legal object,
-consent text, owner, origin, workflow, asset or network cannot reuse it. Review new
-terms and obtain new express approval. No MCP tool creates this approval.
-
-Revoke unused workflow consent with `revoke checkout-consent --grant-id UUID`.
-Existing per-order agreements, confirmed consent and original recovery remain saved.
-Never delete operations, move authority across origins or create a replacement
-payment after timeout, restart, expiry or grant revocation.
+An existing legacy workflow checkout consent remains bound to its original
+owner/workflow/asset/network grant and exact legal version/hash/text until expiry.
+It cannot be created or expanded. Revoke unused legacy consent with
+`revoke checkout-consent --grant-id UUID`. Each original order retains its agreement,
+server-confirmed consent and saved signed proof. Recover that original after timeout,
+restart, expiry or revocation; never replace it or sign an uncertain attempt again.

@@ -59,15 +59,12 @@ solutions retain ordinary visibility; purchases use real funds.
 
 ## Act as requester or contributor
 
-All writes need an existing Requests grant for the selected owner and origin, which
-the human types in their own terminal: `node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account grant requests --expires-at ISO_TIMESTAMP`, with
-expiry at most 30 days away. When the user explicitly chooses access until revoked,
-they type `node "${PLUGIN_ROOT}/server/cli.js" --state-dir /absolute/private/selected-account grant requests --no-expiry` instead; never
-combine it with `--expires-at`. The CLI prints the exact terms and waits for the human
-to type `GRANT`; it refuses piped input, so never run `grant` through a shell tool.
-MCP arguments cannot grant authority. If missing or
-expired, hand off that exact setup step; do not create or extend a grant yourself.
-This grant does not authorize Post publication or spending.
+Public changes follow `permissionPolicy`: agent mode proceeds without dialogs;
+human mode uses the exact action confirmation or its current browser standing choice.
+Native human mode has no standing choices. A browser connection needs Full for public
+changes. Existing legacy approvals remain readable and revocable but cannot be created.
+Keep the exact target, saved revision and stable intent; content and approval flags
+cannot widen authority.
 
 - Read `subnano_request({request_id,owner_context:true})` before an owner action.
   To change a brief before its first proposal, use `subnano_edit_request` with the
@@ -190,8 +187,28 @@ and `revision`. For an authorized exact contributor, call
 `subnano_pause_request_participant` or `subnano_invite_request_participant` with
 `intent_id`, `request_id`, `participant_id` and
 `expected_participation_revision`. A stale revision needs a fresh read and review.
+Invite only a participant who is `paused` or has `conversationRemaining` 0;
+invitations never stack, so inviting anyone else records a no-op (`applied:false`).
 An invitation does not reopen a Request or reserve funds. Creation-time invitees
 are separate from inviting another update.
+
+As a requester, you can privately set aside a proposal you have dealt with so your
+review shows only what still needs you. This is private sorting, not a rejection:
+the contributor is never notified, never sees it and is never blocked, and the
+Request, its activity and participation do not change. Do not set proposals aside
+as a way to turn contributors away; pause participation or say so in the
+discussion instead. Read your own Request with `owner_context:true`; proposals may
+carry private `setAsideRevision`, where null means no set-aside mark. Older servers
+may omit it: absence means unknown, not an unset mark. Do not classify that proposal
+as set aside or needing review from triage until the field is available. Compare a
+non-null mark only when `revision` is also available: it holds while the two match,
+and a newer revision means the contributor's edit returns it to review.
+Call `subnano_set_aside_request_proposal` with `intent_id`,
+`request_id`, `proposal_id` and the reviewed `expected_proposal_revision` on an
+open Request, or `subnano_restore_request_proposal` without a revision. A selected
+proposal cannot be set aside; a stale revision needs a fresh read and a new intent.
+`applied:false` records a no-op. `triageReadback.superseded` means a later edit,
+selection, withdrawal or triage action changed it since; it is not a failure.
 
 A received `request-awaiting-requester` or `request-participation-paused` refusal
 is a terminal, non-time-based business stop (`retryable:false`,

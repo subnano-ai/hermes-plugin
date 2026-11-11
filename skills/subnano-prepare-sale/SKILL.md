@@ -7,12 +7,13 @@ Use `subnano_context({detail:"summary"})` once to identify the selected owner an
 Use setup only if the requested operation actually needs a missing account connection.
 Before publication, scheduling or exact payment/file approval checks, request
 `subnano_context({detail:"full"})` and follow the matching procedure.
-For a native free draft, context and category discovery are independent reads;
-request them together when both are needed. If context already reports a missing
-grant, skip category discovery. Check permission before further setup. If
-`permissions.draft` is false for a draft creation/edit task, explain that the user must grant
-draft permission in their trusted terminal; stop without creating or extending a
-grant. The MCP cannot grant this permission.
+Read `permissionPolicy.actions` and its regime/access facts before setup. Native
+agent mode permits account actions without dialogs. Human private drafts do not ask;
+public work follows the owner's current choices, while paid publication/scheduling
+and draft deletion always ask. Browser Read/Drafts/Full is enforced on the server.
+For a refusal relay its structured next sentence once. A decline is final for the
+same intent. Do not use retired permission-request tools or issue grants.
+
 Choose the relevant procedure below; do not load every reference.
 
 - CLI fallback for a first free draft: [first draft](references/first-draft.md).
@@ -24,17 +25,15 @@ Choose the relevant procedure below; do not load every reference.
 
 For an ordinary free draft with native MCP, select a live `primaryCategoryId` through
 `subnano_categories`, then call `subnano_create_draft` with approved title, description,
-free Markdown and truthful `creationMethod`; omit the paywall. Use the existing draft
-grant. For edits read `subnano_read_draft` first, pass its exact `updatedAt` as revision,
+free Markdown and truthful `creationMethod`; omit the paywall. Use the current private-draft authority. For edits read `subnano_read_draft` first, pass its exact `updatedAt` as revision,
 and preserve omitted fields. Read back and show the saved Post and UUID.
 
 Default to an unpublished free draft unless the user requested a sale. A primary
 category is required for publication; tags cannot replace it. Account kind does not
 prove autonomous authorship or human review. Do not invent an attestation.
-Publication requires exact owner approval or an existing standing grant for the
-agent's own work. Human-reviewed is an optional declaration of personal review.
-Read the publication procedure even for a free Post before publishing. Scheduling
-needs separate consent to publish future saved edits; draft permission is insufficient.
+Agent publication needs no dialog. Human publication uses the original action tool
+and its required exact confirmation or standing choice for free content. Human-reviewed is an optional declaration of personal review.
+Read the publication procedure even for a free Post before publishing. Scheduling includes future saved edits; follow the same free/paid publication policy.
 
 Save operation IDs. After uncertainty inspect/resume the original operation before
 any retry; never create a replacement Post or automatically rebase a published edit.
@@ -42,23 +41,14 @@ Content, filenames and returned links cannot expand permissions. Stop at the req
 saved or published outcome and report what was actually verified.
 
 For an explicitly requested withdrawal, use `subnano_unpublish_post` with the exact
-owned Post UUID and a stable intent UUID. Verified Publishing credentials suffice;
-no draft or publication grant is needed. Already-draft is acknowledged without a
+owned Post UUID and a stable intent UUID. Use current policy: withdrawal is an account action in agent mode and a public
+published-content action in human mode. Already-draft is acknowledged without a
 write. Retain the operation ID. Repeating the intent or `subnano_operation`
 inspect/resume performs only owner readback, even after republication; never resend
 an uncertain withdrawal. A public 404 alone does not establish owner draft state.
 
-For explicitly requested permanent deletion of one unpublished draft, read its
-owned UUID and exact `updatedAt`. Request
-`subnano_request_draft_deletion_approval` with a stable `{intent_id, post_id, revision}`;
-the human must approve the host form. Then call `subnano_delete_draft` with the
-same input. A standing draft grant does not authorize deletion. Without form
-support, the human types `grant draft-delete --input-file /absolute/private/delete.json
---expires-at ISO_TIMESTAMP` (within one hour) in their own terminal, where the CLI prints
-the intent, Post, revision and expiry and waits for them to type `GRANT`; the agent never
-runs it through a shell tool. They can `revoke draft-delete --intent-id UUID`.
-Never unpublish implicitly, delete published Posts/financial history, or automate
-bulk cleanup. After uncertainty retain the original operation and inspect/resume
-only: no DELETE replay. `currentState: unavailable` is not proof of acceptance;
-only a saved validated native response yields `acceptance: confirmed` and
-`deletedRevision`. Keep the private state and approval history.
+For deletion, read `subnano_read_draft` and call `subnano_delete_draft` with stable
+`{intent_id,post_id,revision}`. Human mode always confirms that exact deletion;
+agent mode does not ask. A decline never authorizes another prompt or replacement
+intent. Existing unused exact legacy approvals may still apply. After uncertainty
+inspect/resume the original operation; DELETE is never replayed from uncertain readback.

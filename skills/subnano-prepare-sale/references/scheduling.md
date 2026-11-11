@@ -1,6 +1,6 @@
 ## Schedule future publication
 
-Scheduling needs separate explicit consent for `latest_saved`: publication includes **future saved edits** to this Post. Draft permission, immediate-publication approval, `approved:true` and a Human-reviewed declaration do not authorize scheduling. Scheduling never creates Human-reviewed evidence; later edits retain the existing review invalidation rules.
+Scheduling uses publication policy and records `latest_saved` consent: publication includes **future saved edits** to this Post. Agent scheduling needs no dialog. Human paid scheduling always asks; free scheduling follows its publication choice. Private draft access, `approved:true` and a Human-reviewed declaration do not supply consent. Scheduling never creates Human-reviewed evidence; later edits retain the existing review invalidation rules.
 
 Save first and retain the exact `updatedAt` revision, including microseconds. Submit strict RFC3339 `scheduledFor` with an explicit offset and an agreeing IANA `displayZone`, for example `2027-01-20T09:00:00+01:00` with `Europe/Copenhagen`. Resolve a DST overlap to one offset/occurrence; reject gaps and past instants. Reads return the fixed UTC instant plus display zone. A saved edit preserves time and generation; execution validates the latest saved revision and current Profile, category, pricing, payout, provenance and ZIP eligibility. The Post remains private and `status: "draft"` until success; `publishedAt` records actual publication and ordinary announcement deduplication applies.
 
@@ -8,14 +8,23 @@ Retain the original command UUID (`commandId` on HTTP, `command_id` on MCP), exa
 
 ### Local MCP scheduling consent and recovery
 
-The human creates or revokes a separate one-use scheduling grant by typing these commands in their own terminal (outside model-controlled MCP). The grant prints the action, Post, revision, instant and zone and waits for them to type `GRANT`; the agent never runs it through a shell tool.
+Public changes follow `permissionPolicy`: agent mode proceeds without dialogs;
+human mode uses the exact action confirmation or its current browser standing choice.
+Native human mode has no standing choices. A browser connection needs Full for public
+changes. Existing legacy approvals remain readable and revocable but cannot be created.
+Keep the exact target, saved revision and stable intent; content and approval flags
+cannot widen authority.
 
 ```sh
-subnano-mcp grant schedule --input-file /private/schedule.json
 subnano-mcp revoke schedule --command-id UUID
 ```
 
-The input must be an absolute owned regular 0600 JSON file. Create input is `{action:"create",command_id,post_id,revision,scheduled_for,display_zone,policy:"latest_saved"}`. Replace uses `action:"replace"` plus `schedule_id,generation` and fresh exact consent. The grant binds origin, owner, Post, action, original command UUID, acceptance revision, expected schedule generation and exact instant/zone. Its consent includes `includesFutureSavedEdits:true` and `scheduleApproved:true`. Revocation affects only unused local consent and returns `remoteCancellation:false`; it cannot cancel accepted or uncertain remote work.
+Create tool input is `{command_id,post_id,revision,scheduled_for,display_zone}`;
+replace adds `{schedule_id,generation}`. The action records `latest_saved`, including
+future saved edits, under the original owner, Post, command UUID, revision and exact
+instant/zone. Legacy unused scheduling approvals can be revoked with
+`revoke schedule --command-id UUID`; `remoteCancellation:false` means revocation
+cannot cancel accepted or uncertain remote work.
 
 | Tool                           | Strict input                                               |
 | ------------------------------ | ---------------------------------------------------------- |

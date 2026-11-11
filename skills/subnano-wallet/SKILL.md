@@ -4,33 +4,28 @@ description: Inspect selected Nano/Base USDC wallet balances and budgets or send
 ---
 
 Use `subnano_wallet_status` for read-only Nano and native Base USDC balances and
-local workflow budgets. The bundled CLI `wallet status` returns the same format
+current rolling budgets and retained legacy workflow allowances. The bundled CLI `wallet status` returns the same format
 with the same origin/state. No setup, receive, signing or grant is needed to inspect
 an existing selection. Failed/unknown balances are null, never zero. Report each
 asset separately: wallet balance, confirmedSpend, unresolvedExposure, remaining
-cumulative allowance and expiresAt. Confirmed spend covers local recorded operations,
+rolling cap, used, remaining and next availability; label a retained cumulative allowance
+and expiresAt separately. Confirmed spend covers local recorded operations,
 not the wallet's lifetime history. Remaining allowance is not a balance or a refill.
 Provider/signer configuration and unknown transaction eligibility are separate from
 live balance. Pending incoming Nano is not spendable. A readiness request may use
 context summary; it preserves USDC flags, while full context contains exact grants.
 
-Before a direct transfer, read [transfers and recovery](references/transfers.md).
-If a requested payment needs spending permission, use
-`subnano_request_spending_grant({workflow,purpose,cap,expires_at})` on a host with
-form elicitation. The human approves the exact account, cap and expiry; never answer
-the form. XNO cap uses 30 decimals and nano:mainnet; USDC uses 6 and the selected Base
-network. Save `grant.id`. Duplicate terms preserve the original cumulative allowance
-and cannot re-enable it. Without forms, use the explicitly authorized trusted CLI
-`grant spend` workflow performed by the owner outside the agent runtime: the command
-runs only in the owner's interactive terminal, prints the exact cap, network and expiry
-and waits for them to type `GRANT`, and CLI `wallet send` is disabled. Never run
-owner provisioning, `grant` or `wallet send` through a shell tool. The owner must restrict agent tool/shell access to
-exclude provisioning, forged host approvals and changes to private permission state.
-An existing grant allows autonomous purchases and tips within its cumulative cap
-and expiry; direct transfers still require separate exact host confirmation. A spending grant does not create checkout-delivery consent.
-Require the approved exact recipient, amount and existing spending grant. Do not
-configure a payout address, receive funds, refill a wallet or expand a grant merely
-to make a transfer succeed. Credentials and signatures stay outside chat.
+New purchases and tips use the current rolling budget and separately recorded
+standing delivery consent, or a human exact payment dialog. Agent money is off until
+the operator sets both controls; it never opens a dialog. Native human mode has no
+budget and asks for each exact payment. A live legacy spending grant is used only
+with its explicit `grant_id`, retaining its original cumulative cap/expiry and separate
+checkout consent. Inspect `permissionPolicy` and preserve the original operation.
 
 Use `subnano-find-dataset` for purchases and `subnano-discussion` for Comment tips.
 After uncertainty retain the original operation and recover only its saved transfer.
+
+Direct Nano transfer tools are absent in agent mode. For a requested human transfer,
+read [exact transfer and original recovery](references/transfers.md): the exact
+recipient/amount always needs qualified host confirmation. A decline is final for
+that intent; hosts without forms cannot start a new direct transfer.
