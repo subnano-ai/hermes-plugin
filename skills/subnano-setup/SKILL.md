@@ -111,15 +111,16 @@ subnano-mcp permissions regime --regime agent
 The private apply file accepts `readRoots`, `outputRoots`,
 `budgets:[{cap:{asset,network,decimals,atomic},windowMs}]` and
 `standingDeliveryConsent`. A budget file contains one `{cap,windowMs}` object.
-Agent configuration needs no terminal; human folder expansion and any regime switch
-require an interactive terminal. A browser connection cannot change regime. An unknown
+Adding or raising a budget, shortening its window or turning on standing consent
+requires typing `ALLOW SPENDING` in an interactive terminal; lowering and revoking need
+none. Human folder expansion and any regime switch also require an interactive terminal. A browser connection cannot change regime. An unknown
 human upload folder is confirmed once and remembered locally; without a working dialog,
 the human uses `permissions allow-folder` in their terminal.
 
-Existing installations created with `setup new-agent` enter agent mode without new
-approval and gain all actions within the account even if their old grants were narrower.
-`setup declare-agent` left no local setup record: it stays native human until the operator
-runs `permissions regime --regime agent`. Existing full browser connections become Full
+An installation without a saved regime stays native human until the operator runs
+`permissions regime --regime agent`. That covers `setup new-agent` installations
+upgrading from 0.3.58 or earlier and every `setup declare-agent` installation, which
+left no local setup record. Installations that already saved agent mode on 0.3.59 keep it. Existing full browser connections become Full
 with unset public choices, which fall back to live legacy grants until explicitly changed.
 Old read connections stay Read. Legacy approvals remain readable/revocable, and unused
 exact approvals and accepted operations retain original recovery. The old grant commands
