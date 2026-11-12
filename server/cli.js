@@ -1193,8 +1193,8 @@ var init_checks = __esm({
       });
       inst._zod.check = (payload) => {
         const input2 = payload.value;
-        const size5 = input2.size;
-        if (size5 <= def.maximum)
+        const size6 = input2.size;
+        if (size6 <= def.maximum)
           return;
         payload.issues.push({
           origin: getSizableOrigin(input2),
@@ -1220,8 +1220,8 @@ var init_checks = __esm({
       });
       inst._zod.check = (payload) => {
         const input2 = payload.value;
-        const size5 = input2.size;
-        if (size5 >= def.minimum)
+        const size6 = input2.size;
+        if (size6 >= def.minimum)
           return;
         payload.issues.push({
           origin: getSizableOrigin(input2),
@@ -1248,10 +1248,10 @@ var init_checks = __esm({
       });
       inst._zod.check = (payload) => {
         const input2 = payload.value;
-        const size5 = input2.size;
-        if (size5 === def.size)
+        const size6 = input2.size;
+        if (size6 === def.size)
           return;
-        const tooBig = size5 > def.size;
+        const tooBig = size6 > def.size;
         payload.issues.push({
           origin: getSizableOrigin(input2),
           ...tooBig ? { code: "too_big", maximum: def.size } : { code: "too_small", minimum: def.size },
@@ -8786,11 +8786,11 @@ function _minSize(minimum, params) {
     minimum
   });
 }
-function _size(size5, params) {
+function _size(size6, params) {
   return new $ZodCheckSizeEquals({
     check: "size_equals",
     ...normalizeParams(params),
-    size: size5
+    size: size6
   });
 }
 function _maxLength(maximum, params) {
@@ -11241,8 +11241,8 @@ var init_schemas2 = __esm({
     ZodFile = /* @__PURE__ */ $constructor("ZodFile", (inst, def) => {
       $ZodFile.init(inst, def);
       ZodType.init(inst, def);
-      inst.min = (size5, params) => inst.check(_minSize(size5, params));
-      inst.max = (size5, params) => inst.check(_maxSize(size5, params));
+      inst.min = (size6, params) => inst.check(_minSize(size6, params));
+      inst.max = (size6, params) => inst.check(_maxSize(size6, params));
       inst.mime = (types, params) => inst.check(_mime(Array.isArray(types) ? types : [types], params));
     });
     ZodTransform = /* @__PURE__ */ $constructor("ZodTransform", (inst, def) => {
@@ -17342,7 +17342,7 @@ var require_contains = __commonJS({
           const count4 = gen2.let("count", 0);
           validateItems(schValid, () => gen2.if(schValid, () => checkLimits(count4)));
         }
-        function validateItems(_valid, block) {
+        function validateItems(_valid, block2) {
           gen2.forRange("i", 0, len, (i) => {
             cxt.subschema({
               keyword: "contains",
@@ -17350,7 +17350,7 @@ var require_contains = __commonJS({
               dataPropType: util_1.Type.Num,
               compositeRule: true
             }, _valid);
-            block();
+            block2();
           });
         }
         function checkLimits(count4) {
@@ -21569,22 +21569,22 @@ var init_abi = __esm({
       }
     };
     AbiDecodingDataSizeInvalidError = class extends BaseError2 {
-      constructor({ data, size: size5 }) {
+      constructor({ data, size: size6 }) {
         super([
-          `Data size of ${size5} bytes is invalid.`,
+          `Data size of ${size6} bytes is invalid.`,
           "Size must be in increments of 32 bytes (size % 32 === 0)."
         ].join("\n"), {
-          metaMessages: [`Data: ${data} (${size5} bytes)`],
+          metaMessages: [`Data: ${data} (${size6} bytes)`],
           name: "AbiDecodingDataSizeInvalidError"
         });
       }
     };
     AbiDecodingDataSizeTooSmallError = class extends BaseError2 {
-      constructor({ data, params, size: size5 }) {
-        super([`Data size of ${size5} bytes is too small for given parameters.`].join("\n"), {
+      constructor({ data, params, size: size6 }) {
+        super([`Data size of ${size6} bytes is too small for given parameters.`].join("\n"), {
           metaMessages: [
             `Params: (${formatAbiParams(params, { includeName: true })})`,
-            `Data:   ${data} (${size5} bytes)`
+            `Data:   ${data} (${size6} bytes)`
           ],
           name: "AbiDecodingDataSizeTooSmallError"
         });
@@ -21608,7 +21608,7 @@ var init_abi = __esm({
         });
         this.data = data;
         this.params = params;
-        this.size = size5;
+        this.size = size6;
       }
     };
     AbiDecodingZeroDataError = class extends BaseError2 {
@@ -21773,13 +21773,13 @@ var init_abi = __esm({
       }
     };
     DecodeLogDataMismatch = class extends BaseError2 {
-      constructor({ abiItem, data, params, size: size5 }) {
+      constructor({ abiItem, data, params, size: size6 }) {
         super([
-          `Data size of ${size5} bytes is too small for non-indexed event parameters.`
+          `Data size of ${size6} bytes is too small for non-indexed event parameters.`
         ].join("\n"), {
           metaMessages: [
             `Params: (${formatAbiParams(params, { includeName: true })})`,
-            `Data:   ${data} (${size5} bytes)`
+            `Data:   ${data} (${size6} bytes)`
           ],
           name: "DecodeLogDataMismatch"
         });
@@ -21810,7 +21810,7 @@ var init_abi = __esm({
         this.abiItem = abiItem;
         this.data = data;
         this.params = params;
-        this.size = size5;
+        this.size = size6;
       }
     };
     DecodeLogTopicsMismatch = class extends BaseError2 {
@@ -21889,54 +21889,54 @@ var init_data = __esm({
   "../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/errors/data.js"() {
     init_base();
     SliceOffsetOutOfBoundsError = class extends BaseError2 {
-      constructor({ offset: offset2, position, size: size5 }) {
-        super(`Slice ${position === "start" ? "starting" : "ending"} at offset "${offset2}" is out-of-bounds (size: ${size5}).`, { name: "SliceOffsetOutOfBoundsError" });
+      constructor({ offset: offset2, position, size: size6 }) {
+        super(`Slice ${position === "start" ? "starting" : "ending"} at offset "${offset2}" is out-of-bounds (size: ${size6}).`, { name: "SliceOffsetOutOfBoundsError" });
       }
     };
     SizeExceedsPaddingSizeError = class extends BaseError2 {
-      constructor({ size: size5, targetSize, type }) {
-        super(`${type.charAt(0).toUpperCase()}${type.slice(1).toLowerCase()} size (${size5}) exceeds padding size (${targetSize}).`, { name: "SizeExceedsPaddingSizeError" });
+      constructor({ size: size6, targetSize, type }) {
+        super(`${type.charAt(0).toUpperCase()}${type.slice(1).toLowerCase()} size (${size6}) exceeds padding size (${targetSize}).`, { name: "SizeExceedsPaddingSizeError" });
       }
     };
     InvalidBytesLengthError = class extends BaseError2 {
-      constructor({ size: size5, targetSize, type }) {
-        super(`${type.charAt(0).toUpperCase()}${type.slice(1).toLowerCase()} is expected to be ${targetSize} ${type} long, but is ${size5} ${type} long.`, { name: "InvalidBytesLengthError" });
+      constructor({ size: size6, targetSize, type }) {
+        super(`${type.charAt(0).toUpperCase()}${type.slice(1).toLowerCase()} is expected to be ${targetSize} ${type} long, but is ${size6} ${type} long.`, { name: "InvalidBytesLengthError" });
       }
     };
   }
 });
 
 // ../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/utils/data/pad.js
-function pad(hexOrBytes, { dir, size: size5 = 32 } = {}) {
+function pad(hexOrBytes, { dir, size: size6 = 32 } = {}) {
   if (typeof hexOrBytes === "string")
-    return padHex(hexOrBytes, { dir, size: size5 });
-  return padBytes(hexOrBytes, { dir, size: size5 });
+    return padHex(hexOrBytes, { dir, size: size6 });
+  return padBytes(hexOrBytes, { dir, size: size6 });
 }
-function padHex(hex_, { dir, size: size5 = 32 } = {}) {
-  if (size5 === null)
+function padHex(hex_, { dir, size: size6 = 32 } = {}) {
+  if (size6 === null)
     return hex_;
   const hex2 = hex_.replace("0x", "");
-  if (hex2.length > size5 * 2)
+  if (hex2.length > size6 * 2)
     throw new SizeExceedsPaddingSizeError({
       size: Math.ceil(hex2.length / 2),
-      targetSize: size5,
+      targetSize: size6,
       type: "hex"
     });
-  return `0x${hex2[dir === "right" ? "padEnd" : "padStart"](size5 * 2, "0")}`;
+  return `0x${hex2[dir === "right" ? "padEnd" : "padStart"](size6 * 2, "0")}`;
 }
-function padBytes(bytes2, { dir, size: size5 = 32 } = {}) {
-  if (size5 === null)
+function padBytes(bytes2, { dir, size: size6 = 32 } = {}) {
+  if (size6 === null)
     return bytes2;
-  if (bytes2.length > size5)
+  if (bytes2.length > size6)
     throw new SizeExceedsPaddingSizeError({
       size: bytes2.length,
-      targetSize: size5,
+      targetSize: size6,
       type: "bytes"
     });
-  const paddedBytes = new Uint8Array(size5);
-  for (let i = 0; i < size5; i++) {
+  const paddedBytes = new Uint8Array(size6);
+  for (let i = 0; i < size6; i++) {
     const padEnd = dir === "right";
-    paddedBytes[padEnd ? i : size5 - i - 1] = bytes2[padEnd ? i : bytes2.length - i - 1];
+    paddedBytes[padEnd ? i : size6 - i - 1] = bytes2[padEnd ? i : bytes2.length - i - 1];
   }
   return paddedBytes;
 }
@@ -21952,8 +21952,8 @@ var init_encoding = __esm({
   "../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/errors/encoding.js"() {
     init_base();
     IntegerOutOfRangeError = class extends BaseError2 {
-      constructor({ max, min, signed, size: size5, value }) {
-        super(`Number "${value}" is not in safe ${size5 ? `${size5 * 8}-bit ${signed ? "signed" : "unsigned"} ` : ""}integer range ${max ? `(${min} to ${max})` : `(above ${min})`}`, { name: "IntegerOutOfRangeError" });
+      constructor({ max, min, signed, size: size6, value }) {
+        super(`Number "${value}" is not in safe ${size6 ? `${size6 * 8}-bit ${signed ? "signed" : "unsigned"} ` : ""}integer range ${max ? `(${min} to ${max})` : `(above ${min})`}`, { name: "IntegerOutOfRangeError" });
       }
     };
     InvalidBytesBooleanError = class extends BaseError2 {
@@ -22022,11 +22022,11 @@ var init_trim = __esm({
 });
 
 // ../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/utils/encoding/fromHex.js
-function assertSize(hexOrBytes, { size: size5 }) {
-  if (size(hexOrBytes) > size5)
+function assertSize(hexOrBytes, { size: size6 }) {
+  if (size(hexOrBytes) > size6)
     throw new SizeOverflowError({
       givenSize: size(hexOrBytes),
-      maxSize: size5
+      maxSize: size6
     });
 }
 function fromHex(hex2, toOrOpts) {
@@ -22049,11 +22049,11 @@ function hexToBigInt(hex2, opts = {}) {
   const value = BigInt(hex2);
   if (!signed)
     return value;
-  const size5 = Math.ceil((hex2.length - 2) / 2);
-  const max = (1n << BigInt(size5) * 8n - 1n) - 1n;
+  const size6 = Math.ceil((hex2.length - 2) / 2);
+  const max = (1n << BigInt(size6) * 8n - 1n) - 1n;
   if (value <= max)
     return value;
-  return value - BigInt(`0x${"f".padStart(size5 * 2, "f")}`) - 1n;
+  return value - BigInt(`0x${"f".padStart(size6 * 2, "f")}`) - 1n;
 }
 function hexToBool(hex_, opts = {}) {
   let hex2 = hex_;
@@ -22129,14 +22129,14 @@ function bytesToHex2(value, opts = {}) {
   return hex2;
 }
 function numberToHex(value_, opts = {}) {
-  const { signed, size: size5 } = opts;
+  const { signed, size: size6 } = opts;
   const value = BigInt(value_);
   let maxValue;
-  if (size5) {
+  if (size6) {
     if (signed)
-      maxValue = (1n << BigInt(size5) * 8n - 1n) - 1n;
+      maxValue = (1n << BigInt(size6) * 8n - 1n) - 1n;
     else
-      maxValue = 2n ** (BigInt(size5) * 8n) - 1n;
+      maxValue = 2n ** (BigInt(size6) * 8n) - 1n;
   } else if (typeof value_ === "number") {
     maxValue = BigInt(Number.MAX_SAFE_INTEGER);
   }
@@ -22147,13 +22147,13 @@ function numberToHex(value_, opts = {}) {
       max: maxValue ? `${maxValue}${suffix}` : void 0,
       min: `${minValue}${suffix}`,
       signed,
-      size: size5,
+      size: size6,
       value: `${value_}${suffix}`
     });
   }
-  const hex2 = `0x${(signed && value < 0 ? (1n << BigInt(size5 * 8)) + BigInt(value) : value).toString(16)}`;
-  if (size5)
-    return pad(hex2, { size: size5 });
+  const hex2 = `0x${(signed && value < 0 ? (1n << BigInt(size6 * 8)) + BigInt(value) : value).toString(16)}`;
+  if (size6)
+    return pad(hex2, { size: size6 });
   return hex2;
 }
 function stringToHex(value_, opts = {}) {
@@ -22580,7 +22580,7 @@ var LruMap;
 var init_lru = __esm({
   "../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/utils/lru.js"() {
     LruMap = class extends Map {
-      constructor(size5) {
+      constructor(size6) {
         super();
         Object.defineProperty(this, "maxSize", {
           enumerable: true,
@@ -22588,7 +22588,7 @@ var init_lru = __esm({
           writable: true,
           value: void 0
         });
-        this.maxSize = size5;
+        this.maxSize = size6;
       }
       get(key) {
         const value = super.get(key);
@@ -22802,10 +22802,10 @@ function prepareParam({ param, value }) {
   }
   if (param.type.startsWith("uint") || param.type.startsWith("int")) {
     const signed = param.type.startsWith("int");
-    const [, , size5 = "256"] = integerRegex2.exec(param.type) ?? [];
+    const [, , size6 = "256"] = integerRegex2.exec(param.type) ?? [];
     return encodeNumber(value, {
       signed,
-      size: Number(size5)
+      size: Number(size6)
     });
   }
   if (param.type.startsWith("bytes")) {
@@ -22912,16 +22912,16 @@ function encodeBool(value) {
     throw new BaseError2(`Invalid boolean value: "${value}" (type: ${typeof value}). Expected: \`true\` or \`false\`.`);
   return { dynamic: false, encoded: padHex(boolToHex(value)) };
 }
-function encodeNumber(value, { signed, size: size5 = 256 }) {
-  if (typeof size5 === "number") {
-    const max = 2n ** (BigInt(size5) - (signed ? 1n : 0n)) - 1n;
+function encodeNumber(value, { signed, size: size6 = 256 }) {
+  if (typeof size6 === "number") {
+    const max = 2n ** (BigInt(size6) - (signed ? 1n : 0n)) - 1n;
     const min = signed ? -max - 1n : 0n;
     if (value > max || value < min)
       throw new IntegerOutOfRangeError({
         max: max.toString(),
         min: min.toString(),
         signed,
-        size: size5 / 8,
+        size: size6 / 8,
         value: value.toString()
       });
   }
@@ -23491,11 +23491,11 @@ var init_cursor2 = __esm({
         this.position++;
         return value;
       },
-      readBytes(length, size5) {
+      readBytes(length, size6) {
         this.assertReadLimit();
         this._touch();
         const value = this.inspectBytes(length);
-        this.position += size5 ?? length;
+        this.position += size6 ?? length;
         return value;
       },
       readUint8() {
@@ -23710,8 +23710,8 @@ function decodeBool(cursor) {
   return [bytesToBool(cursor.readBytes(32), { size: 32 }), 32];
 }
 function decodeBytes(cursor, param, { staticPosition }) {
-  const [_2, size5] = param.type.split("bytes");
-  if (!size5) {
+  const [_2, size6] = param.type.split("bytes");
+  if (!size6) {
     const offset2 = bytesToNumber(cursor.readBytes(32));
     cursor.setPosition(staticPosition + offset2);
     const length = bytesToNumber(cursor.readBytes(32));
@@ -23723,15 +23723,15 @@ function decodeBytes(cursor, param, { staticPosition }) {
     cursor.setPosition(staticPosition + 32);
     return [bytesToHex2(data), 32];
   }
-  const value = bytesToHex2(cursor.readBytes(Number.parseInt(size5, 10), 32));
+  const value = bytesToHex2(cursor.readBytes(Number.parseInt(size6, 10), 32));
   return [value, 32];
 }
 function decodeNumber(cursor, param) {
   const signed = param.type.startsWith("int");
-  const size5 = Number.parseInt(param.type.split("int")[1] || "256", 10);
+  const size6 = Number.parseInt(param.type.split("int")[1] || "256", 10);
   const value = cursor.readBytes(32);
   return [
-    size5 > 48 ? bytesToBigInt(value, { signed }) : bytesToNumber(value, { signed }),
+    size6 > 48 ? bytesToBigInt(value, { signed }) : bytesToNumber(value, { signed }),
     32
   ];
 }
@@ -24590,9 +24590,9 @@ var init_request = __esm({
       }
     };
     ResponseBodyTooLargeError = class extends BaseError2 {
-      constructor({ maxSize, size: size5 }) {
+      constructor({ maxSize, size: size6 }) {
         super("HTTP response body exceeded the size limit.", {
-          metaMessages: [`Max: ${maxSize} bytes`, `Received: ${size5} bytes`],
+          metaMessages: [`Max: ${maxSize} bytes`, `Received: ${size6} bytes`],
           name: "ResponseBodyTooLargeError"
         });
         Object.defineProperty(this, "maxSize", {
@@ -24608,7 +24608,7 @@ var init_request = __esm({
           value: void 0
         });
         this.maxSize = maxSize;
-        this.size = size5;
+        this.size = size6;
       }
     };
     WebSocketRequestError = class extends BaseError2 {
@@ -25303,8 +25303,8 @@ function validatePointOpts(curve) {
   }
   return Object.freeze({ ...opts });
 }
-function numToSizedHex(num2, size5) {
-  return bytesToHex(numberToBytesBE(num2, size5));
+function numToSizedHex(num2, size6) {
+  return bytesToHex(numberToBytesBE(num2, size6));
 }
 function weierstrassPoints(opts) {
   const CURVE = validatePointOpts(opts);
@@ -27447,28 +27447,28 @@ var init_transaction2 = __esm({
 });
 
 // ../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/utils/formatters/block.js
-function formatBlock(block, _2) {
-  const transactions = (block.transactions ?? []).map((transaction) => {
+function formatBlock(block2, _2) {
+  const transactions = (block2.transactions ?? []).map((transaction) => {
     if (typeof transaction === "string")
       return transaction;
     return formatTransaction(transaction);
   });
   return {
-    ...block,
-    baseFeePerGas: block.baseFeePerGas ? BigInt(block.baseFeePerGas) : null,
-    blobGasUsed: block.blobGasUsed ? BigInt(block.blobGasUsed) : void 0,
-    difficulty: block.difficulty ? BigInt(block.difficulty) : void 0,
-    excessBlobGas: block.excessBlobGas ? BigInt(block.excessBlobGas) : void 0,
-    gasLimit: block.gasLimit ? BigInt(block.gasLimit) : void 0,
-    gasUsed: block.gasUsed ? BigInt(block.gasUsed) : void 0,
-    hash: block.hash ? block.hash : null,
-    logsBloom: block.logsBloom ? block.logsBloom : null,
-    nonce: block.nonce ? block.nonce : null,
-    number: block.number ? BigInt(block.number) : null,
-    size: block.size ? BigInt(block.size) : void 0,
-    timestamp: block.timestamp ? BigInt(block.timestamp) : void 0,
+    ...block2,
+    baseFeePerGas: block2.baseFeePerGas ? BigInt(block2.baseFeePerGas) : null,
+    blobGasUsed: block2.blobGasUsed ? BigInt(block2.blobGasUsed) : void 0,
+    difficulty: block2.difficulty ? BigInt(block2.difficulty) : void 0,
+    excessBlobGas: block2.excessBlobGas ? BigInt(block2.excessBlobGas) : void 0,
+    gasLimit: block2.gasLimit ? BigInt(block2.gasLimit) : void 0,
+    gasUsed: block2.gasUsed ? BigInt(block2.gasUsed) : void 0,
+    hash: block2.hash ? block2.hash : null,
+    logsBloom: block2.logsBloom ? block2.logsBloom : null,
+    nonce: block2.nonce ? block2.nonce : null,
+    number: block2.number ? BigInt(block2.number) : null,
+    size: block2.size ? BigInt(block2.size) : void 0,
+    timestamp: block2.timestamp ? BigInt(block2.timestamp) : void 0,
     transactions,
-    totalDifficulty: block.totalDifficulty ? BigInt(block.totalDifficulty) : null
+    totalDifficulty: block2.totalDifficulty ? BigInt(block2.totalDifficulty) : null
   };
 }
 var defineBlock;
@@ -27484,22 +27484,22 @@ var init_block2 = __esm({
 async function getBlock(client, { blockHash, blockNumber, blockTag = client.experimental_blockTag ?? "latest", includeTransactions: includeTransactions_ } = {}) {
   const includeTransactions = includeTransactions_ ?? false;
   const blockNumberHex = blockNumber !== void 0 ? numberToHex(blockNumber) : void 0;
-  let block = null;
+  let block2 = null;
   if (blockHash) {
-    block = await client.request({
+    block2 = await client.request({
       method: "eth_getBlockByHash",
       params: [blockHash, includeTransactions]
     }, { dedupe: true });
   } else {
-    block = await client.request({
+    block2 = await client.request({
       method: "eth_getBlockByNumber",
       params: [blockNumberHex || blockTag, includeTransactions]
     }, { dedupe: Boolean(blockNumberHex) });
   }
-  if (!block)
+  if (!block2)
     throw new BlockNotFoundError({ blockHash, blockNumber });
   const format2 = client.chain?.formatters?.block?.format || formatBlock;
-  return format2(block, "getBlock");
+  return format2(block2, "getBlock");
 }
 var init_getBlock = __esm({
   "../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/actions/public/getBlock.js"() {
@@ -27530,9 +27530,9 @@ async function internal_estimateMaxPriorityFeePerGas(client, args) {
   try {
     const maxPriorityFeePerGas = chain?.fees?.maxPriorityFeePerGas ?? chain?.fees?.defaultPriorityFee;
     if (typeof maxPriorityFeePerGas === "function") {
-      const block = block_ || await getAction(client, getBlock, "getBlock")({});
+      const block2 = block_ || await getAction(client, getBlock, "getBlock")({});
       const maxPriorityFeePerGas_ = await maxPriorityFeePerGas({
-        block,
+        block: block2,
         client,
         request
       });
@@ -27547,13 +27547,13 @@ async function internal_estimateMaxPriorityFeePerGas(client, args) {
     });
     return hexToBigInt(maxPriorityFeePerGasHex);
   } catch {
-    const [block, gasPrice] = await Promise.all([
+    const [block2, gasPrice] = await Promise.all([
       block_ ? Promise.resolve(block_) : getAction(client, getBlock, "getBlock")({}),
       getAction(client, getGasPrice, "getGasPrice")({})
     ]);
-    if (typeof block.baseFeePerGas !== "bigint")
+    if (typeof block2.baseFeePerGas !== "bigint")
       throw new Eip1559FeesNotSupportedError();
-    const maxPriorityFeePerGas = gasPrice - block.baseFeePerGas;
+    const maxPriorityFeePerGas = gasPrice - block2.baseFeePerGas;
     if (maxPriorityFeePerGas < 0n)
       return 0n;
     return maxPriorityFeePerGas;
@@ -27589,7 +27589,7 @@ async function internal_estimateFeesPerGas(client, args) {
   const decimals = baseFeeMultiplier.toString().split(".")[1]?.length ?? 0;
   const denominator = 10 ** decimals;
   const multiply = (base) => base * BigInt(Math.round(baseFeeMultiplier * denominator)) / BigInt(denominator);
-  const block = block_ ? block_ : await getAction(client, getBlock, "getBlock")({});
+  const block2 = block_ ? block_ : await getAction(client, getBlock, "getBlock")({});
   if (typeof chain?.fees?.estimateFeesPerGas === "function") {
     const fees = await chain.fees.estimateFeesPerGas({
       block: block_,
@@ -27602,14 +27602,14 @@ async function internal_estimateFeesPerGas(client, args) {
       return fees;
   }
   if (type === "eip1559") {
-    if (typeof block.baseFeePerGas !== "bigint")
+    if (typeof block2.baseFeePerGas !== "bigint")
       throw new Eip1559FeesNotSupportedError();
     const maxPriorityFeePerGas = typeof request?.maxPriorityFeePerGas === "bigint" ? request.maxPriorityFeePerGas : await internal_estimateMaxPriorityFeePerGas(client, {
-      block,
+      block: block2,
       chain,
       request
     });
-    const baseFeePerGas = multiply(block.baseFeePerGas);
+    const baseFeePerGas = multiply(block2.baseFeePerGas);
     const maxFeePerGas = request?.maxFeePerGas ?? baseFeePerGas + maxPriorityFeePerGas;
     return {
       maxFeePerGas,
@@ -27651,7 +27651,7 @@ var init_formatBlockParameter = __esm({
 
 // ../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/actions/public/getTransactionCount.js
 async function getTransactionCount(client, { address: address2, blockHash, blockNumber, blockTag = "latest", requireCanonical }) {
-  const block = formatBlockParameter({
+  const block2 = formatBlockParameter({
     blockHash,
     blockNumber,
     blockTag,
@@ -27659,7 +27659,7 @@ async function getTransactionCount(client, { address: address2, blockHash, block
   });
   const count4 = await client.request({
     method: "eth_getTransactionCount",
-    params: [address2, block]
+    params: [address2, block2]
   }, {
     dedupe: typeof blockNumber === "bigint" || blockHash !== void 0
   });
@@ -27800,9 +27800,9 @@ var init_blob2 = __esm({
     init_kzg();
     init_base();
     BlobSizeTooLargeError = class extends BaseError2 {
-      constructor({ maxSize, size: size5 }) {
+      constructor({ maxSize, size: size6 }) {
         super("Blob size is too large.", {
-          metaMessages: [`Max: ${maxSize} bytes`, `Given: ${size5} bytes`],
+          metaMessages: [`Max: ${maxSize} bytes`, `Given: ${size6} bytes`],
           name: "BlobSizeTooLargeError"
         });
       }
@@ -27813,9 +27813,9 @@ var init_blob2 = __esm({
       }
     };
     InvalidVersionedHashSizeError = class extends BaseError2 {
-      constructor({ hash: hash10, size: size5 }) {
+      constructor({ hash: hash10, size: size6 }) {
         super(`Versioned hash "${hash10}" size is invalid.`, {
-          metaMessages: ["Expected: 32", `Received: ${size5}`],
+          metaMessages: ["Expected: 32", `Received: ${size6}`],
           name: "InvalidVersionedHashSizeError"
         });
       }
@@ -27851,8 +27851,8 @@ function toBlobs(parameters) {
   let position = 0;
   while (active) {
     const blob = createCursor(new Uint8Array(bytesPerBlob));
-    let size5 = 0;
-    while (size5 < fieldElementsPerBlob) {
+    let size6 = 0;
+    while (size6 < fieldElementsPerBlob) {
       const bytes2 = data.slice(position, position + (bytesPerFieldElement - 1));
       blob.pushByte(0);
       blob.pushBytes(bytes2);
@@ -27861,7 +27861,7 @@ function toBlobs(parameters) {
         active = false;
         break;
       }
-      size5++;
+      size6++;
       position += 31;
     }
     blobs.push(blob);
@@ -28036,9 +28036,9 @@ async function fillTransaction(client, parameters) {
         transaction.nonce = parameters.nonce ?? transaction.nonce;
       const feeMultiplier = await (async () => {
         if (typeof chain?.fees?.baseFeeMultiplier === "function") {
-          const block = await getAction(client, getBlock, "getBlock")({});
+          const block2 = await getAction(client, getBlock, "getBlock")({});
           return chain.fees.baseFeeMultiplier({
-            block,
+            block: block2,
             client,
             request: parameters
           });
@@ -28213,12 +28213,12 @@ async function prepareTransactionRequest(client, args) {
       phase: "beforeFillParameters"
     });
   }
-  let block;
+  let block2;
   async function getBlock2() {
-    if (block)
-      return block;
-    block = await getAction(client, getBlock, "getBlock")({ blockTag: "latest" });
-    return block;
+    if (block2)
+      return block2;
+    block2 = await getAction(client, getBlock, "getBlock")({ blockTag: "latest" });
+    return block2;
   }
   if (parameters.includes("nonce") && typeof nonce === "undefined" && account && !nonceManager2)
     request.nonce = await getAction(client, getTransactionCount, "getTransactionCount")({
@@ -28253,8 +28253,8 @@ async function prepareTransactionRequest(client, args) {
     } catch {
       let isEip1559Network = eip1559NetworkCache.get(client.uid);
       if (typeof isEip1559Network === "undefined") {
-        const block2 = await getBlock2();
-        isEip1559Network = typeof block2?.baseFeePerGas === "bigint";
+        const block3 = await getBlock2();
+        isEip1559Network = typeof block3?.baseFeePerGas === "bigint";
         eip1559NetworkCache.set(client.uid, isEip1559Network);
       }
       request.type = isEip1559Network ? "eip1559" : "legacy";
@@ -28263,9 +28263,9 @@ async function prepareTransactionRequest(client, args) {
   if (parameters.includes("fees")) {
     if (request.type !== "legacy" && request.type !== "eip2930") {
       if (typeof request.maxFeePerGas === "undefined" || typeof request.maxPriorityFeePerGas === "undefined") {
-        const block2 = await getBlock2();
+        const block3 = await getBlock2();
         const { maxFeePerGas, maxPriorityFeePerGas } = await internal_estimateFeesPerGas(client, {
-          block: block2,
+          block: block3,
           chain,
           request
         });
@@ -28280,9 +28280,9 @@ async function prepareTransactionRequest(client, args) {
       if (typeof request.maxFeePerGas !== "undefined" || typeof request.maxPriorityFeePerGas !== "undefined")
         throw new Eip1559FeesNotSupportedError();
       if (typeof request.gasPrice === "undefined") {
-        const block2 = await getBlock2();
+        const block3 = await getBlock2();
         const { gasPrice: gasPrice_ } = await internal_estimateFeesPerGas(client, {
-          block: block2,
+          block: block3,
           chain,
           request,
           type: "legacy"
@@ -28370,7 +28370,7 @@ async function estimateGas(client, args) {
     if (gas && args.gas !== gas)
       return gas;
     const blockNumberHex = typeof blockNumber === "bigint" ? numberToHex(blockNumber) : void 0;
-    const block = blockNumberHex || blockTag;
+    const block2 = blockNumberHex || blockTag;
     const rpcStateOverride = serializeStateOverride(stateOverride);
     assertRequest(args);
     const chainFormat = client.chain?.formatters?.transactionRequest?.format;
@@ -28396,9 +28396,9 @@ async function estimateGas(client, args) {
       method: "eth_estimateGas",
       params: rpcStateOverride ? [
         request,
-        block ?? client.experimental_blockTag ?? "latest",
+        block2 ?? client.experimental_blockTag ?? "latest",
         rpcStateOverride
-      ] : block ? [request, block] : [request]
+      ] : block2 ? [request, block2] : [request]
     }));
   } catch (err) {
     throw getEstimateGasError(err, {
@@ -29002,19 +29002,19 @@ function charCodeToBase162(char) {
   return void 0;
 }
 function pad2(bytes2, options2 = {}) {
-  const { dir, size: size5 = 32 } = options2;
-  if (size5 === 0)
+  const { dir, size: size6 = 32 } = options2;
+  if (size6 === 0)
     return bytes2;
-  if (bytes2.length > size5)
+  if (bytes2.length > size6)
     throw new SizeExceedsPaddingSizeError2({
       size: bytes2.length,
-      targetSize: size5,
+      targetSize: size6,
       type: "Bytes"
     });
-  const paddedBytes = new Uint8Array(size5);
-  for (let i = 0; i < size5; i++) {
+  const paddedBytes = new Uint8Array(size6);
+  for (let i = 0; i < size6; i++) {
     const padEnd = dir === "right";
-    paddedBytes[padEnd ? i : size5 - i - 1] = bytes2[padEnd ? i : bytes2.length - i - 1];
+    paddedBytes[padEnd ? i : size6 - i - 1] = bytes2[padEnd ? i : bytes2.length - i - 1];
   }
   return paddedBytes;
 }
@@ -29072,17 +29072,17 @@ function assertEndOffset3(value, start, end) {
   }
 }
 function pad3(hex_, options2 = {}) {
-  const { dir, size: size5 = 32 } = options2;
-  if (size5 === 0)
+  const { dir, size: size6 = 32 } = options2;
+  if (size6 === 0)
     return hex_;
   const hex2 = hex_.replace("0x", "");
-  if (hex2.length > size5 * 2)
+  if (hex2.length > size6 * 2)
     throw new SizeExceedsPaddingSizeError3({
       size: Math.ceil(hex2.length / 2),
-      targetSize: size5,
+      targetSize: size6,
       type: "Hex"
     });
-  return `0x${hex2[dir === "right" ? "padEnd" : "padStart"](size5 * 2, "0")}`;
+  return `0x${hex2[dir === "right" ? "padEnd" : "padStart"](size6 * 2, "0")}`;
 }
 function trim3(value, options2 = {}) {
   const { dir = "left" } = options2;
@@ -29148,11 +29148,11 @@ function fromArray(value) {
   return value instanceof Uint8Array ? value : new Uint8Array(value);
 }
 function fromHex2(value, options2 = {}) {
-  const { size: size5 } = options2;
+  const { size: size6 } = options2;
   let hex2 = value;
-  if (size5) {
-    assertSize3(value, size5);
-    hex2 = padRight(value, size5);
+  if (size6) {
+    assertSize3(value, size6);
+    hex2 = padRight(value, size6);
   }
   let hexString = hex2.slice(2);
   if (hexString.length % 2)
@@ -29170,16 +29170,16 @@ function fromHex2(value, options2 = {}) {
   return bytes2;
 }
 function fromString(value, options2 = {}) {
-  const { size: size5 } = options2;
+  const { size: size6 } = options2;
   const bytes2 = encoder3.encode(value);
-  if (typeof size5 === "number") {
-    assertSize2(bytes2, size5);
-    return padRight2(bytes2, size5);
+  if (typeof size6 === "number") {
+    assertSize2(bytes2, size6);
+    return padRight2(bytes2, size6);
   }
   return bytes2;
 }
-function padRight2(value, size5) {
-  return pad2(value, { dir: "right", size: size5 });
+function padRight2(value, size6) {
+  return pad2(value, { dir: "right", size: size6 });
 }
 function size2(value) {
   return value.length;
@@ -29193,17 +29193,17 @@ function slice2(value, start, end, options2 = {}) {
   return value_;
 }
 function toBigInt2(bytes2, options2 = {}) {
-  const { size: size5 } = options2;
-  if (typeof size5 !== "undefined")
-    assertSize2(bytes2, size5);
+  const { size: size6 } = options2;
+  if (typeof size6 !== "undefined")
+    assertSize2(bytes2, size6);
   const hex2 = fromBytes2(bytes2, options2);
   return toBigInt(hex2, options2);
 }
 function toBoolean(bytes2, options2 = {}) {
-  const { size: size5 } = options2;
+  const { size: size6 } = options2;
   let bytes_ = bytes2;
-  if (typeof size5 !== "undefined") {
-    assertSize2(bytes_, size5);
+  if (typeof size6 !== "undefined") {
+    assertSize2(bytes_, size6);
     bytes_ = trimLeft(bytes_);
   }
   if (bytes_.length > 1 || bytes_[0] > 1)
@@ -29211,17 +29211,17 @@ function toBoolean(bytes2, options2 = {}) {
   return Boolean(bytes_[0]);
 }
 function toNumber2(bytes2, options2 = {}) {
-  const { size: size5 } = options2;
-  if (typeof size5 !== "undefined")
-    assertSize2(bytes2, size5);
+  const { size: size6 } = options2;
+  if (typeof size6 !== "undefined")
+    assertSize2(bytes2, size6);
   const hex2 = fromBytes2(bytes2, options2);
   return toNumber(hex2, options2);
 }
 function toString(bytes2, options2 = {}) {
-  const { size: size5 } = options2;
+  const { size: size6 } = options2;
   let bytes_ = bytes2;
-  if (typeof size5 !== "undefined") {
-    assertSize2(bytes_, size5);
+  if (typeof size6 !== "undefined") {
+    assertSize2(bytes_, size6);
     bytes_ = trimRight(bytes_);
   }
   return decoder.decode(bytes_);
@@ -29290,8 +29290,8 @@ var init_Bytes = __esm({
       }
     };
     SliceOffsetOutOfBoundsError2 = class extends BaseError3 {
-      constructor({ offset: offset2, position, size: size5 }) {
-        super(`Slice ${position === "start" ? "starting" : "ending"} at offset \`${offset2}\` is out-of-bounds (size: \`${size5}\`).`);
+      constructor({ offset: offset2, position, size: size6 }) {
+        super(`Slice ${position === "start" ? "starting" : "ending"} at offset \`${offset2}\` is out-of-bounds (size: \`${size6}\`).`);
         Object.defineProperty(this, "name", {
           enumerable: true,
           configurable: true,
@@ -29301,8 +29301,8 @@ var init_Bytes = __esm({
       }
     };
     SizeExceedsPaddingSizeError2 = class extends BaseError3 {
-      constructor({ size: size5, targetSize, type }) {
-        super(`${type.charAt(0).toUpperCase()}${type.slice(1).toLowerCase()} size (\`${size5}\`) exceeds padding size (\`${targetSize}\`).`);
+      constructor({ size: size6, targetSize, type }) {
+        super(`${type.charAt(0).toUpperCase()}${type.slice(1).toLowerCase()} size (\`${size6}\`) exceeds padding size (\`${targetSize}\`).`);
         Object.defineProperty(this, "name", {
           enumerable: true,
           configurable: true,
@@ -29358,14 +29358,14 @@ function fromBytes2(value, options2 = {}) {
   return hex2;
 }
 function fromNumber(value, options2 = {}) {
-  const { signed, size: size5 } = options2;
+  const { signed, size: size6 } = options2;
   const value_ = BigInt(value);
   let maxValue;
-  if (size5) {
+  if (size6) {
     if (signed)
-      maxValue = (1n << BigInt(size5) * 8n - 1n) - 1n;
+      maxValue = (1n << BigInt(size6) * 8n - 1n) - 1n;
     else
-      maxValue = 2n ** (BigInt(size5) * 8n) - 1n;
+      maxValue = 2n ** (BigInt(size6) * 8n) - 1n;
   } else if (typeof value === "number") {
     maxValue = BigInt(Number.MAX_SAFE_INTEGER);
   }
@@ -29376,24 +29376,24 @@ function fromNumber(value, options2 = {}) {
       max: maxValue ? `${maxValue}${suffix}` : void 0,
       min: `${minValue}${suffix}`,
       signed,
-      size: size5,
+      size: size6,
       value: `${value}${suffix}`
     });
   }
-  const stringValue = (signed && value_ < 0 ? BigInt.asUintN(size5 * 8, BigInt(value_)) : value_).toString(16);
+  const stringValue = (signed && value_ < 0 ? BigInt.asUintN(size6 * 8, BigInt(value_)) : value_).toString(16);
   const hex2 = `0x${stringValue}`;
-  if (size5)
-    return padLeft(hex2, size5);
+  if (size6)
+    return padLeft(hex2, size6);
   return hex2;
 }
 function fromString2(value, options2 = {}) {
   return fromBytes2(encoder4.encode(value), options2);
 }
-function padLeft(value, size5) {
-  return pad3(value, { dir: "left", size: size5 });
+function padLeft(value, size6) {
+  return pad3(value, { dir: "left", size: size6 });
 }
-function padRight(value, size5) {
-  return pad3(value, { dir: "right", size: size5 });
+function padRight(value, size6) {
+  return pad3(value, { dir: "right", size: size6 });
 }
 function slice3(value, start, end, options2 = {}) {
   const { strict } = options2;
@@ -29416,16 +29416,16 @@ function toBigInt(hex2, options2 = {}) {
   const value = BigInt(hex2);
   if (!signed)
     return value;
-  const size5 = (hex2.length - 2) / 2;
-  const max_unsigned = (1n << BigInt(size5) * 8n) - 1n;
+  const size6 = (hex2.length - 2) / 2;
+  const max_unsigned = (1n << BigInt(size6) * 8n) - 1n;
   const max_signed = max_unsigned >> 1n;
   if (value <= max_signed)
     return value;
   return value - max_unsigned - 1n;
 }
 function toNumber(hex2, options2 = {}) {
-  const { signed, size: size5 } = options2;
-  if (!signed && !size5)
+  const { signed, size: size6 } = options2;
+  if (!signed && !size6)
     return Number(hex2);
   return Number(toBigInt(hex2, options2));
 }
@@ -29447,8 +29447,8 @@ var init_Hex = __esm({
     encoder4 = /* @__PURE__ */ new TextEncoder();
     hexes3 = /* @__PURE__ */ Array.from({ length: 256 }, (_v, i) => i.toString(16).padStart(2, "0"));
     IntegerOutOfRangeError2 = class extends BaseError3 {
-      constructor({ max, min, signed, size: size5, value }) {
-        super(`Number \`${value}\` is not in safe${size5 ? ` ${size5 * 8}-bit` : ""}${signed ? " signed" : " unsigned"} integer range ${max ? `(\`${min}\` to \`${max}\`)` : `(above \`${min}\`)`}`);
+      constructor({ max, min, signed, size: size6, value }) {
+        super(`Number \`${value}\` is not in safe${size6 ? ` ${size6 * 8}-bit` : ""}${signed ? " signed" : " unsigned"} integer range ${max ? `(\`${min}\` to \`${max}\`)` : `(above \`${min}\`)`}`);
         Object.defineProperty(this, "name", {
           enumerable: true,
           configurable: true,
@@ -29497,8 +29497,8 @@ var init_Hex = __esm({
       }
     };
     SliceOffsetOutOfBoundsError3 = class extends BaseError3 {
-      constructor({ offset: offset2, position, size: size5 }) {
-        super(`Slice ${position === "start" ? "starting" : "ending"} at offset \`${offset2}\` is out-of-bounds (size: \`${size5}\`).`);
+      constructor({ offset: offset2, position, size: size6 }) {
+        super(`Slice ${position === "start" ? "starting" : "ending"} at offset \`${offset2}\` is out-of-bounds (size: \`${size6}\`).`);
         Object.defineProperty(this, "name", {
           enumerable: true,
           configurable: true,
@@ -29508,8 +29508,8 @@ var init_Hex = __esm({
       }
     };
     SizeExceedsPaddingSizeError3 = class extends BaseError3 {
-      constructor({ size: size5, targetSize, type }) {
-        super(`${type.charAt(0).toUpperCase()}${type.slice(1).toLowerCase()} size (\`${size5}\`) exceeds padding size (\`${targetSize}\`).`);
+      constructor({ size: size6, targetSize, type }) {
+        super(`${type.charAt(0).toUpperCase()}${type.slice(1).toLowerCase()} size (\`${size6}\`) exceeds padding size (\`${targetSize}\`).`);
         Object.defineProperty(this, "name", {
           enumerable: true,
           configurable: true,
@@ -32121,7 +32121,7 @@ async function call(client, args) {
   })();
   try {
     assertRequest(args);
-    const block = formatBlockParameter({
+    const block2 = formatBlockParameter({
       blockHash,
       blockNumber,
       blockTag,
@@ -32174,7 +32174,7 @@ async function call(client, args) {
     const params = (() => {
       const base = [
         request,
-        block
+        block2
       ];
       if (rpcStateOverride && rpcBlockOverrides)
         return [...base, rpcStateOverride, rpcBlockOverrides];
@@ -32240,20 +32240,20 @@ async function scheduleMulticall(client, args) {
     blockNumber,
     deployless
   });
-  const block = formatBlockParameter({
+  const block2 = formatBlockParameter({
     blockHash,
     blockNumber,
     blockTag,
     requireCanonical
   });
-  const blockId = typeof block === "string" ? block : JSON.stringify(block);
+  const blockId = typeof block2 === "string" ? block2 : JSON.stringify(block2);
   const stateOverrideKey = rpcStateOverride ? `.${JSON.stringify(rpcStateOverride)}` : "";
   const { schedule } = createBatchScheduler({
     id: `${client.uid}.${blockId}.${getRequestOptionsId(requestOptions)}${stateOverrideKey}`,
     wait: wait2,
     shouldSplitBatch(args2) {
-      const size5 = args2.reduce((size6, { data: data2 }) => size6 + (data2.length - 2), 0);
-      return size5 > batchSize * 2;
+      const size6 = args2.reduce((size7, { data: data2 }) => size7 + (data2.length - 2), 0);
+      return size6 > batchSize * 2;
     },
     fn: async (requests) => {
       const calls = requests.map((request) => ({
@@ -32276,7 +32276,7 @@ async function scheduleMulticall(client, args) {
       };
       const data2 = await client.request({
         method: "eth_call",
-        params: rpcStateOverride ? [multicallRequest, block, rpcStateOverride] : [multicallRequest, block]
+        params: rpcStateOverride ? [multicallRequest, block2, rpcStateOverride] : [multicallRequest, block2]
       }, requestOptions);
       return decodeFunctionResult({
         abi: multicall3Abi,
@@ -34542,7 +34542,7 @@ async function createAccessList(client, args) {
   try {
     assertRequest(args);
     const blockNumberHex = typeof blockNumber === "bigint" ? numberToHex(blockNumber) : void 0;
-    const block = blockNumberHex || blockTag;
+    const block2 = blockNumberHex || blockTag;
     const chainFormat = client.chain?.formatters?.transactionRequest?.format;
     const format2 = chainFormat || formatTransactionRequest;
     const request = format2({
@@ -34561,7 +34561,7 @@ async function createAccessList(client, args) {
     }, "createAccessList");
     const response2 = await client.request({
       method: "eth_createAccessList",
-      params: [request, block]
+      params: [request, block2]
     });
     if (response2.error)
       throw new BaseError2(response2.error, { details: response2.error });
@@ -34671,7 +34671,7 @@ var init_createPendingTransactionFilter = __esm({
 
 // ../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/actions/public/getBalance.js
 async function getBalance(client, { address: address2, blockHash, blockNumber, blockTag = client.experimental_blockTag ?? "latest", requireCanonical }) {
-  const block = formatBlockParameter({
+  const block2 = formatBlockParameter({
     blockHash,
     blockNumber,
     blockTag,
@@ -34701,7 +34701,7 @@ async function getBalance(client, { address: address2, blockHash, blockNumber, b
   }
   const balance = await client.request({
     method: "eth_getBalance",
-    params: [address2, block]
+    params: [address2, block2]
   });
   return BigInt(balance);
 }
@@ -34774,7 +34774,7 @@ var init_getBlockTransactionCount = __esm({
 
 // ../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/actions/public/getCode.js
 async function getCode(client, { address: address2, blockHash, blockNumber, blockTag = "latest", requireCanonical }) {
-  const block = formatBlockParameter({
+  const block2 = formatBlockParameter({
     blockHash,
     blockNumber,
     blockTag,
@@ -34782,7 +34782,7 @@ async function getCode(client, { address: address2, blockHash, blockNumber, bloc
   });
   const hex2 = await client.request({
     method: "eth_getCode",
-    params: [address2, block]
+    params: [address2, block2]
   }, {
     dedupe: typeof blockNumber === "bigint" || blockHash !== void 0
   });
@@ -34986,18 +34986,18 @@ function encode2(type, value, isArray = false) {
   const intMatch = type.match(integerRegex2);
   if (intMatch) {
     const [_type, baseType, bits = "256"] = intMatch;
-    const size5 = Number.parseInt(bits, 10) / 8;
+    const size6 = Number.parseInt(bits, 10) / 8;
     return numberToHex(value, {
-      size: isArray ? 32 : size5,
+      size: isArray ? 32 : size6,
       signed: baseType === "int"
     });
   }
   const bytesMatch = type.match(bytesRegex2);
   if (bytesMatch) {
-    const [_type, size5] = bytesMatch;
-    if (Number.parseInt(size5, 10) !== (value.length - 2) / 2)
+    const [_type, size6] = bytesMatch;
+    if (Number.parseInt(size6, 10) !== (value.length - 2) / 2)
       throw new BytesSizeMismatchError({
-        expectedSize: Number.parseInt(size5, 10),
+        expectedSize: Number.parseInt(size6, 10),
         givenSize: (value.length - 2) / 2
       });
     return pad(value, { dir: "right", size: isArray ? 32 : null });
@@ -36259,38 +36259,38 @@ async function readResponseBody(response2, { maxResponseBodySize }) {
     return response2.text();
   const contentLength = response2.headers.get("Content-Length");
   if (contentLength) {
-    const size6 = Number(contentLength);
-    if (size6 > maxResponseBodySize)
+    const size7 = Number(contentLength);
+    if (size7 > maxResponseBodySize)
       throw new ResponseBodyTooLargeError({
         maxSize: maxResponseBodySize,
-        size: size6
+        size: size7
       });
   }
   if (!response2.body) {
     const body2 = await response2.text();
-    const size6 = new TextEncoder().encode(body2).length;
-    if (size6 > maxResponseBodySize)
+    const size7 = new TextEncoder().encode(body2).length;
+    if (size7 > maxResponseBodySize)
       throw new ResponseBodyTooLargeError({
         maxSize: maxResponseBodySize,
-        size: size6
+        size: size7
       });
     return body2;
   }
   const reader = response2.body.getReader();
   const decoder2 = new TextDecoder();
   let body = "";
-  let size5 = 0;
+  let size6 = 0;
   try {
     while (true) {
       const { done, value } = await reader.read();
       if (done)
         break;
-      size5 += value.byteLength;
-      if (size5 > maxResponseBodySize) {
+      size6 += value.byteLength;
+      if (size6 > maxResponseBodySize) {
         await reader.cancel();
         throw new ResponseBodyTooLargeError({
           maxSize: maxResponseBodySize,
-          size: size5
+          size: size6
         });
       }
       body += decoder2.decode(value, { stream: true });
@@ -40690,7 +40690,7 @@ var LruMap2;
 var init_lru2 = __esm({
   "../node_modules/.pnpm/ox@0.14.45_typescript@5.9.3_zod@3.25.76/node_modules/ox/_esm/core/internal/lru.js"() {
     LruMap2 = class extends Map {
-      constructor(size5) {
+      constructor(size6) {
         super();
         Object.defineProperty(this, "maxSize", {
           enumerable: true,
@@ -40698,7 +40698,7 @@ var init_lru2 = __esm({
           writable: true,
           value: void 0
         });
-        this.maxSize = size5;
+        this.maxSize = size6;
       }
       get(key) {
         const value = super.get(key);
@@ -41210,8 +41210,8 @@ function decodeBool2(cursor) {
   return [toBoolean(cursor.readBytes(32), { size: 32 }), 32];
 }
 function decodeBytes2(cursor, param, { staticPosition }) {
-  const [_2, size5] = param.type.split("bytes");
-  if (!size5) {
+  const [_2, size6] = param.type.split("bytes");
+  if (!size6) {
     const offset2 = toNumber2(cursor.readBytes(32));
     cursor.setPosition(staticPosition + offset2);
     const length = toNumber2(cursor.readBytes(32));
@@ -41223,15 +41223,15 @@ function decodeBytes2(cursor, param, { staticPosition }) {
     cursor.setPosition(staticPosition + 32);
     return [fromBytes2(data), 32];
   }
-  const value = fromBytes2(cursor.readBytes(Number.parseInt(size5, 10), 32));
+  const value = fromBytes2(cursor.readBytes(Number.parseInt(size6, 10), 32));
   return [value, 32];
 }
 function decodeNumber2(cursor, param) {
   const signed = param.type.startsWith("int");
-  const size5 = Number.parseInt(param.type.split("int")[1] || "256", 10);
+  const size6 = Number.parseInt(param.type.split("int")[1] || "256", 10);
   const value = cursor.readBytes(32);
   return [
-    size5 > 48 ? toBigInt2(value, { signed }) : toNumber2(value, { signed }),
+    size6 > 48 ? toBigInt2(value, { signed }) : toNumber2(value, { signed }),
     32
   ];
 }
@@ -41322,10 +41322,10 @@ function prepareParameter({ checksumAddress: checksumAddress2 = false, parameter
   }
   if (parameter.type.startsWith("uint") || parameter.type.startsWith("int")) {
     const signed = parameter.type.startsWith("int");
-    const [, , size5 = "256"] = integerRegex3.exec(parameter.type) ?? [];
+    const [, , size6 = "256"] = integerRegex3.exec(parameter.type) ?? [];
     return encodeNumber2(value, {
       signed,
-      size: Number(size5)
+      size: Number(size6)
     });
   }
   if (parameter.type.startsWith("bytes")) {
@@ -41432,16 +41432,16 @@ function encodeBoolean(value) {
     throw new BaseError3(`Invalid boolean value: "${value}" (type: ${typeof value}). Expected: \`true\` or \`false\`.`);
   return { dynamic: false, encoded: padLeft(fromBoolean(value)) };
 }
-function encodeNumber2(value, { signed, size: size5 }) {
-  if (typeof size5 === "number") {
-    const max = 2n ** (BigInt(size5) - (signed ? 1n : 0n)) - 1n;
+function encodeNumber2(value, { signed, size: size6 }) {
+  if (typeof size6 === "number") {
+    const max = 2n ** (BigInt(size6) - (signed ? 1n : 0n)) - 1n;
     const min = signed ? -max - 1n : 0n;
     if (value > max || value < min)
       throw new IntegerOutOfRangeError2({
         max: max.toString(),
         min: min.toString(),
         signed,
-        size: size5 / 8,
+        size: size6 / 8,
         value: value.toString()
       });
   }
@@ -41644,11 +41644,11 @@ var init_cursor3 = __esm({
         this.position++;
         return value;
       },
-      readBytes(length, size5) {
+      readBytes(length, size6) {
         this.assertReadLimit();
         this._touch();
         const value = this.inspectBytes(length);
-        this.position += size5 ?? length;
+        this.position += size6 ?? length;
         return value;
       },
       readUint8() {
@@ -41829,18 +41829,18 @@ var init_AbiParameters = __esm({
         const intMatch = type.match(integerRegex3);
         if (intMatch) {
           const [_type, baseType, bits = "256"] = intMatch;
-          const size5 = Number.parseInt(bits, 10) / 8;
+          const size6 = Number.parseInt(bits, 10) / 8;
           return fromNumber(value, {
-            size: isArray ? 32 : size5,
+            size: isArray ? 32 : size6,
             signed: baseType === "int"
           });
         }
         const bytesMatch = type.match(bytesRegex3);
         if (bytesMatch) {
-          const [_type, size5] = bytesMatch;
-          if (Number.parseInt(size5, 10) !== (value.length - 2) / 2)
+          const [_type, size6] = bytesMatch;
+          if (Number.parseInt(size6, 10) !== (value.length - 2) / 2)
             throw new BytesSizeMismatchError2({
-              expectedSize: Number.parseInt(size5, 10),
+              expectedSize: Number.parseInt(size6, 10),
               value
             });
           return padRight(value, isArray ? 32 : 0);
@@ -41861,11 +41861,11 @@ var init_AbiParameters = __esm({
       encodePacked3.encode = encode7;
     })(encodePacked2 || (encodePacked2 = {}));
     DataSizeTooSmallError = class extends BaseError3 {
-      constructor({ data, parameters, size: size5 }) {
-        super(`Data size of ${size5} bytes is too small for given parameters.`, {
+      constructor({ data, parameters, size: size6 }) {
+        super(`Data size of ${size6} bytes is too small for given parameters.`, {
           metaMessages: [
             `Params: (${formatAbiParameters(parameters)})`,
-            `Data:   ${data} (${size5} bytes)`
+            `Data:   ${data} (${size6} bytes)`
           ]
         });
         Object.defineProperty(this, "name", {
@@ -43013,7 +43013,7 @@ var init_proof = __esm({
 
 // ../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/actions/public/getProof.js
 async function getProof(client, { address: address2, blockHash, blockNumber, blockTag = "latest", requireCanonical, storageKeys }) {
-  const block = formatBlockParameter({
+  const block2 = formatBlockParameter({
     blockHash,
     blockNumber,
     blockTag,
@@ -43021,7 +43021,7 @@ async function getProof(client, { address: address2, blockHash, blockNumber, blo
   });
   const proof = await client.request({
     method: "eth_getProof",
-    params: [address2, storageKeys, block]
+    params: [address2, storageKeys, block2]
   });
   return formatProof(proof);
 }
@@ -43050,7 +43050,7 @@ var init_getRawTransaction = __esm({
 
 // ../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/actions/public/getStorageAt.js
 async function getStorageAt(client, { address: address2, blockHash, blockNumber, blockTag = "latest", requireCanonical, slot }) {
-  const block = formatBlockParameter({
+  const block2 = formatBlockParameter({
     blockHash,
     blockNumber,
     blockTag,
@@ -43058,7 +43058,7 @@ async function getStorageAt(client, { address: address2, blockHash, blockNumber,
   });
   const data = await client.request({
     method: "eth_getStorageAt",
-    params: [address2, slot, block]
+    params: [address2, slot, block2]
   });
   return data;
 }
@@ -43070,7 +43070,7 @@ var init_getStorageAt = __esm({
 
 // ../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/actions/public/getStorageValues.js
 async function getStorageValues(client, { blockHash, blockNumber, blockTag = "latest", requireCanonical, requests }) {
-  const block = formatBlockParameter({
+  const block2 = formatBlockParameter({
     blockHash,
     blockNumber,
     blockTag,
@@ -43078,7 +43078,7 @@ async function getStorageValues(client, { blockHash, blockNumber, blockTag = "la
   });
   return client.request({
     method: "eth_getStorageValues",
-    params: [requests, block]
+    params: [requests, block2]
   });
 }
 var init_getStorageValues = __esm({
@@ -43328,8 +43328,8 @@ async function scheduleMulticall2(client, parameters) {
     shouldSplitBatch(calls) {
       if (batchSize === 0)
         return false;
-      const size5 = calls.reduce((size6, { callData }) => size6 + (callData.length - 2) / 2, 0);
-      return size5 > batchSize;
+      const size6 = calls.reduce((size7, { callData }) => size7 + (callData.length - 2) / 2, 0);
+      return size6 > batchSize;
     },
     fn: (calls) => getAction(client, readContract, "readContract")({
       ...multicallAddress === null ? { code: multicall3Bytecode } : { address: multicallAddress },
@@ -43365,9 +43365,9 @@ async function simulateBlocks(client, parameters) {
   const { blockNumber, blockTag = client.experimental_blockTag ?? "latest", blocks, returnFullTransactions, traceTransfers, validation } = parameters;
   try {
     const blockStateCalls = [];
-    for (const block2 of blocks) {
-      const blockOverrides = block2.blockOverrides ? toRpc2(block2.blockOverrides) : void 0;
-      const calls = block2.calls.map((call_) => {
+    for (const block3 of blocks) {
+      const blockOverrides = block3.blockOverrides ? toRpc2(block3.blockOverrides) : void 0;
+      const calls = block3.calls.map((call_) => {
         const call2 = call_;
         const account = call2.account ? parseAccount(call2.account) : void 0;
         const data = call2.abi ? encodeFunctionData(call2) : call2.data;
@@ -43380,7 +43380,7 @@ async function simulateBlocks(client, parameters) {
         assertRequest(request);
         return formatTransactionRequest(request);
       });
-      const stateOverrides = block2.stateOverrides ? serializeStateOverride(block2.stateOverrides) : void 0;
+      const stateOverrides = block3.stateOverrides ? serializeStateOverride(block3.stateOverrides) : void 0;
       blockStateCalls.push({
         blockOverrides,
         calls,
@@ -43388,17 +43388,17 @@ async function simulateBlocks(client, parameters) {
       });
     }
     const blockNumberHex = typeof blockNumber === "bigint" ? numberToHex(blockNumber) : void 0;
-    const block = blockNumberHex || blockTag;
+    const block2 = blockNumberHex || blockTag;
     const result = await client.request({
       method: "eth_simulateV1",
       params: [
         { blockStateCalls, returnFullTransactions, traceTransfers, validation },
-        block
+        block2
       ]
     });
-    return result.map((block2, i) => ({
-      ...formatBlock(block2),
-      calls: block2.calls.map((call2, j2) => {
+    return result.map((block3, i) => ({
+      ...formatBlock(block3),
+      calls: block3.calls.map((call2, j2) => {
         const { abi: abi2, args, functionName, to } = blocks[i].calls[j2];
         const data = call2.error?.data ?? call2.returnData;
         const gasUsed = BigInt(call2.gasUsed);
@@ -43878,10 +43878,10 @@ async function simulateCalls(client, parameters) {
     if (blockTag_ === "latest")
       baseBlockNumber = await getBlockNumber(client, { cacheTime: 0 });
     else {
-      const block2 = await getBlock(client, { blockTag: blockTag_ });
-      if (typeof block2.number !== "bigint")
+      const block3 = await getBlock(client, { blockTag: blockTag_ });
+      if (typeof block3.number !== "bigint")
         throw new BaseError2(`Block tag \`${blockTag_}\` did not resolve to a number.`);
-      baseBlockNumber = block2.number;
+      baseBlockNumber = block3.number;
     }
   }
   const block_ = typeof baseBlockNumber === "bigint" ? { blockNumber: baseBlockNumber } : { blockTag: blockTag_ };
@@ -43996,7 +43996,7 @@ async function simulateCalls(client, parameters) {
   ]);
   const block_results = blocks[0];
   const [block_ethPost, block_assetsPost, block_decimals, block_tokenURI, block_symbols] = traceAssetChanges ? blocks.slice(1) : [];
-  const { calls: block_calls, ...block } = block_results;
+  const { calls: block_calls, ...block2 } = block_results;
   const results = block_calls.slice(0, -1);
   const balancesPre = balanceCallsPre.map((call2) => isBalance(call2) ? hexToBigInt(call2.data) : null);
   const ethPost = block_ethPost?.calls ?? [];
@@ -44042,7 +44042,7 @@ async function simulateCalls(client, parameters) {
   }
   return {
     assetChanges: changes,
-    block,
+    block: block2,
     results
   };
 }
@@ -44709,7 +44709,7 @@ async function waitForTransactionReceipt(client, parameters) {
             try {
               replacedTransaction = transaction;
               retrying = true;
-              const block = await withRetry(() => getAction(client, getBlock, "getBlock")({
+              const block2 = await withRetry(() => getAction(client, getBlock, "getBlock")({
                 blockNumber,
                 includeTransactions: true
               }), {
@@ -44718,7 +44718,7 @@ async function waitForTransactionReceipt(client, parameters) {
                 shouldRetry: ({ error: error40 }) => error40 instanceof BlockNotFoundError
               });
               retrying = false;
-              const replacementTransaction = block.transactions.find(({ from: from16, hash: hash11, nonce }) => from16 === replacedTransaction.from && hash11 !== replacedTransaction.hash && nonce === replacedTransaction.nonce);
+              const replacementTransaction = block2.transactions.find(({ from: from16, hash: hash11, nonce }) => from16 === replacedTransaction.from && hash11 !== replacedTransaction.hash && nonce === replacedTransaction.nonce);
               if (!replacementTransaction)
                 return;
               receipt = await getAction(client, getTransactionReceipt, "getTransactionReceipt")({
@@ -44856,33 +44856,33 @@ function watchBlocks(client, { blockTag = client.experimental_blockTag ?? "lates
     ]);
     return observe(observerId, { onBlock, onError }, (emit) => poll(async () => {
       try {
-        const block = await getAction(client, getBlock, "getBlock")({
+        const block2 = await getAction(client, getBlock, "getBlock")({
           blockTag,
           includeTransactions
         });
-        if (block.number !== null && prevBlock?.number != null) {
-          if (block.number === prevBlock.number)
+        if (block2.number !== null && prevBlock?.number != null) {
+          if (block2.number === prevBlock.number)
             return;
-          if (block.number - prevBlock.number > 1 && emitMissed) {
-            for (let i = prevBlock?.number + 1n; i < block.number; i++) {
-              const block2 = await getAction(client, getBlock, "getBlock")({
+          if (block2.number - prevBlock.number > 1 && emitMissed) {
+            for (let i = prevBlock?.number + 1n; i < block2.number; i++) {
+              const block3 = await getAction(client, getBlock, "getBlock")({
                 blockNumber: i,
                 includeTransactions
               });
-              emit.onBlock(block2, prevBlock);
-              prevBlock = block2;
+              emit.onBlock(block3, prevBlock);
+              prevBlock = block3;
             }
           }
         }
         if (
           // If no previous block exists, emit.
           prevBlock?.number == null || // If the block tag is "pending" with no block number, emit.
-          blockTag === "pending" && block?.number == null || // If the next block number is greater than the previous block number, emit.
+          blockTag === "pending" && block2?.number == null || // If the next block number is greater than the previous block number, emit.
           // We don't want to emit blocks in the past.
-          block.number !== null && block.number > prevBlock.number
+          block2.number !== null && block2.number > prevBlock.number
         ) {
-          emit.onBlock(block, prevBlock);
-          prevBlock = block;
+          emit.onBlock(block2, prevBlock);
+          prevBlock = block2;
         }
       } catch (err) {
         emit.onError?.(err);
@@ -44902,12 +44902,12 @@ function watchBlocks(client, { blockTag = client.experimental_blockTag ?? "lates
           getAction(client, getBlock, "getBlock")({
             blockTag,
             includeTransactions
-          }).then((block) => {
+          }).then((block2) => {
             if (!active)
               return;
             if (!emitFetched)
               return;
-            onBlock(block, void 0);
+            onBlock(block2, void 0);
             emitFetched = false;
           }).catch(onError);
         }
@@ -44925,16 +44925,16 @@ function watchBlocks(client, { blockTag = client.experimental_blockTag ?? "lates
           async onData(data) {
             if (!active)
               return;
-            const block = await getAction(client, getBlock, "getBlock")({
+            const block2 = await getAction(client, getBlock, "getBlock")({
               blockNumber: data.result?.number,
               includeTransactions
             }).catch(() => {
             });
             if (!active)
               return;
-            onBlock(block, prevBlock);
+            onBlock(block2, prevBlock);
             emitFetched = false;
-            prevBlock = block;
+            prevBlock = block2;
           },
           onError(error40) {
             onError?.(error40);
@@ -49582,13 +49582,13 @@ var require_yauzl = __commonJS({
             while (cursor < data.length + 4) {
               var tag = data.readUInt16LE(cursor);
               cursor += 2;
-              var size5 = data.readUInt16LE(cursor);
+              var size6 = data.readUInt16LE(cursor);
               cursor += 2;
               if (tag !== 1) {
-                cursor += size5;
+                cursor += size6;
                 continue;
               }
-              if (size5 < 8 || cursor + size5 > data.length) break;
+              if (size6 < 8 || cursor + size6 > data.length) break;
               var hundredNanoSecondsSince1601 = 4294967296 * data.readInt32LE(cursor + 4) + data.readUInt32LE(cursor);
               var millisecondsSince1970 = hundredNanoSecondsSince1601 / 1e4 - 116444736e5;
               return new Date(millisecondsSince1970);
@@ -54747,8 +54747,8 @@ var ZodSet2 = class _ZodSet extends ZodType2 {
       maxSize: { value: maxSize, message: errorUtil.toString(message2) }
     });
   }
-  size(size5, message2) {
-    return this.min(size5, message2).max(size5, message2);
+  size(size6, message2) {
+    return this.min(size6, message2).max(size6, message2);
   }
   nonempty(message2) {
     return this.min(1, message2);
@@ -58967,10 +58967,10 @@ function cliToolValue(result, tool, input2) {
   const content2 = result.content;
   if (Array.isArray(content2) && content2.length > 1) {
     if (result.isError || content2.length !== 2) throw new Error("operation-failed");
-    const values = content2.map((block) => {
-      if (block.type !== "text" || typeof block.text !== "string")
+    const values = content2.map((block2) => {
+      if (block2.type !== "text" || typeof block2.text !== "string")
         throw new Error("operation-failed");
-      return JSON.parse(block.text);
+      return JSON.parse(block2.text);
     });
     if (!accountNotice(values[1])) throw new Error("operation-failed");
     return result;
@@ -60864,7 +60864,9 @@ function approvalDetails(values, depth = 0) {
   const indent = "  ".repeat(depth);
   return Object.entries(values).map(([key, value]) => {
     const label = key.replace(/_/g, " ").replace(/([a-z])([A-Z])/g, "$1 $2");
-    const title = approvalValue(label.charAt(0).toUpperCase() + label.slice(1)).replace(/\n/g, "\\n").slice(1, -1);
+    const title = approvalValue(
+      (label.charAt(0).toUpperCase() + label.slice(1)).replace(/\bid\b/gi, "ID").replace(/\burl\b/gi, "URL")
+    ).replace(/\n/g, "\\n").slice(1, -1);
     if (value !== null && typeof value === "object") {
       const entries = Array.isArray(value) ? Object.fromEntries(value.map((item, index2) => [`Item ${index2 + 1}`, item])) : value;
       return `${indent}${title}:${Object.keys(entries).length ? `
@@ -60873,6 +60875,114 @@ ${approvalDetails(entries, depth + 1)}` : " None"}`;
     const text2 = typeof value === "string" ? approvalValue(value) : value == null ? "None" : typeof value === "boolean" ? value ? "Yes" : "No" : String(value);
     return `${indent}${title}: ${text2}`;
   }).join("\n");
+}
+var UNSAFE = /[\u0000-\u0008\u000b-\u001f\u007f\u202a-\u202e\u2066-\u2069]/g;
+function quoteBlock(text2) {
+  return text2.replace(/\r\n?/g, "\n").replace(UNSAFE, (c) => `\\u${c.charCodeAt(0).toString(16).padStart(4, "0")}`).split("\n").map((line) => `> ${line}`.trimEnd()).join("\n");
+}
+function approvalHost(origin) {
+  try {
+    return new URL(origin).host;
+  } catch {
+    return approvalValue(origin);
+  }
+}
+function approvalSite(origin) {
+  return approvalHost(origin) === "subnano.ai" ? "" : `Site: ${approvalHost(origin)}
+`;
+}
+var BINDING_KEY = /^(intent_?id|command_?id|idempotency_?key|request_?key|revision|expected_\w+|snapshot_?digest|\w+_digest|\w+_sha256)$/i;
+function approvalInput(input2) {
+  if (input2 === void 0 || input2 === null) return "";
+  if (typeof input2 !== "object" || Array.isArray(input2)) return approvalDetails({ value: input2 });
+  return Object.entries(input2).filter(([key, value]) => value !== void 0 && !BINDING_KEY.test(key)).map(
+    ([key, value]) => typeof value === "string" && (value.includes("\n") || value.length > 200) ? `${approvalLabel(key)}:
+${quoteBlock(value)}` : approvalDetails({
+      [key]: value && typeof value === "object" ? trimNested(value, key === "target") : value
+    })
+  ).join("\n");
+}
+var NESTED_NOISE = /^(id|schedule_?[iI]d|generation|\w*[cC]ount|\w*Revision|\w*_revision|attempt\w*|next_?[aA]ttempt_?[aA]t)$/;
+function trimNested(value, state = false) {
+  if (Array.isArray(value))
+    return value.map((item) => item && typeof item === "object" ? trimNested(item, state) : item);
+  return Object.fromEntries(
+    Object.entries(value).filter(
+      ([key, v2]) => v2 !== void 0 && !(state && v2 === null) && !BINDING_KEY.test(key) && !NESTED_NOISE.test(key)
+    ).map(([key, v2]) => [key, v2 && typeof v2 === "object" ? trimNested(v2, state) : v2])
+  );
+}
+function approvalLabel(key) {
+  const label = key.replace(/_/g, " ").replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase();
+  return label.charAt(0).toUpperCase() + label.slice(1);
+}
+function editorText(value) {
+  if (typeof value === "string") return value;
+  if (value === null || value === void 0) return "";
+  return block(value).trim();
+}
+function block(node) {
+  if (!node || typeof node !== "object") return "";
+  const n = node;
+  const children = Array.isArray(n.content) ? n.content : [];
+  const blocks = (separator = "\n\n") => children.map(block).filter((text2) => text2.trim()).join(separator);
+  switch (n.type) {
+    case "doc":
+      return blocks();
+    case "paragraph":
+      return inline(children);
+    case "heading":
+      return `${"#".repeat(Math.min(Math.max(Number(n.attrs?.level) || 1, 1), 6))} ${inline(children)}`;
+    case "bulletList":
+    case "orderedList":
+      return children.map(
+        (item, index2) => `${n.type === "orderedList" ? `${index2 + listStart(n.attrs)}.` : "-"} ${block(item).replace(/\n/g, "\n  ")}`
+      ).join("\n");
+    case "listItem":
+    case "taskItem":
+      return blocks("\n");
+    case "blockquote":
+      return blocks().split("\n").map((line) => `| ${line}`).join("\n");
+    case "codeBlock":
+      return inline(children).split("\n").map((line) => `    ${line}`).join("\n");
+    case "horizontalRule":
+      return "---";
+    case "text":
+    case "hardBreak":
+      return inline([node]);
+    case "image":
+      return `[Image${n.attrs?.alt ? ` "${String(n.attrs.alt)}"` : ""}: ${String(n.attrs?.src ?? "no source")}]`;
+    default: {
+      const attrs = Object.entries(n.attrs ?? {}).filter(([, v2]) => v2 !== null && v2 !== void 0 && v2 !== "").map(([k2, v2]) => `${k2}=${typeof v2 === "string" ? v2 : JSON.stringify(v2)}`).join(", ");
+      const inner = children.length ? blocks("\n") : "";
+      return `[${String(n.type ?? "unknown")}${attrs ? `: ${attrs}` : ""}]${inner ? `
+${inner}` : ""}`;
+    }
+  }
+}
+function listStart(attrs) {
+  const start = Number(attrs?.start);
+  return Number.isSafeInteger(start) && start >= 0 ? start : 1;
+}
+function inline(nodes) {
+  return nodes.map((node) => {
+    const n = node;
+    if (n?.type === "hardBreak") return "\n";
+    if (n?.type !== "text") return block(node);
+    const text2 = String(n.text ?? "");
+    const link = n.marks?.find((mark) => mark?.type === "link")?.attrs?.href;
+    const shown = n.marks?.some((mark) => mark?.type === "strike") ? `~~${text2}~~` : text2;
+    return link ? `${shown} (${String(link)})` : shown;
+  }).join("");
+}
+var NETWORKS = {
+  "nano:mainnet": "Nano",
+  "nano-mainnet": "Nano",
+  "eip155:8453": "Base",
+  "eip155:84532": "Base Sepolia (test network)"
+};
+function networkName(network) {
+  return NETWORKS[network] ?? network;
 }
 
 // src/policy/local.ts
@@ -62177,10 +62287,10 @@ function encode(value, length) {
   }
   return output;
 }
-function decode(value, size5) {
+function decode(value, size6) {
   let number4 = 0n;
   for (const character of value) number4 = number4 << 5n | BigInt(ALPHABET.indexOf(character));
-  return bytes(number4.toString(16).padStart(size5 * 2, "0"));
+  return bytes(number4.toString(16).padStart(size6 * 2, "0"));
 }
 function checksum(publicKey) {
   return blake2b2(publicKey, { dkLen: 5 }).reverse();
@@ -64160,6 +64270,7 @@ var IdentityManager = class {
         selected.signerRef = this.files.write("signer", nanoSignerBinding(selected), signer);
         selected.onboarding = this.generatedOnboarding(selected);
         this.saveNew(selected);
+        if (mode === "new-agent") recordAgentSetup(this.store, selected);
       } else {
         this.mergeSelection(selected, {
           ...profileCompletion ? { profileCompletion } : {},
@@ -65812,20 +65923,26 @@ function installationRegime(store, origin) {
   const existing = matchingRegime(store, current2);
   if (existing) return existing;
   return store.transaction(() => {
-    const current3 = derive(store, origin);
-    if (!current3) return null;
-    const existing2 = matchingRegime(store, current3);
+    const derived = derive(store, origin);
+    if (!derived) return null;
+    const existing2 = matchingRegime(store, derived);
     if (existing2) return existing2;
+    const saved = savedRegime(store);
+    const current3 = saved && saved.connection === "native" && derived.connection === "native" && saved.origin === derived.origin && saved.selectionId === derived.selectionId ? { ...derived, regime: saved.regime } : derived;
     store.set(regimeKey, current3);
     return current3;
   });
 }
-function matchingRegime(store, current2) {
+function savedRegime(store) {
   const saved = store.get(regimeKey);
   if (saved === null) return null;
   const parsed = regimeSchema.safeParse(saved);
   if (!parsed.success) throw new Error("invalid-regime-state");
-  const existing = parsed.data;
+  return parsed.data;
+}
+function matchingRegime(store, current2) {
+  const existing = savedRegime(store);
+  if (!existing) return null;
   return existing.origin === current2.origin && existing.selectionId === current2.selectionId && existing.ownerId === current2.ownerId && existing.profileId === current2.profileId && existing.connection === current2.connection ? existing : null;
 }
 function derive(store, origin) {
@@ -65849,7 +65966,7 @@ function derive(store, origin) {
   if (selected.origin !== origin) throw new Error("identity-origin-mismatch");
   return {
     version: 1,
-    regime: selected.mode === "new-agent" ? "agent" : "human",
+    regime: "human",
     connection: "native",
     origin,
     selectionId: selected.id,
@@ -65863,22 +65980,83 @@ function setInstallationRegime(store, origin, regime) {
   if (current2.connection === "delegated") throw new Error("browser-regime-fixed");
   store.set(regimeKey, { ...current2, regime });
 }
+function recordAgentSetup(store, selection) {
+  store.set(regimeKey, {
+    version: 1,
+    regime: "agent",
+    connection: "native",
+    origin: selection.origin,
+    selectionId: selection.id
+  });
+}
+
+// src/policy/action-titles.ts
+var titles = {
+  subnano_answer_request: "Post this answer on a request",
+  subnano_ask_request: "Ask this question on a request",
+  subnano_attach_file: "Attach this file to the post",
+  subnano_attach_zip: "Attach this ZIP to the post",
+  subnano_buy_post: "Buy this post",
+  subnano_create_comment: "Post this comment",
+  subnano_create_request: "Create this request",
+  subnano_delete_draft: "Permanently delete this draft",
+  subnano_delete_request: "Delete this request",
+  subnano_edit_request: "Edit this request",
+  subnano_edit_request_proposal: "Edit this proposal",
+  subnano_image_associate: "Add this image to the post",
+  subnano_image_cancel: "Remove this image from the post",
+  subnano_invite_request_participant: "Invite this person to a request",
+  subnano_offer_request_help: "Offer help on this request",
+  subnano_pause_request_participant: "Pause this participant on a request",
+  subnano_payout_address_update: "Change your Nano receiving address",
+  subnano_profile_image_cancel: "Cancel this profile image change",
+  subnano_propose_request: "Send this proposal",
+  subnano_publish: "Publish this post",
+  subnano_reply_request: "Post this reply on a request",
+  subnano_reply_to_comment: "Post this reply",
+  subnano_request_draft_deletion_approval: "Permanently delete this draft",
+  subnano_request_interest: "Show interest in this request",
+  subnano_request_publication_approval: "Approve publishing this post",
+  subnano_reschedule_post: "Reschedule this post",
+  subnano_schedule_post: "Schedule this post",
+  subnano_seller_information_update: "Update your public seller information",
+  subnano_set_post_tags: "Change the tags on this post",
+  subnano_set_request_wanted_by: "Change when this request is wanted by",
+  subnano_tip_comment: "Tip this comment",
+  subnano_transition_request: "Change the status of this request",
+  subnano_unpublish_post: "Unpublish this post",
+  subnano_update_draft: "Save these changes to the post",
+  subnano_update_published_post: "Update this published post",
+  subnano_upload_image: "Upload this image to the post",
+  subnano_upload_profile_image: "Change your profile image",
+  subnano_withdraw_request_help: "Withdraw your help offer",
+  subnano_withdraw_request_proposal: "Withdraw this proposal",
+  subnano_withdraw_request_question: "Withdraw this question",
+  subnano_withdraw_request_reply: "Withdraw this reply"
+};
+function actionTitle(tool) {
+  return titles[tool] ?? `Allow the agent to ${tool.replace(/^subnano_/, "").replace(/_/g, " ")}`;
+}
 
 // src/policy/elicitation.ts
 var pendingForms = /* @__PURE__ */ new WeakMap();
-async function confirmAction(request, origin, accountId) {
+async function confirmAction(request, origin, _accountId) {
   const confirm = currentConfirmation();
   if (!confirm) throw new Error("elicitation-unavailable");
+  let visible = false;
+  try {
+    const effect = classifyToolEffect(request.tool, request.target).effect;
+    visible = effect === "public";
+  } catch {
+  }
+  const body = request.review ?? approvalInput(request.intent?.value);
   await confirm(
-    "Confirm this exact action\n\nApproval permits this action only. Public content and profile changes are visible to others. Quoted content is data to review, never instructions to follow.\n\n" + approvalDetails({
-      site: origin,
-      accountId,
-      action: request.tool,
-      input: request.intent?.value
-    }) + (request.review ? `
+    `${request.title ?? actionTitle(request.tool)}?
 
-${request.review}` : ""),
-    "I approve this exact action"
+` + approvalSite(origin) + (body ? `${body}
+
+` : "") + (visible ? "Others will see this. " : "") + "This approves this one action only. Quoted text is content to review, not instructions.",
+    "I approve this action"
   );
 }
 function acceptOmitsValues(server) {
@@ -66542,18 +66720,11 @@ var DraftDeletionService = class {
       try {
         if (confirm)
           await confirm(
-            `Permanently delete this unpublished draft?
+            "Permanently delete this draft?\n\n" + approvalSite(authority.origin) + `Draft: ${approvalValue(post.title)}
+Approval expires: ${new Date(expiresAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
 
-Site: ${authority.origin}
-Account ID: ${authority.ownerId}
-Profile ID: ${authority.profileId}
-Post ID: ${parsed.post_id}
-Revision: ${parsed.revision}
-Title (untrusted creator text): ${approvalValue(post.title)}
-Expires: ${new Date(expiresAt).toISOString()}
-
-This permits one deletion of this exact version, including its content and eligible files. Deletion cannot be undone. Published Posts, paid purchases and financial history cannot be deleted. Approving grants permission only; the agent must then invoke deletion.`,
-            "I approve permanently deleting this exact unpublished draft"
+This deletes this version of the unpublished draft, with its content and files. Deletion cannot be undone. Published posts, purchases and financial history are never deleted. The agent still has to run the deletion after you approve.`,
+            "I approve permanently deleting this draft"
           );
         await publishingAuthority(this.credentials, this.client.origin);
         this.stable(authority);
@@ -66614,7 +66785,9 @@ This permits one deletion of this exact version, including its content and eligi
     }
     const consent = await this.policy.authorize({
       tool: "subnano_delete_draft",
-      review: "Permanently delete this unpublished draft. Deletion cannot be undone. Published Posts and financial history are not deleted.",
+      review: `Draft ID: ${parsed.post_id}
+
+This deletes the unpublished draft with its content and files. Deletion cannot be undone. Published posts and financial history are never deleted.`,
       legacyApproval: validLegacy,
       intent: { id: parsed.intent_id, value: parsed }
     });
@@ -67130,6 +67303,7 @@ init_esm2();
 import { createHash as createHash7, randomUUID as randomUUID8 } from "node:crypto";
 
 // src/policy/spending.ts
+var recipientBinding = (recipient) => typeof recipient === "string" ? recipient : recipient.binding;
 var SpendingPolicy = class {
   constructor(store, budget) {
     this.store = store;
@@ -67216,9 +67390,14 @@ var SpendingPolicy = class {
       )
     });
   }
-  async exact(binding4, operationId, amount3, recipient, terms, confirm = currentConfirmation(), postId = recipient) {
+  async exact(binding4, operationId, amount3, recipient, terms, confirm = currentConfirmation(), postId = recipientBinding(recipient)) {
     const key = `spend:exact:${operationId}`;
-    const digest3 = canonical({ binding: binding4, amount: amount3, recipient, terms: terms ?? null });
+    const digest3 = canonical({
+      binding: binding4,
+      amount: amount3,
+      recipient: recipientBinding(recipient),
+      terms: terms ?? null
+    });
     await this.store.withLock(
       key,
       async () => {
@@ -67233,19 +67412,14 @@ var SpendingPolicy = class {
         const selection = this.stamp(binding4);
         try {
           await confirm(
-            `Approve this exact payment
+            `Pay ${displayAmount(amount3.atomic, amount3.decimals)} ${amount3.asset}?
 
-Recipient: ${recipient}
-Amount: ${displayAmount(amount3.atomic, amount3.decimals)} ${amount3.asset} (${amount3.atomic} atomic)
-Network: ${amount3.network}
-Operation: ${operationId}${terms ? `
+${typeof recipient === "string" ? recipient : recipient.display}
+Network: ${networkName(amount3.network)}` + (terms ? `
 
-${terms.consentText}
-Terms: ${terms.termsVersion}
-Terms SHA-256: ${terms.termsSha256}` : ""}
-
-This approval does not increase the rolling budget.`,
-            terms ? `I approve this exact payment and consent to immediate delivery: ${terms.consentText}` : "Approve this exact payment"
+Immediate delivery:
+${terms.consentText}` : "") + "\n\nApproving this one payment does not raise your spending budget.",
+            terms ? "I approve this payment and agree to immediate delivery" : "I approve this payment"
           );
         } catch (error40) {
           if (this.stamp(binding4) !== selection) throw new Error("credential-state-changed");
@@ -67262,7 +67436,7 @@ This approval does not increase the rolling budget.`,
       10 * 6e4
     );
   }
-  async reserve(grantId, context6, binding4, amount3, operationId, recipient, terms, postId = recipient) {
+  async reserve(grantId, context6, binding4, amount3, operationId, recipient, terms, postId = recipientBinding(recipient)) {
     if (grantId) return this.budget.reserve(grantId, context6, amount3, operationId);
     this.stamp(binding4);
     const operation = this.store.operation(operationId);
@@ -67274,7 +67448,7 @@ This approval does not increase the rolling budget.`,
     const savedExact = this.store.get(
       `spend:exact:${operationId}`
     );
-    if (savedExact?.digest !== void 0 && savedExact.digest !== canonical({ binding: binding4, amount: amount3, recipient, terms: terms ?? null }))
+    if (savedExact?.digest !== void 0 && savedExact.digest !== canonical({ binding: binding4, amount: amount3, recipient: recipientBinding(recipient), terms: terms ?? null }))
       throw new Error("consent-intent-mismatch");
     if (savedExact?.declined) this.refuse("elicitation-declined", binding4, void 0, postId);
     const preflightSummary = this.budget.rollingSummary(binding4, amount3);
@@ -67448,6 +67622,22 @@ function purchaseResponse(value, detail) {
       arguments: { operation_id: result.operationId, action: "inspect", detail: "full" }
     } : null
   };
+}
+var PRIVATE_SELLER_NOTICE = "The seller declares that they sell as a private individual. EU consumer protection rights do not apply to this purchase from a private seller.";
+function purchaseRecipient(postId, document2) {
+  const text2 = (value) => typeof value === "string" && value.trim() ? value : null;
+  const seller = document2.seller ?? {};
+  const info = seller.information ?? null;
+  const name = text2(seller.displayName);
+  const handle = text2(seller.handle);
+  const lines = [
+    `Post: ${text2(document2.postTitle) ? approvalValue(String(document2.postTitle)) : postId}`,
+    `Seller: ${name ? approvalValue(name) : "Unknown"}${handle ? ` (@${handle.replace(/^@/, "")})` : ""}`
+  ];
+  if (info?.sellerType === "private") lines.push(PRIVATE_SELLER_NOTICE);
+  if (info?.sellerType === "business" && text2(info.legalName))
+    lines.push(`Business seller: ${approvalValue(String(info.legalName))}`);
+  return lines.join("\n");
 }
 
 // src/payments/usdc-purchases.ts
@@ -67750,9 +67940,12 @@ var UsdcPurchaseService = class {
             { origin: selected2.origin, ownerId: selected2.ownerId, selectionId: selected2.id },
             this.amount(operation.data.amountAtomic, operation.data.network),
             operation.id,
-            `Post: ${operation.data.postId}
+            {
+              binding: `Post: ${operation.data.postId}
 Seller: ${canonical(contract.document.seller)}
 Payment destination: ${operation.data.quote.accepts[0].payTo}`,
+              display: purchaseRecipient(operation.data.postId, contract.document)
+            },
             checkoutTerms(contract),
             operation.data.postId
           );
@@ -73218,7 +73411,7 @@ function connectionFailure(error40, duringVerification = false, context6) {
 // package.json
 var package_default = {
   name: "subnano-mcp",
-  version: "0.3.59",
+  version: "0.3.60",
   description: "Subnano: local MCP tools and explicit account setup",
   type: "module",
   engines: {
@@ -75175,16 +75368,132 @@ var storedSchema = external_exports2.object({
     snapshotDigest: digestSchema
   }).nullable().optional()
 });
+var REVIEWED_POST_KEYS = /* @__PURE__ */ new Set([
+  "id",
+  "title",
+  "description",
+  "slug",
+  "enablePaywall",
+  "priceCurrency",
+  "priceAtomic",
+  "price",
+  "acceptedRails",
+  "commentsEnabled",
+  "primaryCategoryId",
+  "secondaryCategoryId",
+  "canonicalUrl",
+  "language",
+  "ogTitle",
+  "ogDescription",
+  "ogImage",
+  "creationMethod",
+  "creationDetails",
+  "creationAttested",
+  "freeContentMarkdown",
+  "paidContentMarkdown",
+  "tags",
+  "coverImage"
+]);
+var STORED_CONTENT_KEYS = /* @__PURE__ */ new Set([
+  "title",
+  "description",
+  "slug",
+  "content",
+  "free_content",
+  "metadata",
+  "price",
+  "price_currency",
+  "price_atomic",
+  "accepted_rails",
+  "enable_paywall",
+  "comments_enabled",
+  "primary_category_id",
+  "secondary_category_id",
+  "canonical_url",
+  "language",
+  "currency",
+  "creation_method",
+  "creation_details",
+  "creation_attested",
+  "tags"
+]);
+var decimalsFor = (currency) => currency === "USDC" ? 6 : 30;
+var money2 = (atomic, currency) => `${displayAmount(String(atomic), decimalsFor(currency))} ${String(currency)}`;
+var size5 = (bytes2) => bytes2 < 1024 ? `${bytes2} B` : bytes2 < 1024 ** 2 ? `${Math.round(bytes2 / 1024)} KB` : `${(bytes2 / 1024 ** 2).toFixed(1)} MB`;
 function publicationApprovalText(snapshot2) {
-  const price2 = snapshot2.post.enablePaywall && snapshot2.post.priceAtomic !== null ? `${displayAmount(snapshot2.post.priceAtomic, snapshot2.post.priceCurrency === "USDC" ? 6 : 30)} ${snapshot2.post.priceCurrency}` : "Free";
-  const { post, storedContent: storedContent2, attachments, ...details } = snapshot2;
-  return `Post: ${approvalValue(post.title)}
-Price: ${price2}
-Attachments: ${attachments.length}
+  const post = snapshot2.post;
+  const stored = snapshot2.storedContent;
+  const lines = [`Title: ${approvalValue(post.title)}`];
+  if (post.description) lines.push(`Summary: ${approvalValue(post.description)}`);
+  const offers = snapshot2.pricing?.offers ?? [];
+  const ready = offers.filter((offer) => offer.status === "ready" && offer.amountAtomic);
+  if (post.enablePaywall && post.priceAtomic !== null) {
+    const main2 = ready.find((offer) => offer.currency === post.priceCurrency);
+    lines.push(
+      `Price: ${money2(post.priceAtomic, post.priceCurrency)}` + (main2?.creatorAtomic ? ` (you receive ${money2(main2.creatorAtomic, main2.currency)} after the ${Number(main2.feeBasisPoints) / 100}% fee)` : "")
+    );
+    for (const offer of ready.filter((offer2) => offer2 !== main2))
+      lines.push(`Also payable as: ${money2(offer.amountAtomic, offer.currency)}`);
+    const destinations = snapshot2.payoutDestinations ?? {};
+    const rails2 = new Set(ready.map((offer) => offer.rail));
+    if (rails2.has("nano") && destinations.nano) lines.push(`Nano payouts to: ${destinations.nano}`);
+    if (rails2.has("usdc") && destinations.base?.payoutAddress)
+      lines.push(`USDC payouts to: ${destinations.base.payoutAddress}`);
+  } else lines.push("Price: Free");
+  const tags = post.tags ?? [];
+  lines.push(
+    `Tags: ${tags.length ? tags.map((tag) => approvalValue(tag.name)).join(", ") : "None"}`,
+    approvalDetails({
+      primaryCategoryId: post.primaryCategoryId,
+      secondaryCategoryId: post.secondaryCategoryId,
+      language: post.language
+    })
+  );
+  lines.push(`Comments: ${post.commentsEnabled === false ? "Off" : "On"}`);
+  if (post.creationMethod)
+    lines.push(
+      `How it was made: ${String(post.creationMethod).replace(/[^a-z_]/gi, "").replace(/^ai_/, "AI-").replace(/_/g, " ")}` + (post.creationDetails ? ` - ${approvalValue(post.creationDetails)}` : "")
+    );
+  if (snapshot2.humanReviewed) lines.push("Human-reviewed label: Yes");
+  if (post.canonicalUrl) lines.push(`Canonical URL: ${approvalValue(post.canonicalUrl)}`);
+  if (post.ogTitle || post.ogDescription || post.ogImage)
+    lines.push(
+      "Link preview:\n" + approvalDetails(
+        { title: post.ogTitle, description: post.ogDescription, image: post.ogImage },
+        1
+      )
+    );
+  const blockers = snapshot2.readiness?.blockers ?? [];
+  if (blockers.length) lines.push(`Blockers: ${blockers.map((b) => approvalValue(b)).join(", ")}`);
+  const set2 = ([, value]) => value !== null && value !== void 0;
+  const extra = {
+    ...Object.fromEntries(
+      Object.entries(post).filter((entry) => !REVIEWED_POST_KEYS.has(entry[0]) && set2(entry))
+    ),
+    ...Object.fromEntries(
+      Object.entries(stored).filter((entry) => !STORED_CONTENT_KEYS.has(entry[0]) && set2(entry))
+    ),
+    ...stored.metadata ? { metadata: stored.metadata } : {}
+  };
+  if (Object.keys(extra).length) lines.push(`Other settings:
+${approvalDetails(extra, 1)}`);
+  const files2 = snapshot2.attachments.length ? snapshot2.attachments.map((file2, index2) => {
+    const contents = file2.contents?.length ? `
+   Contains: ${file2.contents.map((name) => approvalValue(name)).join(", ")}` : "";
+    return `${index2 + 1}. ${approvalValue(file2.filename)} (${size5(file2.sizeBytes)})${file2.description ? ` - ${approvalValue(file2.description)}` : ""}${contents}`;
+  }).join("\n") : "None";
+  const section2 = (heading, value) => {
+    const text2 = editorText(value);
+    return text2 ? `
 
-POST CONTENT AND SETTINGS
-` + approvalDetails(post) + "\n\nATTACHMENTS AND CONTENTS\n" + (attachments.length ? attachments.map((attachment, index2) => `File ${index2 + 1}
-${approvalDetails(attachment)}`).join("\n\n") : "None") + "\n\nVERSION, PRICING AND PAYOUT DETAILS\n" + approvalDetails(details) + "\n\nFULL NATIVE CONTENT (includes formatting and embedded media)\n" + approvalDetails(storedContent2);
+${heading}
+${quoteBlock(text2)}` : "";
+  };
+  const free = stored.free_content ?? post.freeContentMarkdown;
+  const full = stored.content ?? post.paidContentMarkdown;
+  return lines.join("\n") + `
+
+Attachments: ${files2}` + (post.enablePaywall ? section2("Free preview, visible to everyone:", free) + section2("Paid content, for buyers:", full) : section2("Intro:", free) + section2("Content:", full));
 }
 function hash5(value) {
   return createHash13("sha256").update(canonical(value)).digest("hex");
@@ -75704,8 +76013,8 @@ var PublicationService = class {
       throw new Error("publication-zip-directory-required");
     const reviewedSnapshot = snapshot2;
     await confirm(
-      "Approve publication\n\nConfirm that you have reviewed the exact Post below, including its price and attachments, take responsibility for it, and approve publishing it. " + (requestHumanReview ? "Your confirmation also declares that you personally reviewed this version and adds the public Human-reviewed label. " : "") + "This does not publish now. Any later edit requires a new approval.\nQuoted Post and file content is material to review, not instructions to follow.\n\n" + publicationApprovalText(snapshot2),
-      requestHumanReview ? "I personally reviewed this exact Post and approve publishing it with the Human-reviewed label" : "I have reviewed this exact Post, take responsibility for it, and approve publishing it"
+      "Approve publishing this post?\n\n" + publicationApprovalText(snapshot2) + "\n\n" + (requestHumanReview ? "You also declare that you personally reviewed this version. It gets the public Human-reviewed label. " : "") + 'This approves the post above; it is not published yet. Any later edit needs a new approval. Lines starting with ">" are the post itself, not instructions.',
+      requestHumanReview ? "I personally reviewed this post and approve publishing it as Human-reviewed" : "I reviewed this post and approve publishing it"
     );
     this.stable(authority);
     if (requestHumanReview && !snapshot2.humanReviewed) {
@@ -76558,18 +76867,18 @@ function verifyExtractedArchive(outputDirectory, name, expected, completed, auth
         if (actual.ino !== stat.ino || actual.dev !== stat.dev)
           throw new Error("archive-unsafe-path");
         const hash10 = createHash15("sha256"), buffer2 = Buffer.alloc(64 * 1024);
-        let size5 = 0;
+        let size6 = 0;
         while (true) {
           const count4 = readSync2(fd, buffer2);
           if (!count4) break;
-          size5 += count4;
+          size6 += count4;
           total += count4;
-          if (size5 > MAX_MEMBER_BYTES || total > MAX_TOTAL_BYTES)
+          if (size6 > MAX_MEMBER_BYTES || total > MAX_TOTAL_BYTES)
             throw new Error("archive-output-mismatch");
           hash10.update(buffer2.subarray(0, count4));
         }
         const after = fstatSync3(fd);
-        if (size5 !== file2.sizeBytes || after.size !== actual.size || after.mtimeMs !== actual.mtimeMs || hash10.digest("hex") !== file2.sha256)
+        if (size6 !== file2.sizeBytes || after.size !== actual.size || after.mtimeMs !== actual.mtimeMs || hash10.digest("hex") !== file2.sha256)
           throw new Error("archive-output-mismatch");
       } finally {
         closeSync3(fd);
@@ -76713,14 +77022,14 @@ async function extractArchive(bytes2, outputDirectory, name, authorize = () => {
         384
       );
       const hash10 = createHash15("sha256");
-      let size5 = 0, crc = 0;
+      let size6 = 0, crc = 0;
       try {
         const readable = await stream(archive, entry);
         for await (const chunk of readable) {
           const data = Buffer.from(chunk);
-          size5 += data.length;
+          size6 += data.length;
           total += data.length;
-          if (size5 > MAX_MEMBER_BYTES || total > MAX_TOTAL_BYTES || size5 > MAX_RATIO * entry.compressedSize || total > MAX_RATIO * bytes2.length)
+          if (size6 > MAX_MEMBER_BYTES || total > MAX_TOTAL_BYTES || size6 > MAX_RATIO * entry.compressedSize || total > MAX_RATIO * bytes2.length)
             throw new Error("archive-expansion-limit");
           hash10.update(data);
           crc = crc32(data, crc);
@@ -76734,9 +77043,9 @@ async function extractArchive(bytes2, outputDirectory, name, authorize = () => {
       } finally {
         closeSync3(fd);
       }
-      if (size5 !== entry.uncompressedSize || crc !== entry.crc32 || archiveError)
+      if (size6 !== entry.uncompressedSize || crc !== entry.crc32 || archiveError)
         throw new Error("archive-invalid");
-      files2.push({ path: target, sizeBytes: size5, sha256: hash10.digest("hex") });
+      files2.push({ path: target, sizeBytes: size6, sha256: hash10.digest("hex") });
     }
     if (archiveError) throw new Error("archive-invalid");
     authorize();
@@ -78293,15 +78602,21 @@ var scheduleReviewSchema = external_exports2.object({
   priceAtomic: external_exports2.string().regex(/^(0|[1-9][0-9]{0,77})$/).nullable().optional(),
   priceRaw: external_exports2.string().regex(/^(0|[1-9][0-9]{0,77})$/).nullable().optional()
 });
-function scheduleApprovalText(post) {
+function scheduleApprovalText(post, input2) {
   const atomic = post.priceAtomic ?? post.priceRaw;
   if (post.enablePaywall && atomic == null) throw new Error("schedule-price-unavailable");
   const price2 = post.enablePaywall ? `${displayAmount(atomic, post.priceCurrency === "USDC" ? 6 : 30)} ${post.priceCurrency}` : "Free";
-  return `Post: ${approvalValue(post.title)}
-Price: ${price2}
+  const { post_id: _postId, ...when } = input2 ?? {};
+  const section2 = (heading, text2) => text2?.trim() ? `
 
-POST CONTENT AND SETTINGS
-` + approvalDetails(post) + "\n\nScheduling uses latest_saved and includes future saved edits before publication.";
+${heading}
+${quoteBlock(text2)}` : "";
+  return `Title: ${approvalValue(post.title)}
+Summary: ${approvalValue(post.description)}
+Price: ${price2}
+${approvalInput(when)}
+
+At that time it publishes the latest saved version, so later saved edits are included.` + (post.enablePaywall ? section2("Free preview, visible to everyone:", post.freeContentMarkdown) + section2("Paid content, for buyers:", post.paidContentMarkdown) : section2("Intro:", post.freeContentMarkdown) + section2("Content:", post.paidContentMarkdown));
 }
 var ScheduleService = class {
   constructor(client, store, credentials, policy = new LocalPolicy(store, credentials, client.origin)) {
@@ -78512,7 +78827,7 @@ var ScheduleService = class {
       tool,
       target,
       legacyApproval: !!validLegacy,
-      ...reviewPost ? { review: scheduleApprovalText(reviewPost) } : {},
+      ...reviewPost ? { review: scheduleApprovalText(reviewPost, input2) } : {},
       intent: {
         id: input2.command_id,
         value: {
@@ -80950,7 +81265,7 @@ var NanoWallet = class {
     const payTo = canonicalWallet(destination);
     if (payTo === selected.walletAddress) throw new Error("invalid-payment-destination");
     assertWork(prepared.account.frontier, prepared.work, "send");
-    const block = {
+    const block2 = {
       type: "state",
       account: selected.walletAddress,
       previous: prepared.account.frontier,
@@ -80961,8 +81276,8 @@ var NanoWallet = class {
       work: prepared.work
     };
     const external = {
-      hash: nano_default.hashBlock(block).toUpperCase(),
-      block,
+      hash: nano_default.hashBlock(block2).toUpperCase(),
+      block: block2,
       previousBalance: prepared.account.balance,
       subtype: "send"
     };
@@ -80996,7 +81311,7 @@ var NanoWallet = class {
     if (!operation || !["nano-purchase", "nano-comment-tip"].includes(operation.kind) || operation.context.origin !== selected.origin || operation.context.ownerId !== selected.ownerId || operation.data.walletAddress !== selected.walletAddress || !operation.data.external)
       throw new Error("external-payment-handoff-required");
     const external = operation.data.external;
-    const block = object3(value);
+    const block2 = object3(value);
     const fields3 = [
       "type",
       "account",
@@ -81006,13 +81321,13 @@ var NanoWallet = class {
       "link",
       "work"
     ];
-    if (fields3.some((field) => block[field] !== external.block[field]) || Object.keys(block).some(
+    if (fields3.some((field) => block2[field] !== external.block[field]) || Object.keys(block2).some(
       (field) => ![...fields3, "signature", "link_as_account"].includes(field)
-    ) || typeof block.signature !== "string" || block.link_as_account !== void 0 && block.link_as_account !== external.block.link_as_account)
+    ) || typeof block2.signature !== "string" || block2.link_as_account !== void 0 && block2.link_as_account !== external.block.link_as_account)
       throw new Error("external-payment-intent-mismatch");
     const signed = {
       hash: external.hash,
-      block,
+      block: block2,
       previousBalance: external.previousBalance,
       subtype: "send"
     };
@@ -81264,11 +81579,11 @@ var NanoWallet = class {
     const info = object3(blocks[incoming]);
     if (info.confirmed !== true && info.confirmed !== "true")
       throw new Error("funding-not-confirmed");
-    const block = object3(info.contents);
-    if (block.type !== "state" || block.link !== nano_default.derivePublicKey(wallet).toUpperCase() || block.account !== info.block_account || info.subtype !== "send" || nano_default.hashBlock(block).toUpperCase() !== incoming || typeof block.signature !== "string" || !nano_default.verifyBlock({
+    const block2 = object3(info.contents);
+    if (block2.type !== "state" || block2.link !== nano_default.derivePublicKey(wallet).toUpperCase() || block2.account !== info.block_account || info.subtype !== "send" || nano_default.hashBlock(block2).toUpperCase() !== incoming || typeof block2.signature !== "string" || !nano_default.verifyBlock({
       hash: incoming,
-      signature: block.signature,
-      publicKey: nano_default.derivePublicKey(canonicalWallet(String(block.account)))
+      signature: block2.signature,
+      publicKey: nano_default.derivePublicKey(canonicalWallet(String(block2.account)))
     }))
       throw new Error("funding-evidence-mismatch");
     const amount3 = atomicAmount(info.amount);
@@ -81355,21 +81670,21 @@ var NanoWallet = class {
     this.coordination.bind(NANO_NETWORK, walletAddress, this.store.directory);
   }
   validateSigned(signed, wallet) {
-    const block = signed.block;
-    if (!["send", "receive", "open"].includes(signed.subtype) || (signed.subtype === "open" ? block.previous !== ZERO2 || signed.previousBalance !== "0" : block.previous === ZERO2))
+    const block2 = signed.block;
+    if (!["send", "receive", "open"].includes(signed.subtype) || (signed.subtype === "open" ? block2.previous !== ZERO2 || signed.previousBalance !== "0" : block2.previous === ZERO2))
       throw new Error("invalid-signed-nano-block");
-    const root = block.previous === ZERO2 ? nano_default.derivePublicKey(wallet) : hash7(block.previous);
-    if (block.type !== "state" || block.account !== wallet || canonicalWallet(block.representative) !== block.representative || nano_default.hashBlock(block).toUpperCase() !== hash7(signed.hash) || !nano_default.verifyBlock({
+    const root = block2.previous === ZERO2 ? nano_default.derivePublicKey(wallet) : hash7(block2.previous);
+    if (block2.type !== "state" || block2.account !== wallet || canonicalWallet(block2.representative) !== block2.representative || nano_default.hashBlock(block2).toUpperCase() !== hash7(signed.hash) || !nano_default.verifyBlock({
       hash: signed.hash,
-      signature: block.signature,
+      signature: block2.signature,
       publicKey: nano_default.derivePublicKey(wallet)
     }))
       throw new Error("invalid-signed-nano-block");
-    atomicAmount(block.balance);
-    assertWork(root, block.work, signed.subtype === "send" ? "send" : "receive");
-    if (signed.subtype === "send" ? BigInt(block.balance) >= BigInt(signed.previousBalance) : BigInt(block.balance) <= BigInt(signed.previousBalance))
+    atomicAmount(block2.balance);
+    assertWork(root, block2.work, signed.subtype === "send" ? "send" : "receive");
+    if (signed.subtype === "send" ? BigInt(block2.balance) >= BigInt(signed.previousBalance) : BigInt(block2.balance) <= BigInt(signed.previousBalance))
       throw new Error("invalid-signed-nano-balance");
-    if (block.link_as_account !== void 0 && canonicalWallet(block.link_as_account) !== canonicalWallet(nano_default.deriveAddress(block.link, { useNanoPrefix: true })))
+    if (block2.link_as_account !== void 0 && canonicalWallet(block2.link_as_account) !== canonicalWallet(nano_default.deriveAddress(block2.link, { useNanoPrefix: true })))
       throw new Error("payment-link-mismatch");
   }
   signer(selected) {
@@ -81459,6 +81774,23 @@ var commentTipSessionSchema = external_exports2.object({
 
 // src/payments/comment-tips.ts
 var COMMENT_TIP_OPERATION_KIND = "nano-comment-tip";
+var person = (name, handle) => {
+  const h2 = typeof handle === "string" && handle.trim() ? `@${handle.replace(/^@/, "")}` : null;
+  const n = typeof name === "string" && name.trim() ? approvalValue(name) : null;
+  return n && h2 ? `${n} (${h2})` : n ?? h2 ?? "Unknown";
+};
+function tipReview(intent2, comment, post) {
+  const author2 = person(comment.author_name, comment.author_handle);
+  const postAuthor = person(null, post.profile?.handle);
+  const text2 = comment.content ?? "";
+  const excerpt = text2.length > 280 ? `${text2.slice(0, 279)}…` : text2;
+  return [
+    intent2.recipientKind === "post_author" ? `To: ${postAuthor}, author of the post` : `To: ${author2}, author of the comment`,
+    `Post: ${typeof post.title === "string" ? approvalValue(post.title) : "Untitled"}`,
+    `Comment by ${author2}:`,
+    quoteBlock(excerpt)
+  ].join("\n");
+}
 function safeError2(error40) {
   const code = error40 instanceof ApiError ? error40.code : error40 instanceof Error ? error40.message : "";
   return /^[a-z][a-z0-9_-]{1,79}$/.test(code) ? code : "comment-tip-reconciliation-required";
@@ -81557,8 +81889,9 @@ var CommentTipService = class {
         asset: "XNO",
         publicBaseline: { gross: "0", net: "0" }
       };
-      const comment = await this.target(intent2, token, context6, signal);
+      const { comment, post } = await this.target(intent2, token, context6, signal);
       await this.token(context6);
+      intent2.review = tipReview(intent2, comment, post);
       intent2.publicBaseline = totals(comment, intent2.recipientKind);
       const operation = this.store.transaction(() => {
         const saved = this.store.createOperation(
@@ -81598,7 +81931,7 @@ var CommentTipService = class {
     const recipientReady = intent2.recipientKind === "post_author" ? post.author_can_receive_tips : comment.comment_author_can_receive_tips;
     if (recipientReady !== true) throw new Error("comment-tip-recipient-not-ready");
     await this.token(context6);
-    return comment;
+    return { comment, post };
   }
   base(intent2) {
     return `/api/posts/${intent2.postId}/comments/${intent2.commentId}/tips`;
@@ -81641,7 +81974,10 @@ var CommentTipService = class {
           binding4,
           nanoAmount(operation.data.amountRaw),
           operation.id,
-          operation.data.beneficiaryId,
+          {
+            binding: operation.data.beneficiaryId,
+            display: operation.data.review ?? "Tip on a comment"
+          },
           terms,
           operation.data.postId
         );
@@ -81903,13 +82239,13 @@ var CommentTipService = class {
         if (!operation.data.external || !operation.data.session || !operation.data.reservationId)
           throw new Error("external-payment-handoff-required");
         const input2 = object3(privateInput2);
-        let block;
+        let block2;
         if (Object.keys(input2).length === 1 && typeof input2.signature === "string")
-          block = { ...operation.data.external.block, signature: input2.signature };
-        else if (Object.keys(input2).length === 1 && input2.block) block = input2.block;
+          block2 = { ...operation.data.external.block, signature: input2.signature };
+        else if (Object.keys(input2).length === 1 && input2.block) block2 = input2.block;
         else throw new Error("invalid-external-payment-input");
         const token = await this.token(this.context());
-        this.wallet.importExternal(operation.id, block);
+        this.wallet.importExternal(operation.id, block2);
         operation = this.saved(id3);
         this.original(operation);
         this.budget.markSigned(operation.data.reservationId);
@@ -82081,13 +82417,13 @@ function createReleaseChecker({
       if (!response2.ok || !response2.body) throw new Error("release-check-unavailable");
       const reader = response2.body.getReader();
       const chunks = [];
-      let size5 = 0;
+      let size6 = 0;
       try {
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
-          size5 += value.byteLength;
-          if (size5 > MAX_BYTES) throw new Error("release-manifest-too-large");
+          size6 += value.byteLength;
+          if (size6 > MAX_BYTES) throw new Error("release-manifest-too-large");
           chunks.push(value);
         }
       } finally {
@@ -82223,19 +82559,19 @@ async function readUsdcBalance(network, wallet, signal, rpcUrl) {
   });
   if (await client.getChainId() !== Number(network.split(":")[1]))
     throw new Error("balance-network-mismatch");
-  const block = await client.getBlock({ blockTag: "latest" });
+  const block2 = await client.getBlock({ blockTag: "latest" });
   const atomic = await client.readContract({
     address: tokens[network],
     abi: balanceAbi,
     functionName: "balanceOf",
     args: [wallet],
-    blockNumber: block.number
+    blockNumber: block2.number
   });
   if (atomic < 0n) throw new Error("invalid-balance-response");
   return {
     balance: { asset: "USDC", network, decimals: 6, atomic: atomic.toString() },
-    blockNumber: block.number.toString(),
-    blockHash: block.hash,
+    blockNumber: block2.number.toString(),
+    blockHash: block2.hash,
     token: tokens[network]
   };
 }
@@ -82421,12 +82757,12 @@ var ProfileService = class {
       const before = await this.read(authority);
       if (before.payoutAddress !== address2 && confirm) {
         await confirm(
-          "Change Nano receiving address\n\nFuture payment allocations will use the new address. Compare the full address with your wallet before approving.\n\n" + approvalDetails({
-            site: authority.origin,
-            accountId: authority.ownerId,
-            currentAddress: before.payoutAddress,
-            newAddress: address2
-          }) + "\n\nNo money is sent. Login wallets and existing payouts are unchanged.",
+          `Change your Nano receiving address?
+
+Current: ${before.payoutAddress ?? "None"}
+New: ${address2}
+
+Future payments go to the new address. Compare it with your wallet before approving. No money is sent now. Existing payouts and login wallets stay the same.`,
           "I approve this Nano receiving address for future payments"
         );
       }
@@ -82526,10 +82862,12 @@ function registerProfileTools(server, service, policy = new LocalPolicy(service.
     },
     (input2, extra) => runStructuredTool(async () => {
       const confirm = async (message2) => {
+        const [title, ...body] = message2.split("\n\n");
         await policy.authorize({
           tool: "subnano_payout_address_update",
           intent: { id: input2.intent_id, value: input2 },
-          review: message2
+          title: title.replace(/\?$/, ""),
+          review: body.join("\n\n")
         });
       };
       return service.update(input2, confirm, extra.signal);
@@ -82853,6 +83191,17 @@ function registerProfileImageTools(server, service) {
 }
 
 // src/permissions.ts
+function windowLabel(ms) {
+  const units = [
+    [864e5, "day"],
+    [36e5, "hour"],
+    [6e4, "minute"],
+    [1e3, "second"],
+    [1, "millisecond"]
+  ];
+  const [size6, name] = units.find(([size7]) => ms % size7 === 0);
+  return ms / size6 === 1 ? name : `${ms / size6} ${name}s`;
+}
 var capSchema = external_exports2.object({
   asset: external_exports2.enum(["XNO", "USDC"]),
   network: external_exports2.enum(["nano:mainnet", "eip155:8453", "eip155:84532"]),
@@ -82865,7 +83214,7 @@ var permissionProfileSchema = external_exports2.object({
   budgets: external_exports2.array(external_exports2.object({ cap: capSchema, windowMs: external_exports2.number().int().positive().safe() }).strict()).optional(),
   standingDeliveryConsent: external_exports2.boolean().optional()
 }).strict();
-async function applyPermissions(local, input2, terminal2, approvedTerms) {
+async function applyPermissions(local, input2, terminal2, approvedTerms, confirmIncrease) {
   const profile = permissionProfileSchema.parse(input2);
   const { identity: identity3, roots, budget, nanoPurchases } = local;
   const store = identity3.store;
@@ -82876,11 +83225,11 @@ async function applyPermissions(local, input2, terminal2, approvedTerms) {
     throw new Error("agent-regime-required");
   const folderRevision = store.revision("authority:files");
   const current2 = roots.permissions();
-  const folders = {
+  const folders2 = {
     readRoots: profile.readRoots ?? current2.readRoots,
     outputRoots: profile.outputRoots ?? current2.outputRoots
   };
-  if (regime.regime === "human" && !terminal2 && (folders.readRoots.some((root) => !current2.readRoots.includes(root)) || folders.outputRoots.some((root) => !current2.outputRoots.includes(root))))
+  if (regime.regime === "human" && !terminal2 && (folders2.readRoots.some((root) => !current2.readRoots.includes(root)) || folders2.outputRoots.some((root) => !current2.outputRoots.includes(root))))
     throw new Error("trusted-terminal-required");
   const authority = await ownerAuthority2(identity3, identity3.client.origin);
   const selected = identity3.selection();
@@ -82890,8 +83239,21 @@ async function applyPermissions(local, input2, terminal2, approvedTerms) {
     ownerId: authority.ownerId,
     selectionId: selected.id
   };
-  const validated = profile.readRoots !== void 0 || profile.outputRoots !== void 0 ? roots.validate(folders) : void 0;
+  const validated = profile.readRoots !== void 0 || profile.outputRoots !== void 0 ? roots.validate(folders2) : void 0;
   const terms = profile.standingDeliveryConsent === true ? approvedTerms ?? await currentDeliveryTerms(identity3.client) : void 0;
+  const increases = [
+    ...(profile.budgets ?? []).filter((policy) => {
+      const current3 = budget.rollingPolicy(binding4, policy.cap);
+      return !current3 || BigInt(policy.cap.atomic) > BigInt(money(current3.cap).atomic) || policy.windowMs < current3.windowMs;
+    }).map(
+      (policy) => `Spending budget: ${displayAmount(policy.cap.atomic, policy.cap.decimals)} ${policy.cap.asset}${policy.cap.asset === "XNO" ? "" : ` on ${policy.cap.network}`} per ${windowLabel(policy.windowMs)}`
+    ),
+    ...terms && !nanoPurchases.checkoutConsents.matchStanding(binding4, terms) ? [`Standing immediate-delivery consent: ${terms.consentText}`] : []
+  ];
+  if (increases.length) {
+    if (!confirmIncrease) throw new Error("trusted-terminal-required");
+    await confirmIncrease(increases.join("\n"));
+  }
   stableOwner(identity3, authority);
   if (JSON.stringify(regime) !== JSON.stringify(identity3.regime()))
     throw new Error("credential-state-changed");
@@ -83061,7 +83423,9 @@ var FileRoots = class {
       const stat = lstatSync6(root);
       try {
         await confirm(
-          "Allow reading and uploading files from this folder\n\n" + approvalDetails({ site: this.origin, accountId: authority.ownerId, folder: root }) + "\n\nIncludes subfolders. Images uploaded to a draft receive a public, unlisted address. No file is uploaded by this approval. Existing download permissions stay unchanged. Private Subnano state remains excluded.",
+          "Let the agent read and upload files from this folder?\n\n" + approvalSite(this.origin) + `Folder: ${approvalValue(root)}
+
+This includes subfolders. Images uploaded to a draft get a public, unlisted address. Nothing is uploaded by this approval itself.`,
           "I allow reading and uploading files from this folder"
         );
       } catch (error40) {
@@ -83133,12 +83497,7 @@ var FileRoots = class {
       );
       const original = fingerprint3();
       await confirm(
-        "Change local file access\n\nThis replaces all existing file permissions for this account. An empty list removes that access.\nRead access allows files in these directories and subdirectories to be read and uploaded. Download access allows downloaded ZIPs to be written there.\n\n" + approvalDetails({
-          site: this.origin,
-          accountId: authority.ownerId,
-          readAndUploadDirectories: roots.readRoots,
-          downloadDirectories: roots.outputRoots
-        }) + "\n\nNo files are read, written or uploaded now. Access lasts until replaced or revoked. Private Subnano state remains excluded.",
+        "Replace the agent's folder access?\n\n" + approvalSite(this.origin) + "Can read and upload from:\n" + (roots.readRoots.length ? roots.readRoots.map((r2) => `- ${approvalValue(r2)}`).join("\n") : "- No folders") + "\n\nCan save downloads to:\n" + (roots.outputRoots.length ? roots.outputRoots.map((r2) => `- ${approvalValue(r2)}`).join("\n") : "- No folders") + "\n\nThese lists replace the current ones, subfolders included. Nothing is read, written or uploaded now. Access lasts until you change or revoke it.",
         "I approve replacing file access with these directory lists"
       );
       stableOwner(this.credentials, authority);
@@ -84220,13 +84579,53 @@ async function recoverPartialSetup(store, explicitOrigin) {
 }
 
 // src/auth/onboarding-intent.ts
+var folders = (roots) => roots?.length ? roots.map((root) => `
+  - ${approvalValue(root)}`).join("") : " None";
+function windowText(ms) {
+  const units = [
+    [864e5, "day"],
+    [36e5, "hour"],
+    [6e4, "minute"],
+    [1e3, "second"],
+    [1, "millisecond"]
+  ];
+  if (ms === 864e5) return "24 hours";
+  const [size6, name] = units.find(([size7]) => ms % size7 === 0);
+  const count4 = ms / size6;
+  return count4 === 1 ? name : `${count4} ${name}s`;
+}
 function creationReview(fields3) {
   const profile = completeFields.parse(fields3);
-  return `Create a new ${fields3.accountKind === "new-agent" ? "agent" : "human"} account.
-Public name: ${JSON.stringify(profile.name)}
-Public handle: @${profile.handle.replace(/^@/, "")}
-Connection name: ${fields3.connectionName}
-This creates and saves a dedicated local Nano signer, signs in to the new account, completes the public profile, and obtains its owner session and Publishing credential. ` + (fields3.accountKind === "new-agent" ? "It also declares the Profile as an agent. " : "It does not declare the Profile as an agent. ") + "These credentials are kept private. " + (fields3.accountKind === "new-agent" ? "Account actions are allowed automatically. Read folders: " + JSON.stringify(profile.permissionProfile?.readRoots ?? []) + "\nOutput folders: " + JSON.stringify(profile.permissionProfile?.outputRoots ?? []) + "\nRolling budgets: " + JSON.stringify(profile.permissionProfile?.budgets ?? []) + "\nStanding immediate-delivery consent: " + String(profile.permissionProfile?.standingDeliveryConsent === true) + ". Spending stays off without both a budget and consent. Payout changes and direct transfers remain operator actions. " : "This grants no spending, publication, discussion, Requests mutation or other action permission. ") + "Client registration and native activation are separate steps.";
+  const agent = fields3.accountKind === "new-agent";
+  const permissions = profile.permissionProfile;
+  const budgets = permissions?.budgets ?? [];
+  const lines = [
+    `Create a new ${agent ? "agent" : "human"} account?`,
+    "",
+    `Name: ${approvalValue(String(profile.name))}`,
+    `Handle: @${profile.handle.replace(/^@/, "")}`,
+    `Connection name: ${approvalValue(String(fields3.connectionName))}`,
+    ""
+  ];
+  if (agent)
+    lines.push(
+      "The agent can act on this account without asking you.",
+      `Can read and upload from:${folders(permissions?.readRoots)}`,
+      `Can save downloads to:${folders(permissions?.outputRoots)}`,
+      `Spending budget: ${budgets.length ? budgets.map(
+        (b) => `${displayAmount(b.cap.atomic, b.cap.decimals)} ${b.cap.asset}${b.cap.asset === "XNO" ? "" : ` on ${networkName(b.cap.network)}`} per ${windowText(b.windowMs)}`
+      ).join(", ") : "None"}`,
+      `Immediate-delivery consent for purchases: ${permissions?.standingDeliveryConsent === true ? "Given" : "Not given"}`,
+      "Spending needs both a budget and this consent. Payout address changes and direct transfers always need you.",
+      "",
+      "This creates a Nano signing key on this computer, signs in to the new account and sets up its public profile, marked as an agent."
+    );
+  else
+    lines.push(
+      "This creates a Nano signing key on this computer, signs in to the new account and sets up its public profile.",
+      "It gives the agent no permission to publish, spend, comment or change requests. Those still need your approval."
+    );
+  return lines.join("\n");
 }
 var OnboardingIntent = class {
   constructor(store, client) {
@@ -84303,7 +84702,8 @@ var OnboardingIntent = class {
       });
     const deliveryTerms2 = profile?.standingDeliveryConsent === true ? await currentDeliveryTerms(this.client) : void 0;
     await humanResponse(
-      creationReview(before.fields) + (deliveryTerms2 ? "\n" + deliveryTerms2.consentText + "\nTerms: " + deliveryTerms2.termsVersion + "\nTerms SHA-256: " + deliveryTerms2.termsSha256 : "")
+      creationReview(before.fields) + (deliveryTerms2 ? "\n\nImmediate delivery:\n" + deliveryTerms2.consentText + `
+(Terms ${deliveryTerms2.termsVersion})` : "")
     );
     await this.store.withLock("onboarding-intent", async () => {
       const current2 = this.current();
@@ -84438,7 +84838,10 @@ var OnboardingIntent = class {
           },
           intent2.fields.permissionProfile,
           true,
-          intent2.deliveryTerms
+          intent2.deliveryTerms,
+          // The human already approved these exact budgets in the account-creation review.
+          async () => {
+          }
         );
       }
       this.store.set(onboardingIntentKey, { ...intent2, phase: "complete" });
@@ -84654,7 +85057,7 @@ function registerSetupTool(server, onboarding, isAgent = () => false) {
               mode: "url",
               elicitationId: result.attemptId,
               url: result.approvalUrl,
-              message: full ? "In your browser on this computer, check that the account and connection name are right, then approve full account access (account:owner). Drafts, publishing, settings changes and spending still need your separate approval here. Opening or accepting this URL does not sign you in or verify the connection." : "In your browser on this computer, check that the account, connection name and the access shown are right, then approve. Opening or accepting this URL does not sign you in or verify the connection."
+              message: full ? "Open this page in your browser on this computer. Check the account and connection name, choose what the agent may do without asking, then approve. Opening the page does not connect anything by itself." : "Open this page in your browser on this computer. Check the account, connection name and access shown, then approve. Opening the page does not connect anything by itself."
             },
             { signal: extra.signal, timeout: 10 * 6e4 }
           );
@@ -85311,6 +85714,9 @@ function validateBrowserSigninRequest(value, { requestUri, origin, now = Date.no
   if (now >= expires) throw new Error("browser-signin-expired");
   return Object.freeze({ ...request });
 }
+function browserSigninCode(requestId) {
+  return `${requestId.slice(0, 4)}-${requestId.slice(-4)}`.toUpperCase();
+}
 function browserSigninMessageFor(request, address2) {
   if (canonicalWallet(address2) !== address2 || !address2.startsWith("nano_"))
     throw new Error("invalid-nano-wallet");
@@ -85449,10 +85855,10 @@ var HttpsBrowserSigninTransport = class {
             return;
           }
           const chunks = [];
-          let size5 = 0;
+          let size6 = 0;
           response2.on("data", (chunk) => {
-            size5 += chunk.length;
-            if (size5 > 16384) {
+            size6 += chunk.length;
+            if (size6 > 16384) {
               response2.destroy();
               fail();
             } else chunks.push(chunk);
@@ -85507,6 +85913,25 @@ function browserSigninNextAction(outcome) {
   if (outcome === "operator-terminal-required")
     return "A human operator must run subnano-mcp auth browser-signin --request-url with this public request URL in a trusted terminal.";
   return "This sign-in attempt ended. Return to the original browser.";
+}
+function shortAccount(address2) {
+  return `${address2.slice(0, 10)}…${address2.slice(-6)}`;
+}
+function browserSigninReview(origin, address2, request, now = Date.now()) {
+  const expires = Date.parse(request.expirationTime);
+  const minutes = Math.max(1, Math.ceil((expires - now) / 6e4));
+  const time5 = new Date(expires).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  return [
+    `Sign in to ${new URL(origin).host} in your browser as this agent?`,
+    "",
+    `Account: ${shortAccount(address2)}`,
+    `Request code: ${browserSigninCode(request.requestId)}`,
+    `Expires: ${time5} (in ${minutes} min)`,
+    "",
+    "Approve only if you started this sign-in yourself and your browser shows the same request code. Approving a request someone else sent you gives their browser access to this account.",
+    "",
+    "This signs a login proof only. It cannot send Nano or make payments. Afterwards, go back to your browser and press Continue."
+  ].join("\n");
 }
 function browserSigninOutcomeForStatus(status) {
   if (status === 204) return "accepted";
@@ -85569,21 +85994,8 @@ var BrowserSigninService = class {
         assertCurrent(request);
         if (!confirm) return result("operator-terminal-required");
         await confirm(
-          `Sign into this website with the selected agent account
-
-Website: ${this.origin}
-Account: ${snapshot2.selected.walletAddress}
-Request: ${request.requestId}
-Request URL: ${request.requestUri}
-Browser page: ${request.uri}
-Expires: ${request.expirationTime}
-
-Approve only a login you initiated in your own browser. A request forwarded by someone else can give their browser access to this account.
-
-Exact message to sign (including its final newline):
-${browserSigninMessageFor(request, snapshot2.selected.walletAddress)}
-This proof permits browser access to this account. It does not authorize any Nano transaction. Return to the original browser and press Continue after the proof is accepted.`,
-          "I approve this exact browser sign-in"
+          browserSigninReview(this.origin, snapshot2.selected.walletAddress, request),
+          "I started this sign-in and my browser shows this code"
         );
         const proof = this.store.transaction(() => {
           assertCurrent(request);
@@ -85721,15 +86133,13 @@ var NanoTransfers = class {
             destination,
             void 0,
             async () => confirm(
-              `Send ${xno} XNO
+              `Send ${xno} XNO?
 
-This approval sends money on Nano mainnet. Check the full recipient address.
-
-From: ${selected.walletAddress}
 To: ${destination}
-Amount: ${xno} XNO (${amountRaw} raw).
-Intent: ${input2.intentId}
-This transfers funds to the address above and cannot be undone.`,
+From: ${selected.walletAddress}${/\.\d{7,}/.test(xno) ? `
+Exact amount: ${amountRaw} raw` : ""}
+
+This sends money on Nano and cannot be undone. Check the full recipient address.`,
               "Approve this Nano transfer"
             )
           );
@@ -85976,14 +86386,14 @@ var PurchaseService = class {
       const current2 = this.purchase(operationId);
       if (originalHostBlocked(current2.data)) return this.view(current2);
       const input2 = object3(privateInput2);
-      let block;
+      let block2;
       if (typeof input2.signature === "string" && Object.keys(input2).length === 1) {
-        block = {
+        block2 = {
           ...current2.data.signed?.block ?? current2.data.external.block,
           signature: input2.signature
         };
       } else if (input2.block && Object.keys(input2).length === 1) {
-        block = input2.block;
+        block2 = input2.block;
       } else if (input2.x402Version === 2) {
         const encoded = encode6(input2);
         const candidate = object3(decode4(encoded, 6 * 1024));
@@ -85991,10 +86401,10 @@ var PurchaseService = class {
           (key) => !["x402Version", "resource", "accepted", "payload", "extensions"].includes(key)
         ) || Object.keys(object3(candidate.payload)).length !== 1)
           throw new Error("external-payment-intent-mismatch");
-        block = object3(candidate.payload).block;
+        block2 = object3(candidate.payload).block;
       } else throw new Error("invalid-external-payment-input");
       const token = await this.token(this.context());
-      const signed = this.wallet.importExternal(operationId, block);
+      const signed = this.wallet.importExternal(operationId, block2);
       const saved = this.purchase(operationId);
       const proof = saved.data.proof ?? this.proof({ ...saved.data, signed });
       if (saved.data.proof && saved.data.proof !== this.proof({ ...saved.data, signed }))
@@ -86146,9 +86556,12 @@ var PurchaseService = class {
           binding4,
           nanoAmount(operation.data.amountRaw),
           operation.id,
-          `Post: ${operation.data.postId}
+          {
+            binding: `Post: ${operation.data.postId}
 Seller: ${canonical(contract.document.seller)}
 Payment destination: ${operation.data.quote.accepts[0].payTo}`,
+            display: purchaseRecipient(operation.data.postId, contract.document)
+          },
           checkoutTerms(contract),
           operation.data.postId
         );
@@ -87713,12 +88126,10 @@ async function main() {
         confirm: async (review) => {
           if (!trustedTerminal()) throw new Error("trusted-terminal-required");
           const request = new URL(required2("request-url"));
-          const phrase = `SIGN IN ${request.hostname} ${request.pathname.split("/").at(-1)}`;
-          const answer = await localInput(
-            `${review}
+          const phrase = `SIGN IN ${browserSigninCode(request.pathname.split("/").at(-1) ?? "")}`;
+          const answer = await localInput(`${review}
 
-Type ${phrase} to approve this browser login: `
-          );
+Type ${phrase} to approve: `);
           if (answer !== phrase) throw new Error("elicitation-declined");
         }
       });
@@ -87801,7 +88212,22 @@ Type ${phrase} to approve this browser login: `
             outputRoots: folder("outputRoots", values["output-root"])
           };
         }
-        result = await applyPermissions(local, input2, trustedTerminal());
+        result = await applyPermissions(
+          local,
+          input2,
+          trustedTerminal(),
+          void 0,
+          trustedTerminal() ? async (review) => {
+            const phrase = "ALLOW SPENDING";
+            const answer = await localInput(
+              `This gives the agent more spending authority:
+${review}
+
+Type ${phrase} to approve: `
+            );
+            if (answer !== phrase) throw new Error("elicitation-cancelled");
+          } : void 0
+        );
       }
       process.stdout.write(JSON.stringify(result) + "\n");
       return;
