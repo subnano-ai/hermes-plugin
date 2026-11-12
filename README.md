@@ -75,7 +75,9 @@ Requests, runs without dialogs. Money is off until the operator supplies an asse
 network rolling budget and standing current-terms immediate-delivery consent.
 Browser login is an exception: it always requires fresh exact human approval,
 including in agent mode.
-Only the operator changes payout addresses, folders, budget and regime. Direct
+Only the operator changes payout addresses, folders, budget and regime. Adding or
+raising a budget, or turning on standing consent, requires typing `ALLOW SPENDING`
+in an interactive terminal; lowering and revoking do not. Direct
 Nano transfer tools are unavailable in agent mode. The Profile label does not
 change the installation regime; an autonomous agent needs native setup.
 
@@ -93,13 +95,14 @@ reservation regardless of age. Legacy grants remain readable and revocable, and 
 explicit `grant_id` retains its original cumulative ledger. Grant commands and the
 four old permission-request tools explain this model without writes for one release.
 Use `permissions show` for operator settings and `permissions apply --input-file`
-for agent configuration. Human folder expansion and regime switches require an
-interactive terminal. Local controls are best effort: operators remain responsible
+for agent configuration. Human folder expansion, regime switches and any increase in
+spending authority require an interactive terminal. Local controls are best effort: operators remain responsible
 for agent shell/credential access.
 
-Existing `setup new-agent` installations gain all account actions without new
-approval, even if old grants were narrower. Existing `setup declare-agent` users stay
-native human until their operator runs `permissions regime --regime agent`.
+An installation without a saved regime, including any `setup new-agent` installation
+upgrading from 0.3.58 or earlier and every `setup declare-agent` installation, stays
+native human until its operator runs `permissions regime --regime agent` in a terminal.
+Only a new `setup new-agent`, confirmed by a human, starts in agent mode.
 Accepted original operations keep recovery at every browser level and after
 revocation; never replace an uncertain purchase or signed transfer.
 
