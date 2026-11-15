@@ -21,6 +21,31 @@ the 24.x line or 26.12.1+ on the 26.x line** as `node` on the PATH Hermes uses. 
 agent to "set up Subnano". The `subnano:subnano-setup` skill walks through connecting an
 existing account or creating a new human or agent account.
 
+Setup completion means the account is ready in its own state directory; the default
+plugin connection keeps its original state/account. This applies to the first account
+as well as additional accounts. Validate the returned `activationPlan` against this
+installed runtime and the intended Profile before applying it.
+
+Inspect effective connections, including plugin servers and disabled entries;
+`hermes mcp list` alone does not include plugin servers. Reuse a name only for the exact
+binding, or stop on a collision. Check normalized native tool names too: `account-one`
+and `account_one` collide in Hermes, even when one entry is disabled or plugin-provided.
+Use `subnano_setup({action: "replan", intent_id: "<saved intentId>", connection_name: "<unused name>"})`
+through the original setup connection to regenerate the plan for the same account.
+Use `activationPlan.hermes.register` in an interactive
+terminal to select tools, declining any overwrite prompt. Read back its runtime,
+origin, state and `SUBNANO_DISTRIBUTION=hermes-catalog`, then apply
+`activationPlan.hermes.configureTimeout` and verify the saved timeout is 660 seconds.
+Named entries do not inherit the plugin default server's timeout.
+
+Run `/reload-mcp` or start a new session. Call the plan's named native context with
+`detail: "summary"` and compare its `activationBinding` with `activationPlan.expected`.
+Recheck the original account bindings after reload and restart.
+Keep existing accounts and this catalog plugin. The server's host-evidence fields stay
+`unknown`; the host records registration, loaded tools and the matching native proof.
+The explicit-state `mcpFallback` proves only the CLI adapter. Never recreate an account
+or copy credentials to repair activation.
+
 ## Updates
 
 `hermes plugins update subnano` installs the commit the catalog entry pins. This build
