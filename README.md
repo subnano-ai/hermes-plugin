@@ -32,15 +32,25 @@ binding, or stop on a collision. Check normalized native tool names too: `accoun
 and `account_one` collide in Hermes, even when one entry is disabled or plugin-provided.
 Use `subnano_setup({action: "replan", intent_id: "<saved intentId>", connection_name: "<unused name>"})`
 through the original setup connection to regenerate the plan for the same account.
-Use `activationPlan.hermes.register` in an interactive
+For a version 2 plan, save `activationPlan` as JSON and run the optional host adapter
+from the installed plugin with `--host hermes --plugin-dir <stable installed directory>
+--input-file <plan.json>`. Its package entrypoint is `server/connection-config.js`;
+it only returns settings and never changes account data or host configuration.
+Use the returned `hermes.register` in an interactive
 terminal to select tools, declining any overwrite prompt. Read back its runtime,
 origin, state and `SUBNANO_DISTRIBUTION=hermes-catalog`, then apply
-`activationPlan.hermes.configureTimeout` and verify the saved timeout is 660 seconds.
+the returned `hermes.configureTimeout` and verify the saved timeout is 660 seconds.
 Named entries do not inherit the plugin default server's timeout.
+Older version 1 plans include these steps directly in `activationPlan.hermes`.
 
 Run `/reload-mcp` or start a new session. Call the plan's named native context with
 `detail: "summary"` and compare its `activationBinding` with `activationPlan.expected`.
 Recheck the original account bindings after reload and restart.
+Compare the reported runtime version with the currently installed plugin version,
+not the version that originally created the account. The stable plugin directory
+keeps every named instance on the host-managed installation across updates. The launch
+adapter checks the plugin name, manifest and entrypoint containment on every start;
+an incompatible or escaping replacement fails before the account runtime is launched.
 Keep existing accounts and this catalog plugin. The server's host-evidence fields stay
 `unknown`; the host records registration, loaded tools and the matching native proof.
 The explicit-state `mcpFallback` proves only the CLI adapter. Never recreate an account

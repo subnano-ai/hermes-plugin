@@ -67374,7 +67374,7 @@ function registerAccountMessageTools(server, service) {
 // package.json
 var package_default = {
   name: "subnano-mcp",
-  version: "0.3.62",
+  version: "0.3.63",
   description: "Subnano: local MCP tools and explicit account setup",
   type: "module",
   engines: {
@@ -73492,10 +73492,18 @@ function accountActivationPlan(target, runtime = {
   const hermes = runtime.distribution === "hermes-catalog";
   const env = hermes ? { SUBNANO_DISTRIBUTION: "hermes-catalog" } : {};
   const common = {
-    version: 1,
+    version: 2,
     connectionName: target.connectionName,
     targetStateDir: target.stateDir,
-    expected: { ...target.expected, runtimeVersion: VERSION },
+    program: { name: "subnano", entrypoint: "server/cli.js" },
+    expected: { ...target.expected },
+    observedRuntime: { version: VERSION },
+    updatePolicy: {
+      owner: "host",
+      selection: "explicit-plugin-installation",
+      activation: "new-process-after-plugin-update-and-mcp-reload",
+      instructions: "Bind every account instance to the same selected plugin installation through the host integration. Keep account state outside that installation. Running processes keep their loaded version until restarted. This is Subnano setup metadata, not an MCP protocol extension; other hosts can run the same serve command with separate state directories."
+    },
     hostConfigurationChanged: false,
     registration: {
       status: "inspection-required",
@@ -73512,7 +73520,7 @@ function accountActivationPlan(target, runtime = {
       connectionName: target.connectionName,
       tool: "subnano_context",
       arguments: { detail: "summary" },
-      instructions: "Resolve this raw MCP tool from the named connection in the host tool inventory; host prefixes vary. Call through that native connection. Require identity.status verified, activation.login and localAdoption verified, and activationBinding matching expected origin, profileId, authorKind, credentialClass and runtimeVersion. Also recheck the original account bindings after reload and restart; verifying only the new account cannot detect a redirected old tool. A mismatched account blocks further account work. The server host-evidence fields remain unknown; record host evidence separately."
+      instructions: "Resolve this raw MCP tool from the named connection in the host tool inventory; host prefixes vary. Call through that native connection. Require identity.status verified, activation.login and localAdoption verified, and activationBinding matching expected origin, profileId, authorKind and credentialClass. Compare runtimeVersion with the currently installed plugin version, not the version observed when this account was created. Also recheck the original account bindings after reload and restart; verifying only the new account cannot detect a redirected old tool. A mismatched account blocks further account work. The server host-evidence fields remain unknown; record host evidence separately."
     }
   };
   if (!validConnectionName(target.connectionName))
@@ -73530,7 +73538,7 @@ function accountActivationPlan(target, runtime = {
       nextAction: "Resume setup through the trusted installed CLI or MCP server to obtain its exact runtime paths."
     };
   const accountArgs = ["--state-dir", target.stateDir, "--origin", target.expected.origin];
-  const desiredServer = {
+  const diagnosticServer = {
     command: runtime.command,
     args: [runtime.cliPath, "serve", ...accountArgs],
     env,
@@ -73539,42 +73547,22 @@ function accountActivationPlan(target, runtime = {
   return {
     ...common,
     status: "host-registration-required",
-    desiredServer,
+    hostConfiguration: {
+      optionalPackageEntrypoint: "server/connection-config.js",
+      instructions: "Translate this plan through the selected host integration. The plugin package includes an optional connection-config executable; save this plan as JSON and pass --input-file plus the explicit host binding documented by that integration. Inspect and apply the returned desiredServer through the host interface. The MCP server itself has no host dependency. Other hosts can provide their own plugin binding or explicitly choose standalone configuration."
+    },
+    diagnosticServer: {
+      ...diagnosticServer,
+      runtimeBinding: "fixed-path",
+      instructions: "One-shot diagnostic or explicitly chosen standalone configuration only. This path does not follow plugin updates and must not be used as a permanent plugin-managed connection."
+    },
     mcpFallback: {
       command: runtime.command,
       args: [runtime.cliPath, "mcp", "call", "--tool", "subnano_context", ...accountArgs],
       env,
       transport: "cli-adapter",
       instructions: "This proves only the explicit-state adapter; it does not verify native host activation."
-    },
-    ...hermes ? {
-      hermes: {
-        register: {
-          command: "hermes",
-          args: [
-            "mcp",
-            "add",
-            target.connectionName,
-            "--command",
-            runtime.command,
-            "--env",
-            "SUBNANO_DISTRIBUTION=hermes-catalog",
-            "--args",
-            ...desiredServer.args
-          ],
-          interactive: true,
-          instructions: "After inventory validation, use an interactive terminal for tool selection. Decline any overwrite prompt. If the exact binding already exists, skip add and verify it."
-        },
-        configureTimeout: {
-          command: "hermes",
-          args: ["config", "set", `mcp_servers.${target.connectionName}.timeout`, "660"],
-          instructions: "Apply only after readback confirms the selected entry has the exact runtime, state and origin above. Named entries do not inherit the plugin default server timeout."
-        },
-        reload: "/reload-mcp",
-        reloadFallback: "Start a new Hermes session if MCP cannot be reloaded in the current session.",
-        updateCommand: "hermes plugins update subnano"
-      }
-    } : {}
+    }
   };
 }
 

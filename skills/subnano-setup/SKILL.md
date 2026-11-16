@@ -191,7 +191,7 @@ Repeated setup retains the original kind, public fields and target. Account setu
 local adoption do not prove host registration, native activation or MCP proof.
 
 Setup completion has `completionScope: "account-only"`. Its `activationPlan` names
-this installed runtime, the original `targetStateDir`, expected Profile ID, origin,
+the portable `program` (`subnano`, `server/cli.js`), original `targetStateDir`, expected Profile ID, origin,
 account kind and credential class. `currentConnection` identifies the unchanged
 calling state/account. Do not continue account work through that connection when
 it differs from the target. Resume the original intent to recover the same plan;
@@ -206,7 +206,9 @@ raw name is insufficient; stop on any alias, regardless of registration order.
 Apply the selected registration through the supported host interface, read it back, then
 reload and call the plan's named native `subnano_context` with `detail: "summary"`.
 Require verified login/local adoption and compare `activationBinding` with
-`activationPlan.expected`, including immutable Profile ID and credential class.
+`activationPlan.expected`, including immutable Profile ID and credential class. Compare
+`activationBinding.runtimeVersion` to the currently installed plugin version; the account
+is not bound to the version that originally created it.
 Recheck original account bindings after reload and restart as well as the new one.
 Only that host evidence completes activation. `mcpFallback` uses the original
 explicit state and proves only the CLI adapter. A missing installed runtime
@@ -363,6 +365,47 @@ For native recovery, browser sign-in alone does not replace local credential pro
 or prove an old provider session revoked. A separate browser connection follows
 the existing-account branch above; it never converts this native state. Never resolve a public Profile to a private email address.
 
+For a host-managed plugin, install and update through that host's plugin manager.
+Each account has its own named MCP instance and private state directory outside the
+plugin. All instances can share one selected installation. No account selector or
+bot scheduler is part of the MCP server, and normal tools need no account argument.
+
+Version 2 activation plans describe the program and account separately. Save the
+trusted plan as a JSON file and use the optional `server/connection-config.js`
+executable from the installed package to translate it into host settings. It does
+not change host configuration or account files. The MCP server never imports this
+adapter; any compatible client can still run `serve --state-dir … --origin …`.
+
+For Codex, pass `--host codex --input-file /absolute/plan.json`, plus explicit
+`--plugin-id subnano@<selected-marketplace>`, `--host-command /absolute/codex`,
+`--host-home /absolute/codex-home` and `--host-cwd /absolute/configuration-context`.
+Get these from the selected host installation and effective inventory. The adapter
+resolves the installed, enabled plugin through `plugin/installed` and the owning
+`pluginId` in `skills/list`; marketplace source paths are not installed paths.
+It embeds its small resolver in the connection config, so there is no extra launcher
+file or runtime copy to install. Missing, disabled, ambiguous or unsupported plugin
+metadata stops startup; never guess the highest cache version or fall back to an
+older executable. This integration requires the host APIs demonstrated by its
+qualification test; it does not promise support for every Codex version.
+
+For Hermes, pass `--host hermes --input-file /absolute/plan.json --plugin-dir
+/absolute/host-managed/plugins/subnano`. Obtain that stable directory from the host,
+not a versioned archive or temporary build. Use the returned `hermes` registration
+instructions and `desiredServer`; keep its catalog environment and 660-second timeout.
+
+Inspect all entries, scopes, disabled/plugin servers and normalized tool-name aliases.
+For migration, preserve each existing state path, origin, environment, tool approvals
+and other host settings, changing only the reviewed launch fields. Never replace an
+entire server entry or silently retarget a name. Read back and verify all native account
+bindings. A resolved path or direct CLI check is not proof of host registration.
+
+After a normal plugin update, reload MCP or restart the host. New instances resolve
+the installed version with their existing state; running processes keep the old
+version until restarted. Verify every named context's identity, permissions and version.
+Do not run the standalone installer to update a plugin-managed connection.
+`diagnosticServer` and `mcpFallback` deliberately use a fixed runtime path for one-shot
+checks; never register that path as a permanent plugin-following connection.
+
 This is the Hermes plugin build. Hermes installs it (`hermes plugins install`, then
 `hermes plugins enable subnano`) and updates it (`hermes plugins update subnano`) at the
 commit its catalog entry pins. Never download or run a Subnano installer, and never edit this
@@ -370,7 +413,8 @@ plugin's files or Hermes's MCP configuration to change versions. The `subnano` s
 Node 24.22.1+ (24.x) or 26.12.1+ (26.x) as `node` on the PATH Hermes uses. It serves the
 default private state. Setup creates or connects the account in separate child state, even
 for the first account; the default server does not switch accounts. Follow
-`activationPlan.hermes` using this installed catalog runtime for each named connection.
+the portable activation plan through `server/connection-config.js --host hermes`
+with this installed plugin directory, then use the returned `hermes` registration steps.
 Inspect effective entries including plugin servers (`hermes mcp list` alone omits them),
 stop on raw or normalized native-name collisions (`account-one` aliases `account_one`,
 including disabled entries), and use `subnano_setup` action `replan` with the saved
