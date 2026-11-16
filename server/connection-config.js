@@ -8,6 +8,151 @@ import { parseArgs } from "node:util";
 // src/hosts/connection-config.ts
 import { isAbsolute } from "node:path";
 
+// src/tool-groups.ts
+var toolGroups = {
+  starter: [
+    "subnano_context",
+    "subnano_help",
+    "subnano_setup",
+    "subnano_categories",
+    "subnano_search",
+    "subnano_preview",
+    "subnano_read_content"
+  ],
+  research: ["subnano_profiles", "subnano_tag_collection", "subnano_open_browser"],
+  publishing: [
+    "subnano_create_draft",
+    "subnano_list_drafts",
+    "subnano_read_draft",
+    "subnano_update_draft",
+    "subnano_delete_draft",
+    "subnano_sale_snapshot",
+    "subnano_publish",
+    "subnano_unpublish_post",
+    "subnano_update_published_post",
+    "subnano_list_tags",
+    "subnano_set_post_tags",
+    "subnano_request_draft_deletion_approval",
+    "subnano_request_publication_approval"
+  ],
+  media: [
+    "subnano_attach_file",
+    "subnano_attach_zip",
+    "subnano_attachment_status",
+    "subnano_download_attachment",
+    "subnano_extract_attachment",
+    "subnano_image_associate",
+    "subnano_image_cancel",
+    "subnano_image_status",
+    "subnano_upload_image",
+    "subnano_upload_profile_image",
+    "subnano_profile_image_status",
+    "subnano_profile_image_cancel",
+    "subnano_request_file_grant"
+  ],
+  scheduling: [
+    "subnano_schedule_post",
+    "subnano_reschedule_post",
+    "subnano_cancel_post_schedule",
+    "subnano_list_post_schedules",
+    "subnano_post_schedule"
+  ],
+  "requests-reader": [
+    "subnano_requests",
+    "subnano_request",
+    "subnano_requests_access",
+    "subnano_request_workspace",
+    "subnano_request_metrics",
+    "subnano_request_own_posts",
+    "subnano_solved_requests"
+  ],
+  "requests-author": [
+    "subnano_create_request",
+    "subnano_edit_request",
+    "subnano_delete_request",
+    "subnano_transition_request",
+    "subnano_request_invitees",
+    "subnano_invite_request_participant",
+    "subnano_answer_request",
+    "subnano_pause_request_participant",
+    "subnano_set_aside_request_proposal",
+    "subnano_restore_request_proposal",
+    "subnano_set_request_wanted_by"
+  ],
+  "requests-contributor": [
+    "subnano_propose_request",
+    "subnano_edit_request_proposal",
+    "subnano_withdraw_request_proposal",
+    "subnano_request_interest",
+    "subnano_ask_request",
+    "subnano_offer_request_help",
+    "subnano_reply_request",
+    "subnano_withdraw_request_help",
+    "subnano_withdraw_request_reply",
+    "subnano_withdraw_request_question",
+    "subnano_request_share_draft",
+    "subnano_report_request"
+  ],
+  discussion: [
+    "subnano_comment",
+    "subnano_comments",
+    "subnano_reactions",
+    "subnano_create_comment",
+    "subnano_reply_to_comment"
+  ],
+  account: [
+    "subnano_account_message_acknowledge",
+    "subnano_account_messages",
+    "subnano_feedback",
+    "subnano_financial_history",
+    "subnano_financial_record",
+    "subnano_notification_preferences_get",
+    "subnano_notification_preferences_update",
+    "subnano_notifications",
+    "subnano_notifications_mark_read",
+    "subnano_seller_information_get",
+    "subnano_seller_information_update",
+    "subnano_browser_signin"
+  ],
+  payments: [
+    "subnano_buy_post",
+    "subnano_purchase_status",
+    "subnano_tip_comment",
+    "subnano_request_spending_grant"
+  ],
+  wallet: [
+    "subnano_wallet_status",
+    "subnano_wallet_work",
+    "subnano_send_nano",
+    "subnano_nano_transfer_status",
+    "subnano_payout_address_get",
+    "subnano_payout_address_update"
+  ],
+  recovery: ["subnano_operation"]
+};
+var dependencies = {
+  research: ["subnano_categories", "subnano_search", "subnano_preview", "subnano_read_content"],
+  publishing: ["subnano_categories", "subnano_read_content"],
+  media: ["subnano_read_draft", "subnano_request_file_grant"],
+  scheduling: ["subnano_read_draft", "subnano_sale_snapshot"],
+  "requests-author": toolGroups["requests-reader"],
+  "requests-contributor": toolGroups["requests-reader"],
+  discussion: ["subnano_profiles", "subnano_preview"],
+  payments: ["subnano_search", "subnano_preview", "subnano_read_content", "subnano_wallet_status"]
+};
+function selectToolsets(value) {
+  if (value === void 0 || value === "full") return null;
+  const modules = [...new Set(value.split(","))].sort();
+  const tools = /* @__PURE__ */ new Set(["subnano_context", "subnano_help", ...toolGroups.recovery]);
+  for (const name of modules) {
+    if (name === "recovery" || !Object.hasOwn(toolGroups, name)) throw new Error("invalid-toolsets");
+    const group = name;
+    for (const tool of toolGroups[group]) tools.add(tool);
+    for (const tool of dependencies[group] ?? []) tools.add(tool);
+  }
+  return { modules, tools };
+}
+
 // src/auth/connection-name.ts
 function validConnectionName(name) {
   return /^[A-Za-z][A-Za-z0-9_-]{0,63}$/.test(name) && !["constructor", "prototype", "__proto__"].includes(name.toLowerCase());
@@ -133,7 +278,15 @@ async function launchCodexPlugin(options, inspectOnly = false) {
   if (inspectOnly) return runtime;
   const server = spawn(
     process.execPath,
-    [runtime.cliPath, "serve", "--state-dir", options.stateDir, "--origin", options.origin],
+    [
+      runtime.cliPath,
+      "serve",
+      "--state-dir",
+      options.stateDir,
+      "--origin",
+      options.origin,
+      ...options.toolsets ? ["--toolsets", options.toolsets] : []
+    ],
     { stdio: "inherit" }
   );
   const interrupt = () => server.kill("SIGINT");
@@ -183,7 +336,15 @@ async function launchHermesPlugin(options, inspectOnly = false) {
   if (inspectOnly) return runtime;
   const server = spawn(
     process.execPath,
-    [cliPath, "serve", "--state-dir", options.stateDir, "--origin", options.origin],
+    [
+      cliPath,
+      "serve",
+      "--state-dir",
+      options.stateDir,
+      "--origin",
+      options.origin,
+      ...options.toolsets ? ["--toolsets", options.toolsets] : []
+    ],
     { stdio: "inherit", env: { ...process.env, SUBNANO_DISTRIBUTION: "hermes-catalog" } }
   );
   const interrupt = () => server.kill("SIGINT");
@@ -204,7 +365,8 @@ function hermesLaunchArgs(options) {
     "--input-type=module",
     "--eval",
     `(${launchHermesPlugin.toString()})(JSON.parse(process.argv[1])).catch(() => { process.stderr.write('Subnano: selected Hermes plugin unavailable; inspect its installation. No fallback runtime was started.\\n'); process.exitCode = 1; })`,
-    "--",
+    // The JSON starts with '{'. Node treats it as argv without a separator.
+    // Hermes 0.23.1 parses a bare '--' as its own argument during mcp add.
     JSON.stringify(options)
   ];
 }
@@ -213,7 +375,9 @@ function hermesLaunchArgs(options) {
 async function connectionConfig(plan, binding) {
   if (plan.version !== 2 || !validConnectionName(plan.connectionName) || plan.program?.name !== "subnano" || plan.program.entrypoint !== "server/cli.js" || !isAbsolute(plan.targetStateDir) || !plan.expected?.profileId || !plan.expected.credentialClass || !["agent", "human"].includes(plan.expected.authorKind) || new URL(plan.expected.origin).origin !== plan.expected.origin)
     throw new Error("invalid-connection-plan");
+  const toolsets = selectToolsets(plan.toolsets)?.modules.join(",");
   const common = {
+    ...toolsets ? { toolsets } : {},
     connectionName: plan.connectionName,
     expected: plan.expected,
     hostConfigurationChanged: false,
@@ -226,7 +390,8 @@ async function connectionConfig(plan, binding) {
       codexHome: binding.codexHome,
       cwd: binding.cwd,
       stateDir: plan.targetStateDir,
-      origin: plan.expected.origin
+      origin: plan.expected.origin,
+      ...toolsets ? { toolsets } : {}
     };
     const runtime2 = await launchCodexPlugin(options2, true);
     return {
@@ -246,7 +411,8 @@ async function connectionConfig(plan, binding) {
   const options = {
     pluginDir: binding.pluginDir,
     stateDir: plan.targetStateDir,
-    origin: plan.expected.origin
+    origin: plan.expected.origin,
+    ...toolsets ? { toolsets } : {}
   };
   const runtime = await launchHermesPlugin(options, true);
   const desiredServer = {
@@ -294,6 +460,7 @@ try {
     options: Object.fromEntries(
       [
         "input-file",
+        "toolsets",
         "host",
         "plugin-id",
         "host-command",
@@ -313,7 +480,7 @@ try {
   if (!["codex", "hermes"].includes(host)) throw new Error("unsupported-host-binding");
   const plan = JSON.parse(await readFile(required("input-file"), "utf8"));
   const result = await connectionConfig(
-    plan,
+    { ...plan, toolsets: values.toolsets ?? plan.toolsets },
     host === "codex" ? {
       host,
       pluginId: required("plugin-id"),
