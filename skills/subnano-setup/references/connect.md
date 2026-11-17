@@ -70,12 +70,27 @@ connection is blocked, follow its typed next action for the original operation;
 do not create another account, state directory or grant instead. An
 unconfigured wallet does not mean the account is unconnected. When a Base wallet still
 needs linking, local setup returns `native-wallet-link-required` with an `approvalUrl`
-on Subnano's wallet settings. That URL is a hint, not proof: the human signs in to the
-same account in the browser, checks the account, network and wallet, and links that
-wallet with its own signature. Linking lets the wallet sign in to the account and stays
-after the connection is removed. Browser sign-in never transfers to local setup. Then
-resume the original operation locally; it verifies the fresh server link and its own
-configured signer.
+for a saved, five-minute wallet-link intent. A Full connection is required. The human
+opens that URL in their authenticated browser and checks the exact account, network
+and wallet. They approve linking it as a **sign-in wallet**: anyone controlling that
+key can sign in, and the link remains after disconnecting the MCP connection. This
+approval does not approve a payment or change spending permissions.
+
+Then run `setup base-login` again with the same installation, state and connection.
+The MCP signs the approved intent locally with the dedicated key and verifies fresh
+server wallet readback. Never export that key, import it into MetaMask/Coinbase, or
+put keys, signatures, browser cookies or credentials in chat. The browser needs no
+wallet extension. The approval URL is a hint, not proof: saved server facts and authenticated
+consent determine the link. The sign-in wallet stays after the connection is removed.
+Browser sign-in never transfers to local setup. Account selection and delegated credentials stay unchanged.
+
+Retries reuse the same intent and privately saved signature after response loss;
+never create a replacement or sign again after uncertainty. Denial, expiry,
+revocation and ownership conflict are terminal. Stop after denial. Only when the
+human explicitly requests a new attempt, use `setup base-login --new-attempt` after
+a terminal result; this preserves the old evidence. A signing-uncertain result
+requires inspection of the original private operation, not another signing attempt.
+Existing native/direct SIWX login and browser-wallet linking remain separate.
 
 On interruption inspect `setup connect-status`, then follow its typed next action
 with the same state/origin. `setup connect-resume` resumes that attempt; do not
