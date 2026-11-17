@@ -40188,8 +40188,11 @@ var policyRefusalRoutes = {
   },
   "elicitation-declined": {
     ...operatorApproval,
-    changedBy: "human",
-    next: "The human declined this action and can review it in Subnano if they choose to change that decision."
+    next: "The host returned a decline. Stop this intent; older saved declines may also represent an unchecked confirmation."
+  },
+  "elicitation-unchecked": {
+    ...operatorApproval,
+    next: "The confirmation field was not checked. No approval was recorded; stop and let the human initiate a new review of the same action if desired."
   },
   "elicitation-cancelled": {
     ...operatorApproval,
@@ -40198,8 +40201,7 @@ var policyRefusalRoutes = {
   },
   "elicitation-not-confirmed": {
     ...operatorApproval,
-    changedBy: "human",
-    next: "The human can review the action in Subnano because the host did not confirm it."
+    next: "The host did not return the required confirmation. No approval was recorded; stop and let the human initiate a new review of the same action if desired."
   },
   "elicitation-timeout": {
     ...operatorApproval,
@@ -55116,7 +55118,7 @@ async function confirmAction(request, origin, _accountId) {
 function acceptOmitsValues(server) {
   return server.server.getClientVersion()?.name === "hermes-agent";
 }
-function formRequest(server, signal) {
+function formRequest(server, signal, confirmation = false) {
   const name = server.server.getClientVersion()?.name ?? "";
   if (["claude-code", "claude-ai"].includes(name) || name.startsWith("local-agent-mode-"))
     return void 0;
@@ -55137,7 +55139,7 @@ function formRequest(server, signal) {
       await previous;
       if (signal?.aborted) throw new Error("elicitation-cancelled");
       const options2 = { signal, timeout: 10 * 6e4 };
-      result = legacy ? await server.server.request(
+      result = legacy || confirmation ? await server.server.request(
         { method: "elicitation/create", params },
         ElicitResultSchema,
         options2
@@ -55160,14 +55162,16 @@ function formInput(server, signal) {
   return acceptOmitsValues(server) ? void 0 : formRequest(server, signal);
 }
 function formConfirmation(server, signal) {
-  const request = formRequest(server, signal);
+  const request = formRequest(server, signal, true);
   if (!request) return void 0;
   const acceptIsConsent = acceptOmitsValues(server);
   return async (statement, label) => {
     if (signal?.aborted) throw new Error("elicitation-cancelled");
     const message2 = acceptIsConsent ? `${statement}
 
-Approve only if: ${label}` : statement;
+Approve only if: ${label}` : `${statement}
+
+To approve, check the confirmation field and submit the form.`;
     if (Buffer.byteLength(message2, "utf8") > 128 * 1024)
       throw new Error("elicitation-review-too-large");
     const content2 = await request({
@@ -55179,7 +55183,8 @@ Approve only if: ${label}` : statement;
         required: ["confirmed"]
       }
     });
-    if (content2?.confirmed === false) throw new Error("elicitation-declined");
+    if (content2?.confirmed === false)
+      throw new Error(acceptIsConsent ? "elicitation-declined" : "elicitation-unchecked");
     if (!acceptIsConsent && content2?.confirmed !== true)
       throw new Error("elicitation-not-confirmed");
   };
@@ -56355,7 +56360,7 @@ function registerAccountMessageTools(server, service) {
 // package.json
 var package_default = {
   name: "subnano-mcp",
-  version: "0.3.65",
+  version: "0.3.66",
   description: "Subnano: local MCP tools and explicit account setup",
   type: "module",
   engines: {
@@ -56468,6 +56473,14 @@ import { createHash as createHash7, randomUUID as randomUUID8 } from "node:crypt
 
 // src/policy/spending.ts
 var recipientBinding = (recipient) => typeof recipient === "string" ? recipient : recipient.binding;
+var incompleteApproval = /* @__PURE__ */ new Map([
+  ["spending-host-approval-required", "This host cannot show the required confirmation form."],
+  ["elicitation-unchecked", "The confirmation field was not checked."],
+  ["elicitation-not-confirmed", "The host did not return the required confirmation."],
+  ["elicitation-failed", "The host confirmation failed."],
+  ["elicitation-timeout", "The host confirmation timed out."],
+  ["elicitation-cancelled", "The confirmation was cancelled."]
+]);
 var SpendingPolicy = class {
   constructor(store, budget) {
     this.store = store;
@@ -56508,7 +56521,7 @@ var SpendingPolicy = class {
     }
     if (effect === "money") this.assertNew(grantId, context6, binding4, amount3);
   }
-  refuse(code, binding4, amount3, postId) {
+  refuse(code, binding4, amount3, postId, reviewNext) {
     const agent = this.agent(binding4);
     const summary = amount3 ? this.budget.rollingSummary(binding4, amount3) : null;
     throw new PolicyDeniedError({
@@ -56523,10 +56536,23 @@ var SpendingPolicy = class {
         retryable: code === "budget-exceeded" && summary !== null && summary.nextAvailableAt !== null,
         ...summary?.blockingOperations.length ? { blockingOperations: summary.blockingOperations } : {},
         ...summary?.nextAvailableAt ? { retryAfter: new Date(summary.nextAvailableAt).toISOString() } : {},
-        next: code === "agent-transfer-unavailable" ? "Direct Nano transfers are unavailable in agent mode; the operator can review the installation regime." : code === "purchase-terms-changed" ? `The ${agent ? "operator" : "human"} must review the current terms and renew immediate-delivery consent.` : agent ? "The operator can review the rolling budget and standing immediate-delivery consent." : "The human can review this exact payment in Subnano.",
+        next: reviewNext ?? (code === "elicitation-declined" ? "The host returned a decline or an older ambiguous result. Stop this original operation." : code === "agent-transfer-unavailable" ? "Direct Nano transfers are unavailable in agent mode; the operator can review the installation regime." : code === "purchase-terms-changed" ? `The ${agent ? "operator" : "human"} must review the current terms and renew immediate-delivery consent.` : agent ? "The operator can review the rolling budget and standing immediate-delivery consent." : "The human can review this exact payment in Subnano."),
         url: code === "agent-transfer-unavailable" ? `${binding4.origin}/settings/wallets` : postId && UUID.test(postId) ? `${binding4.origin}/posts/${postId}` : `${binding4.origin}/${postId ? "settings/wallets" : "settings/connected-apps"}`
       }
     });
+  }
+  refuseExact(code, binding4, operationId, postId) {
+    const reason = incompleteApproval.get(code);
+    if (!reason) this.refuse(code, binding4, void 0, postId);
+    const kind = this.store.operation(operationId)?.kind;
+    const action = kind === "nano-purchase" || kind === "usdc-purchase" || kind === "nano-comment-tip" ? `call subnano_operation with ${JSON.stringify({ action: "resume", operation_id: operationId })}` : "repeat the original action with identical arguments, including any intent_id";
+    this.refuse(
+      code,
+      binding4,
+      void 0,
+      postId,
+      `${reason} No payment was approved. Stop here. If the human explicitly requests another review, use a host that can show the confirmation form and ${action}. Stop if the original operation cannot be resumed.`
+    );
   }
   assertNew(grantId, context6, binding4, amount3) {
     if (grantId) {
@@ -56572,8 +56598,10 @@ var SpendingPolicy = class {
           throw new Error("consent-intent-mismatch");
         if (saved?.declined) this.refuse("elicitation-declined", binding4, void 0, postId);
         if (saved?.accepted) return;
-        if (!confirm) this.refuse("spending-host-approval-required", binding4, void 0, postId);
         const selection = this.stamp(binding4);
+        if (!saved) this.store.set(key, { digest: digest3, pending: true });
+        if (!confirm)
+          this.refuseExact("spending-host-approval-required", binding4, operationId, postId);
         try {
           await confirm(
             `Pay ${displayAmount(amount3.atomic, amount3.decimals)} ${amount3.asset}?
@@ -56587,10 +56615,11 @@ ${terms.consentText}` : "") + "\n\nApproving this one payment does not raise you
           );
         } catch (error40) {
           if (this.stamp(binding4) !== selection) throw new Error("credential-state-changed");
-          if (error40 instanceof Error && error40.message === "elicitation-declined")
-            this.store.set(key, { digest: digest3, declined: true });
-          if (error40 instanceof Error && error40.message.startsWith("elicitation-"))
-            this.refuse(error40.message, binding4, void 0, postId);
+          if (error40 instanceof Error && error40.message.startsWith("elicitation-")) {
+            if (error40.message === "elicitation-declined")
+              this.store.set(key, { digest: digest3, declined: true });
+            this.refuseExact(error40.message, binding4, operationId, postId);
+          }
           throw error40;
         }
         if (this.stamp(binding4) !== selection) throw new Error("credential-state-changed");
@@ -56617,7 +56646,8 @@ ${terms.consentText}` : "") + "\n\nApproving this one payment does not raise you
     if (savedExact?.declined) this.refuse("elicitation-declined", binding4, void 0, postId);
     const preflightSummary = this.budget.rollingSummary(binding4, amount3);
     const exact = !this.automatic(binding4) || !preflightSummary.cap || BigInt(preflightSummary.remaining.atomic) < BigInt(amount3.atomic);
-    if (exact) {
+    const previousReviewIncomplete = !savedExact && incompleteApproval.has(operation?.data.error ?? "");
+    if (exact || savedExact?.pending || previousReviewIncomplete) {
       if (this.agent(binding4))
         this.refuse(
           preflightSummary.cap ? "budget-exceeded" : "spending-budget-required",
@@ -75729,8 +75759,7 @@ var BrowserSigninService = class {
         if (reason === "browser-signin-expired") return result("expired");
         if (reason === "credential-state-changed" || reason === "browser-signin-identity-required")
           return result("identity-changed");
-        if (reason === "elicitation-declined" || reason === "elicitation-not-confirmed")
-          return result("declined");
+        if (reason === "elicitation-declined") return result("declined");
         if (reason.startsWith("elicitation-") || reason === "browser-signin-cancelled")
           return result("cancelled");
         throw new Error("browser-signin-failed");

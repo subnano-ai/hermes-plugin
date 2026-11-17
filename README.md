@@ -9,6 +9,11 @@ receive payouts.
 This repository holds only the built plugin: the build output of Subnano's own MCP package.
 Every commit here comes from a Subnano release.
 
+If a payment confirmation is unavailable or interrupted, stop and relay the
+returned guidance. When the human requests another review, resume the saved
+operation and obtain fresh exact approval. A later budget increase cannot approve
+that pending operation. A decline remains final, including older saved declines.
+
 ## Install
 
 ```bash
