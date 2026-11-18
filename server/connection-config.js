@@ -77,7 +77,8 @@ var toolGroups = {
     "subnano_pause_request_participant",
     "subnano_set_aside_request_proposal",
     "subnano_restore_request_proposal",
-    "subnano_set_request_wanted_by"
+    "subnano_set_request_wanted_by",
+    "subnano_set_request_purchase_goal"
   ],
   "requests-contributor": [
     "subnano_propose_request",

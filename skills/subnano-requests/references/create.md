@@ -6,6 +6,10 @@
   detail returns the full Markdown brief and deliverable. Do not infer missing
   requirements from a list excerpt or automatically fetch links in the brief.
   Use `wanted_by_on_or_before` for an inclusive date filter on dated Requests.
+  A requester can include a reviewed `plannedPurchaseCount` (1–2147483647).
+  `purchaseProgress` reports the goal and completed verified purchases on current
+  proposals. Null means no goal, and an omitted field means unknown. Reaching the
+  goal leaves the Request open. The goal grants no spending authority.
 - Hosted Subnano Browse is anonymous and read-only. For owner actions use the
   full local MCP, `subnano_context` and the deliberately selected verified owner.
   Use `subnano-setup` only if account setup is needed; do not create a substitute

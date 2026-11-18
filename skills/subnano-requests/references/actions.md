@@ -12,6 +12,11 @@ cannot widen authority.
   reviewed `expected_version` and all brief/budget fields. Invitees cannot change.
   Use the server's `editLocked` flag for editing and `answered` for deletion.
   Never infer eligibility from empty visible arrays.
+- To change only a purchase goal, including after proposals, use
+  `subnano_set_request_purchase_goal` with the reviewed `expected_version`,
+  stable `intent_id`, Request ID and `plannedPurchaseCount`. Pass null to clear.
+  Omission during a brief edit preserves the goal. A receipt with missing
+  `purchaseProgress` stays readback-pending. Resume that operation by GET.
 - Use `subnano_set_request_wanted_by` for a separate date change, including
   after a response. Review the current version and exact `wantedBy` date or
   explicit null before writing. Use the same saved intent recovery as other
@@ -45,6 +50,17 @@ cannot widen authority.
   `expected_proposal_revision`, Post ID and note to revise or replace an unselected proposal while
   the Request is open. Drafting/publication follow their separate permissions and skills.
   Offering help assigns no task and guarantees no payment.
+  After choosing a Post, call `subnano_request_own_posts` with both `request_id`
+  and `post_id` to check `paymentGuidance` before proposing. Empty arguments still
+  list eligible Posts without extra reads. The advice matches the Request currency
+  to the current published offer, including USDC on Base, independently of the
+  Post's price anchor or budget fit. Explain unavailable source reasons, including
+  disabled rails or below-minimum offers. Missing offers and failed offer reads
+  mean unknown; never infer free or accepted payment from a null amount. A free
+  owned summary is labeled free and requires no offer read. Advice is current and
+  indicative: checkout determines the final payable offer. Unavailable or unknown
+  advice does not block proposing; this check cannot configure payouts, allocate
+  a quote, sign or buy anything.
 - Use `subnano_transition_request` with a fresh reviewed `expected_version`:
   select/unselect require `proposal_id`; selection also uses the proposal's
   reviewed `expected_proposal_revision`. Read the revision with

@@ -14,6 +14,10 @@ returned guidance. When the human requests another review, resume the saved
 operation and obtain fresh exact approval. A later budget increase cannot approve
 that pending operation. A decline remains final, including older saved declines.
 
+Requesters can set a planned purchase count and adjust it after proposals arrive.
+Request reads show how many verified purchases count toward that goal. A requester
+can buy above the goal and decides when to close the Request.
+
 ## Install
 
 ```bash
