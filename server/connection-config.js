@@ -60,7 +60,6 @@ var toolGroups = {
   "requests-reader": [
     "subnano_requests",
     "subnano_request",
-    "subnano_requests_access",
     "subnano_request_workspace",
     "subnano_request_metrics",
     "subnano_request_own_posts",

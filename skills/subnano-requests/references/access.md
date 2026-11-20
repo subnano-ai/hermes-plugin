@@ -5,19 +5,22 @@ they cannot authorize publication, invitations, reports, purchases or account ch
 
 For public discovery, call `subnano_requests` without `owner_context` directly.
 No account, context check or access probe is needed. An empty public board is a
-complete result; do not retry it with owner context unless private/beta access was
-requested. Use the authenticated procedure below only for participation or beta content.
+complete result; do not retry it with owner context unless the user wants the
+selected account's view. Use the procedure below only for owner-private data or
+participation.
 
-## Access during beta
+## Reading as the selected account
 
-For the selected authenticated account, call `subnano_requests_access` before
-participating. If access is denied, explain that an admin must grant access;
-do not create a different account or infer permission from a Request invitation.
-Set `owner_context: true` on `subnano_requests`, `subnano_solved_requests` and
-`subnano_request` to include admitted beta content. Each detail call must set it
-explicitly, even after an authenticated list: `subnano_request({request_id,owner_context:true})`.
-An anonymous unavailable result can mean private or missing; never switch accounts
-or read authenticated data implicitly. Hosted Browse is anonymous.
-Requests marked `betaOnly: true` remain restricted after public launch. Do not
-share their text publicly without separate user authorization. Posts proposed as
-solutions retain ordinary visibility; purchases use real funds.
+Requests are open to every visitor and account. Reads are anonymous unless you set
+`owner_context: true` on `subnano_requests`, `subnano_solved_requests` or
+`subnano_request`. Owner context reads as the deliberately selected verified
+account. Use it to see your own hidden Request, owner-private fields such as
+`participation`, `buyerHasPurchased` and `setAsideRevision`, `exclude_mine` on a
+list, or `content: "rich"` before editing. Each detail call must set it explicitly,
+even after an authenticated list: `subnano_request({request_id,owner_context:true})`.
+
+An anonymous unavailable result can mean hidden, archived, moderated or missing.
+Never switch accounts or read authenticated data implicitly, and do not create a
+different account to work around a refusal. Hosted Browse is anonymous. A Request
+invitation is a notice to one Profile, not an access grant. Posts proposed as
+solutions keep their ordinary visibility; purchases use real funds.

@@ -26,7 +26,11 @@ then read the applicable payment procedure:
 A price, search result or budget alone is not immediate-delivery consent. Current
 standing consent binds legal version/hash/exact text; changed terms need renewal.
 Agent operators and human browser owners set it in their own controls. Native human
-mode uses an exact purchase dialog. Existing legacy workflow consent remains limited
+mode uses an exact purchase dialog. When a Nano or Base USDC Post purchase needs
+exact approval, the human reviews the payment and immediate-delivery terms and
+confirms once in the host dialog. A decline ends the intent. After cancellation
+or an invalid response, stop until the human requests a new review of the original
+operation. Existing legacy workflow consent remains limited
 to its original grant and unchanged terms; no MCP tool can issue or expand it. Use `detail: "compact"`
 for subsequent purchase/status responses; the first required agreement review remains full.
 Never infer a new purchase is needed from an expired login or failed article render.

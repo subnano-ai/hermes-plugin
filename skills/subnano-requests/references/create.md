@@ -14,7 +14,7 @@
   full local MCP, `subnano_context` and the deliberately selected verified owner.
   Use `subnano-setup` only if account setup is needed; do not create a substitute
   identity to work around missing permission. Reads need no Requests write grant.
-- Before creating, settle the reviewed `audience: "beta" | "public"` from the access response, the exact title, Markdown brief, deliverable, indicative
+- Before creating, settle the exact title, Markdown brief, deliverable, indicative
   budget `{scope:"per_contribution"|"total", currency:"XNO"|"USDC", amount:"..."}`
   and optional invitations within the user's authorization. Include `wantedBy`
   (`YYYY-MM-DD`) only when the user specifies the advisory date. Title is 8–160
