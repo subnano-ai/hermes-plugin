@@ -17,6 +17,7 @@ configured origin and owner. A different account needs an explicit reconnect.
    derive from one anchor; never invent independent prices or convert money locally.
    Read the returned Post UUID and revision. Preserve the local operation ID if
    the response is uncertain; recover that operation before creating another.
+   For `unsupported_markdown`, inspect the field and its `features` list. Use plain bullets for task lists and inline code for literal HTML-like placeholders.
 3. Include only ZIP paths explicitly selected for this sale, inside allowed read
    folders. Human mode can confirm an unknown folder once; agent folders are configured
    by the operator. Never enumerate a directory or
@@ -45,6 +46,7 @@ configured origin and owner. A different account needs an explicit reconnect.
    revision and digest for review. Version 2 also includes the price anchor, all
    accepted rails/offers, current price policy, limits, payout readiness and saved
    Nano/Base destinations. Missing, held or mismatching files stop here.
+   For `attachment-source-verification-required`, retry from a state directory containing every upload record for the Post. If any files came from the browser or records span directories, the owner can publish in the web editor or approve replacing each unverified file through this connection.
    A deliberately removed historical ZIP is excluded only after the original-key
    lookup proves its bound cancellation/removal at the current manifest revision.
    Its saved operation stays terminal `removed`; inspect/resume never reads or

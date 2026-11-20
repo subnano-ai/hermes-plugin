@@ -39615,7 +39615,7 @@ function accountReadRoute(path, method = "GET") {
     `^/api/v1/(earnings|transactions)(?:/(sale|post_tip|post_comment_tip)/${id3})?$`
   ).test(route);
 }
-var validationFieldErrorSchema = external_exports2.object({
+var validationFieldAndRule = external_exports2.object({
   field: external_exports2.enum([
     "body",
     "title",
@@ -39651,6 +39651,11 @@ var validationFieldErrorSchema = external_exports2.object({
     "too_many_images",
     "invalid_image_url"
   ])
+});
+var validationFieldErrorSchema = validationFieldAndRule.extend({
+  features: external_exports2.array(
+    external_exports2.enum(["html", "task-list", "table-extra-cells", "table-image", "table-code-whitespace"])
+  ).max(5).optional()
 });
 var commentReceiptId = external_exports2.string().uuid().transform((value) => value.toLowerCase());
 var participationRevision = external_exports2.number().int().min(1).max(2147483647);
@@ -39721,8 +39726,13 @@ var ApiError = class extends Error {
     const acquired = commentReceiptId.safeParse(contribution ? void 0 : commentId);
     this.commentId = acquired.success ? acquired.data : null;
     this.errors = status === 422 && code === "validation" && Array.isArray(errors) ? errors.slice(0, 32).flatMap((error40) => {
-      const parsed = validationFieldErrorSchema.safeParse(error40);
-      return parsed.success ? [parsed.data] : [];
+      const basic = validationFieldAndRule.safeParse(error40);
+      if (!basic.success) return [];
+      if (basic.data.code === "unsupported_markdown") {
+        const markdown2 = validationFieldErrorSchema.safeParse(error40);
+        if (markdown2.success) return [markdown2.data];
+      }
+      return [basic.data];
     }) : [];
     if (status === 409 && ["request-awaiting-requester", "request-participation-paused"].includes(code)) {
       const policy = external_exports2.object({
@@ -56380,7 +56390,7 @@ function registerAccountMessageTools(server, service) {
 // package.json
 var package_default = {
   name: "subnano-mcp",
-  version: "0.3.68",
+  version: "0.3.70",
   description: "Subnano: local MCP tools and explicit account setup",
   type: "module",
   engines: {
@@ -60682,12 +60692,10 @@ var PublishedEditService = class {
       savedRevision: operation.data.savedRevision,
       currentRevision: operation.data.currentRevision,
       reason: operation.data.error,
-      ...operation.data.moderationRejected ? {
-        next: postContributionRetryNext(
-          operation.data.moderationRejected,
-          "subnano_update_published_post"
-        )
-      } : {},
+      next: operation.data.moderationRejected ? postContributionRetryNext(
+        operation.data.moderationRejected,
+        "subnano_update_published_post"
+      ) : operation.data.error === "image-not-cleared" && operation.data.input.ogImage ? "A hosted OG image must belong to this Post and be eligible for use. In the web editor, click the image under Social Preview and choose Upload Image." : void 0,
       ...post ? { post: publicPost2(post) } : {},
       untrustedData: true
     });
@@ -64642,7 +64650,7 @@ function registerCreatorAttachmentTools(server, service) {
   server.registerTool(
     "subnano_attach_zip",
     {
-      description: "Attach an explicitly authorized local ZIP to an owned paid Post at its exact revision. Replace only an explicitly reviewed attachment. After uncertainty inspect the saved upload operation.",
+      description: "Attach an explicitly authorized local ZIP to an owned paid Post at its exact revision. Omitting replaces_attachment_id adds a separate ZIP. Supply it to replace the explicitly reviewed attachment. After uncertainty inspect the saved upload operation.",
       inputSchema: attachZipSchema,
       annotations: {
         readOnlyHint: false,
@@ -66846,7 +66854,9 @@ var revision4 = external_exports2.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}
 var targetKey = external_exports2.string().min(1).max(255).refine((value) => !/\s/.test(value));
 var uploadImageObjectSchema = external_exports2.object({
   post_id: postIdSchema,
-  revision: revision4,
+  revision: revision4.describe(
+    "Copy the exact updatedAt string from subnano_read_draft, including its fractional seconds and timezone suffix."
+  ),
   path: external_exports2.string().min(1),
   intent: external_exports2.enum(["content", "og"]).default("content"),
   target_key: targetKey.optional()
@@ -74870,6 +74880,15 @@ function toolResult(value) {
 }
 function commandNext(code) {
   switch (code) {
+    case "private-state-path-must-be-absolute":
+      return "Pass the absolute path to your private state directory with --state-dir.";
+    case "attachment-not-ready":
+      return "Check subnano_attachment_status for each saved upload operation. Retry the snapshot once all intended attachments are ready.";
+    case "attachment-source-verification-required":
+      return "If one MCP state directory contains the upload records for every attachment on this Post, retry the snapshot there. For browser uploads or records split across directories, the owner can publish in the web editor. To continue in MCP, get approval to replace each unverified attachment through this connection, then retry once the replacements are ready.";
+    case "intended-attachment-missing":
+    case "attachment-intent-mismatch":
+      return "Compare the current Post attachments with the original upload operations, including any replacements, before retrying.";
     case "native-wallet-link-required":
       return "Open the original wallet-link approval URL in the owner’s authenticated browser. Approve the exact sign-in wallet, then run setup base-login with this same connection and state. The MCP signs locally; never export the key or import it into a browser wallet.";
     case "wallet-link-denied":
@@ -77230,7 +77249,7 @@ Browser connections always remain human. Budgets and standing delivery consent a
 Permissions input uses readRoots, outputRoots, budgets: [{cap: Money, windowMs}], standingDeliveryConsent.
 Budget input is one {cap: Money, windowMs}; Money contains asset, network, decimals and atomic.
 Setup onboard --input-file accepts this same operator permission profile in its one confirmation.
-All commands accept --origin, --state-dir and --attachment-relay-url. The exact upload
+All commands accept --origin, --state-dir (absolute path) and --attachment-relay-url. The exact upload
 relay URL may also be set with SUBNANO_ATTACHMENT_PART_RELAY_URL. Without it new ZIPs
 retain the 3 MiB legacy upload limit; saved direct uploads require their configured relay. Credential input files must be absolute,
 owned by you, regular files with mode 0600. Email input: {"email":"...","captchaToken":"..."}
@@ -77448,6 +77467,10 @@ var safeErrors = /* @__PURE__ */ new Set([
   "zip-update-approval-consumed",
   "attachment-replacement-conflict",
   "attachment-replacement-pending",
+  "attachment-not-ready",
+  "attachment-intent-mismatch",
+  "intended-attachment-missing",
+  "attachment-source-verification-required",
   "publication-primary-category-required",
   "publication-draft-incomplete",
   "publication-price-required",
@@ -77619,6 +77642,7 @@ var safeErrors = /* @__PURE__ */ new Set([
   "file-changed",
   "file-grant-required",
   "file-path-must-be-absolute",
+  "private-state-path-must-be-absolute",
   "file-path-not-authorized",
   "file-path-symlink",
   "file-too-large",

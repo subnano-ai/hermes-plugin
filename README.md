@@ -11,6 +11,8 @@ Every commit here comes from a Subnano release.
 
 For an exact human Post purchase, approving the displayed Nano or Base USDC payment also accepts its immediate-delivery terms.
 
+Draft validation identifies rejected Markdown features by field. For a sale snapshot with missing upload records, the owner can publish from the web editor or approve replacing the affected files through the current connection.
+
 If a payment confirmation is unavailable or interrupted, stop and relay the
 returned guidance. When the human requests another review, resume the saved
 operation and obtain fresh exact approval. A later budget increase cannot approve
