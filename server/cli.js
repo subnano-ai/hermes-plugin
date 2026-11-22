@@ -3456,8 +3456,8 @@ var init_az = __esm({
 });
 
 // ../node_modules/.pnpm/zod@3.25.76/node_modules/zod/v4/locales/be.js
-function getBelarusianPlural(count4, one, few, many) {
-  const absCount = Math.abs(count4);
+function getBelarusianPlural(count5, one, few, many) {
+  const absCount = Math.abs(count5);
   const lastDigit = absCount % 10;
   const lastTwoDigits = absCount % 100;
   if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
@@ -6758,8 +6758,8 @@ var init_pt = __esm({
 });
 
 // ../node_modules/.pnpm/zod@3.25.76/node_modules/zod/v4/locales/ru.js
-function getRussianPlural(count4, one, few, many) {
-  const absCount = Math.abs(count4);
+function getRussianPlural(count5, one, few, many) {
+  const absCount = Math.abs(count5);
   const lastDigit = absCount % 10;
   const lastTwoDigits = absCount % 100;
   if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
@@ -13844,20 +13844,20 @@ var require_resolve = __commonJS({
       return false;
     }
     function countKeys(schema2) {
-      let count4 = 0;
+      let count5 = 0;
       for (const key in schema2) {
         if (key === "$ref")
           return Infinity;
-        count4++;
+        count5++;
         if (SIMPLE_INLINED.has(key))
           continue;
         if (typeof schema2[key] == "object") {
-          (0, util_1.eachItem)(schema2[key], (sch) => count4 += countKeys(sch));
+          (0, util_1.eachItem)(schema2[key], (sch) => count5 += countKeys(sch));
         }
-        if (count4 === Infinity)
+        if (count5 === Infinity)
           return Infinity;
       }
-      return count4;
+      return count5;
     }
     function getFullPath(resolver, id3 = "", normalize2) {
       if (normalize2 !== false)
@@ -17339,8 +17339,8 @@ var require_contains = __commonJS({
         cxt.result(valid, () => cxt.reset());
         function validateItemsWithCount() {
           const schValid = gen2.name("_valid");
-          const count4 = gen2.let("count", 0);
-          validateItems(schValid, () => gen2.if(schValid, () => checkLimits(count4)));
+          const count5 = gen2.let("count", 0);
+          validateItems(schValid, () => gen2.if(schValid, () => checkLimits(count5)));
         }
         function validateItems(_valid, block2) {
           gen2.forRange("i", 0, len, (i) => {
@@ -17353,16 +17353,16 @@ var require_contains = __commonJS({
             block2();
           });
         }
-        function checkLimits(count4) {
-          gen2.code((0, codegen_1._)`${count4}++`);
+        function checkLimits(count5) {
+          gen2.code((0, codegen_1._)`${count5}++`);
           if (max === void 0) {
-            gen2.if((0, codegen_1._)`${count4} >= ${min}`, () => gen2.assign(valid, true).break());
+            gen2.if((0, codegen_1._)`${count5} >= ${min}`, () => gen2.assign(valid, true).break());
           } else {
-            gen2.if((0, codegen_1._)`${count4} > ${max}`, () => gen2.assign(valid, false).break());
+            gen2.if((0, codegen_1._)`${count5} > ${max}`, () => gen2.assign(valid, false).break());
             if (min === 1)
               gen2.assign(valid, true);
             else
-              gen2.if((0, codegen_1._)`${count4} >= ${min}`, () => gen2.assign(valid, true));
+              gen2.if((0, codegen_1._)`${count5} >= ${min}`, () => gen2.assign(valid, true));
           }
         }
       }
@@ -20298,7 +20298,7 @@ function expand_message_xof(msg, DST, lenInBytes, k2, H2) {
     throw new Error("expand_message_xof: invalid lenInBytes");
   return H2.create({ dkLen: lenInBytes }).update(msg).update(i2osp(lenInBytes, 2)).update(DST).update(i2osp(DST.length, 1)).digest();
 }
-function hash_to_field(msg, count4, options2) {
+function hash_to_field(msg, count5, options2) {
   validateObject(options2, {
     DST: "stringOrUint8Array",
     p: "bigint",
@@ -20308,11 +20308,11 @@ function hash_to_field(msg, count4, options2) {
   });
   const { p: p2, k: k2, m: m2, hash: hash10, expand, DST: _DST } = options2;
   abytes2(msg);
-  anum(count4);
+  anum(count5);
   const DST = typeof _DST === "string" ? utf8ToBytes2(_DST) : _DST;
   const log2p = p2.toString(2).length;
   const L = Math.ceil((log2p + k2) / 8);
-  const len_in_bytes = count4 * m2 * L;
+  const len_in_bytes = count5 * m2 * L;
   let prb;
   if (expand === "xmd") {
     prb = expand_message_xmd(msg, DST, len_in_bytes, hash10);
@@ -20323,8 +20323,8 @@ function hash_to_field(msg, count4, options2) {
   } else {
     throw new Error('expand must be "xmd" or "xof"');
   }
-  const u2 = new Array(count4);
-  for (let i = 0; i < count4; i++) {
+  const u2 = new Array(count5);
+  for (let i = 0; i < count5; i++) {
     const e = new Array(m2);
     for (let j2 = 0; j2 < m2; j2++) {
       const elm_offset = L * (j2 + i * m2);
@@ -23108,8 +23108,8 @@ var init_cursor = __esm({
       }
     };
     RecursiveReadLimitExceededError = class extends BaseError2 {
-      constructor({ count: count4, limit: limit2 }) {
-        super(`Recursive read limit of \`${limit2}\` exceeded (recursive read count: \`${count4}\`).`, { name: "RecursiveReadLimitExceededError" });
+      constructor({ count: count5, limit: limit2 }) {
+        super(`Recursive read limit of \`${limit2}\` exceeded (recursive read count: \`${count5}\`).`, { name: "RecursiveReadLimitExceededError" });
       }
     };
   }
@@ -23281,9 +23281,9 @@ var init_cursor2 = __esm({
       _touch() {
         if (this.recursiveReadLimit === Number.POSITIVE_INFINITY)
           return;
-        const count4 = this.getReadCount();
-        this.positionReadCount.set(this.position, count4 + 1);
-        if (count4 > 0)
+        const count5 = this.getReadCount();
+        this.positionReadCount.set(this.position, count5 + 1);
+        if (count5 > 0)
           this.recursiveReadCount++;
       }
     };
@@ -25459,7 +25459,7 @@ function weierstrass(curveDef) {
   function prepSig(msgHash, privateKey, opts = defaultSigOpts) {
     if (["recovered", "canonical"].some((k2) => k2 in opts))
       throw new Error("sign() legacy options not supported");
-    const { hash: hash10, randomBytes: randomBytes4 } = CURVE;
+    const { hash: hash10, randomBytes: randomBytes5 } = CURVE;
     let { lowS, prehash, extraEntropy: ent } = opts;
     if (lowS == null)
       lowS = true;
@@ -25471,7 +25471,7 @@ function weierstrass(curveDef) {
     const d2 = normPrivateKeyToScalar(privateKey);
     const seedArgs = [int2octets(d2), int2octets(h1int)];
     if (ent != null && ent !== false) {
-      const e = ent === true ? randomBytes4(Fp2.BYTES) : ent;
+      const e = ent === true ? randomBytes5(Fp2.BYTES) : ent;
       seedArgs.push(ensureBytes("extraEntropy", e));
     }
     const seed = concatBytes2(...seedArgs);
@@ -28369,24 +28369,24 @@ async function ccipRequest({ data, requestOptions, sender, urls }) {
     const body = method === "POST" ? { data, sender } : void 0;
     const headers = method === "POST" ? { "Content-Type": "application/json" } : {};
     try {
-      const response2 = await fetch(url2.replace("{sender}", sender.toLowerCase()).replace("{data}", data), {
+      const response3 = await fetch(url2.replace("{sender}", sender.toLowerCase()).replace("{data}", data), {
         body: JSON.stringify(body),
         headers,
         method,
         ...requestOptions?.signal ? { signal: requestOptions.signal } : {}
       });
       let result;
-      if (response2.headers.get("Content-Type")?.startsWith("application/json")) {
-        result = (await response2.json()).data;
+      if (response3.headers.get("Content-Type")?.startsWith("application/json")) {
+        result = (await response3.json()).data;
       } else {
-        result = await response2.text();
+        result = await response3.text();
       }
-      if (!response2.ok) {
+      if (!response3.ok) {
         error40 = new HttpRequestError({
           body,
-          details: result?.error ? stringify(result.error) : response2.statusText,
-          headers: response2.headers,
-          status: response2.status,
+          details: result?.error ? stringify(result.error) : response3.statusText,
+          headers: response3.headers,
+          status: response3.status,
           url: url2
         });
         continue;
@@ -28548,13 +28548,13 @@ async function call(client, args) {
         return [...base, {}, rpcBlockOverrides];
       return base;
     })();
-    const response2 = await client.request({
+    const response3 = await client.request({
       method: "eth_call",
       params
     }, requestOptions);
-    if (response2 === "0x")
+    if (response3 === "0x")
       return { data: void 0 };
-    return { data: response2 };
+    return { data: response3 };
   } catch (err) {
     if (requestOptions?.signal?.aborted)
       throw getAbortError(requestOptions.signal);
@@ -37666,7 +37666,7 @@ var Protocol = class {
       if (abortController.signal.aborted) {
         return;
       }
-      const response2 = {
+      const response3 = {
         result,
         jsonrpc: "2.0",
         id: request.id
@@ -37674,11 +37674,11 @@ var Protocol = class {
       if (relatedTaskId && this._taskMessageQueue) {
         await this._enqueueTaskMessage(relatedTaskId, {
           type: "response",
-          message: response2,
+          message: response3,
           timestamp: Date.now()
         }, capturedTransport?.sessionId);
       } else {
-        await capturedTransport?.send(response2);
+        await capturedTransport?.send(response3);
       }
     }, async (error40) => {
       if (abortController.signal.aborted) {
@@ -37731,29 +37731,29 @@ var Protocol = class {
     }
     handler(params);
   }
-  _onresponse(response2) {
-    const messageId = Number(response2.id);
+  _onresponse(response3) {
+    const messageId = Number(response3.id);
     const resolver = this._requestResolvers.get(messageId);
     if (resolver) {
       this._requestResolvers.delete(messageId);
-      if (isJSONRPCResultResponse(response2)) {
-        resolver(response2);
+      if (isJSONRPCResultResponse(response3)) {
+        resolver(response3);
       } else {
-        const error40 = new McpError(response2.error.code, response2.error.message, response2.error.data);
+        const error40 = new McpError(response3.error.code, response3.error.message, response3.error.data);
         resolver(error40);
       }
       return;
     }
     const handler = this._responseHandlers.get(messageId);
     if (handler === void 0) {
-      this._onerror(new Error(`Received a response for an unknown message ID: ${JSON.stringify(response2)}`));
+      this._onerror(new Error(`Received a response for an unknown message ID: ${JSON.stringify(response3)}`));
       return;
     }
     this._responseHandlers.delete(messageId);
     this._cleanupTimeout(messageId);
     let isTaskResponse = false;
-    if (isJSONRPCResultResponse(response2) && response2.result && typeof response2.result === "object") {
-      const result = response2.result;
+    if (isJSONRPCResultResponse(response3) && response3.result && typeof response3.result === "object") {
+      const result = response3.result;
       if (result.task && typeof result.task === "object") {
         const task = result.task;
         if (typeof task.taskId === "string") {
@@ -37765,10 +37765,10 @@ var Protocol = class {
     if (!isTaskResponse) {
       this._progressHandlers.delete(messageId);
     }
-    if (isJSONRPCResultResponse(response2)) {
-      handler(response2);
+    if (isJSONRPCResultResponse(response3)) {
+      handler(response3);
     } else {
-      const error40 = McpError.fromError(response2.error.code, response2.error.message, response2.error.data);
+      const error40 = McpError.fromError(response3.error.code, response3.error.message, response3.error.data);
       handler(error40);
     }
   }
@@ -37940,15 +37940,15 @@ var Protocol = class {
         const error40 = reason instanceof McpError ? reason : new McpError(ErrorCode.RequestTimeout, String(reason));
         reject(error40);
       };
-      this._responseHandlers.set(messageId, (response2) => {
+      this._responseHandlers.set(messageId, (response3) => {
         if (options2?.signal?.aborted) {
           return;
         }
-        if (response2 instanceof Error) {
-          return reject(response2);
+        if (response3 instanceof Error) {
+          return reject(response3);
         }
         try {
-          const parseResult = safeParse3(resultSchema5, response2.result);
+          const parseResult = safeParse3(resultSchema5, response3.result);
           if (!parseResult.success) {
             reject(parseResult.error);
           } else {
@@ -37966,10 +37966,10 @@ var Protocol = class {
       this._setupTimeout(messageId, timeout, options2?.maxTotalTimeout, timeoutHandler, options2?.resetTimeoutOnProgress ?? false);
       const relatedTaskId = relatedTask?.taskId;
       if (relatedTaskId) {
-        const responseResolver = (response2) => {
+        const responseResolver = (response3) => {
           const handler = this._responseHandlers.get(messageId);
           if (handler) {
-            handler(response2);
+            handler(response3);
           } else {
             this._onerror(new Error(`Response handler missing for side-channeled request ${messageId}`));
           }
@@ -39458,17 +39458,17 @@ var StateStore = class {
     connections.set(this.directory, registered);
   }
   get(key) {
-    const row = this.database.prepare("SELECT value FROM values_store WHERE key = ?").get(key);
-    return row ? JSON.parse(row.value) : null;
+    const row2 = this.database.prepare("SELECT value FROM values_store WHERE key = ?").get(key);
+    return row2 ? JSON.parse(row2.value) : null;
   }
   revision(key) {
-    const row = this.database.prepare("SELECT revision FROM value_revisions WHERE key = ?").get(key);
-    return row ? Number(row.revision) : 0;
+    const row2 = this.database.prepare("SELECT revision FROM value_revisions WHERE key = ?").get(key);
+    return row2 ? Number(row2.revision) : 0;
   }
   entries() {
-    return this.database.prepare("SELECT key, value FROM values_store").all().map((row) => ({
-      key: row.key,
-      value: JSON.parse(row.value)
+    return this.database.prepare("SELECT key, value FROM values_store").all().map((row2) => ({
+      key: row2.key,
+      value: JSON.parse(row2.value)
     }));
   }
   hasState() {
@@ -39518,12 +39518,12 @@ var StateStore = class {
     return operation;
   }
   operation(id3) {
-    const row = this.database.prepare("SELECT * FROM operations WHERE id = ?").get(id3);
-    return row ? this.decodeOperation(row) : null;
+    const row2 = this.database.prepare("SELECT * FROM operations WHERE id = ?").get(id3);
+    return row2 ? this.decodeOperation(row2) : null;
   }
   operations(kind) {
     const rows = kind ? this.database.prepare("SELECT * FROM operations WHERE kind = ? ORDER BY created_at").all(kind) : this.database.prepare("SELECT * FROM operations ORDER BY created_at").all();
-    return rows.map((row) => this.decodeOperation(row));
+    return rows.map((row2) => this.decodeOperation(row2));
   }
   updateOperation(id3, status, data) {
     const result = this.database.prepare("UPDATE operations SET status = ?, data = ?, updated_at = ? WHERE id = ?").run(status, JSON.stringify(data), Date.now(), id3);
@@ -39564,15 +39564,15 @@ var StateStore = class {
     if (!connections.get(this.directory)?.size) connections.delete(this.directory);
     this.database.close();
   }
-  decodeOperation(row) {
+  decodeOperation(row2) {
     return {
-      id: row.id,
-      kind: row.kind,
-      status: row.status,
-      context: JSON.parse(row.context),
-      data: JSON.parse(row.data),
-      createdAt: Number(row.created_at),
-      updatedAt: Number(row.updated_at)
+      id: row2.id,
+      kind: row2.kind,
+      status: row2.status,
+      context: JSON.parse(row2.context),
+      data: JSON.parse(row2.data),
+      createdAt: Number(row2.created_at),
+      updatedAt: Number(row2.updated_at)
     };
   }
 };
@@ -39692,14 +39692,14 @@ function safeEdgeRequestId(value) {
 var EdgeChallengeError = class extends Error {
   details;
   operationId;
-  constructor(response2) {
+  constructor(response3) {
     super("edge-challenge");
     this.name = "EdgeChallengeError";
-    const retryAfter = safeRetryAfter(response2.headers.get("Retry-After"));
-    const requestId = safeEdgeRequestId(response2.headers.get("x-vercel-id"));
+    const retryAfter = safeRetryAfter(response3.headers.get("Retry-After"));
+    const requestId = safeEdgeRequestId(response3.headers.get("x-vercel-id"));
     this.details = {
       error: "edge-challenge",
-      status: response2.status,
+      status: response3.status,
       ...retryAfter ? { retryAfter } : {},
       ...requestId ? { requestId } : {},
       next: "Vercel challenged this request. Stop this batch and share the request ID with support if available."
@@ -39790,43 +39790,43 @@ var SubnanoClient = class {
   async request(path, options2 = {}) {
     return this.requireSuccess(await this.raw(path, options2));
   }
-  requireSuccess(response2) {
-    if (response2.status < 200 || response2.status >= 300) throw this.problem(response2, response2.data);
-    return { ...response2, data: response2.data };
+  requireSuccess(response3) {
+    if (response3.status < 200 || response3.status >= 300) throw this.problem(response3, response3.data);
+    return { ...response3, data: response3.data };
   }
   async bytes(path, options2 = {}, limit2 = 3 * 1024 * 1024) {
     return this.withCredential(path, options2, () => this.byteResponse(path, options2, limit2));
   }
   async byteResponse(path, options2, limit2) {
-    const response2 = await this.fetch(path, options2);
-    this.observeAccountMessages?.(response2.headers, Boolean(options2.bearer));
-    const data = await this.readBytes(response2, limit2);
-    if (!response2.ok) {
+    const response3 = await this.fetch(path, options2);
+    this.observeAccountMessages?.(response3.headers, Boolean(options2.bearer));
+    const data = await this.readBytes(response3, limit2);
+    if (!response3.ok) {
       let problem;
       try {
         problem = JSON.parse(data.toString("utf8"));
       } catch {
         problem = null;
       }
-      throw this.problem(response2, problem);
+      throw this.problem(response3, problem);
     }
-    return { status: response2.status, data, headers: response2.headers };
+    return { status: response3.status, data, headers: response3.headers };
   }
   async raw(path, options2 = {}) {
     return this.withCredential(path, options2, () => this.rawResponse(path, options2));
   }
   async rawResponse(path, options2) {
-    const response2 = await this.fetch(path, options2);
-    this.observeAccountMessages?.(response2.headers, Boolean(options2.bearer));
-    const bytes2 = await this.readBytes(response2, this.maxJsonBytes);
+    const response3 = await this.fetch(path, options2);
+    this.observeAccountMessages?.(response3.headers, Boolean(options2.bearer));
+    const bytes2 = await this.readBytes(response3, this.maxJsonBytes);
     let data;
     try {
       data = JSON.parse(bytes2.toString("utf8"));
     } catch {
-      throw new ApiError(response2.status, "invalid-json-response");
+      throw new ApiError(response3.status, "invalid-json-response");
     }
-    this.observe(response2.status, response2.ok ? void 0 : this.problem(response2, data).code);
-    return { status: response2.status, data, headers: response2.headers };
+    this.observe(response3.status, response3.ok ? void 0 : this.problem(response3, data).code);
+    return { status: response3.status, data, headers: response3.headers };
   }
   observe(status, code) {
     try {
@@ -39854,9 +39854,9 @@ var SubnanoClient = class {
     if (options2.body !== void 0 && !(options2.body instanceof Uint8Array))
       headers.set("Content-Type", "application/json");
     const signal = options2.signal ? AbortSignal.any([options2.signal, AbortSignal.timeout(options2.timeoutMs ?? this.timeoutMs)]) : AbortSignal.timeout(options2.timeoutMs ?? this.timeoutMs);
-    let response2;
+    let response3;
     try {
-      response2 = await fetch(url2, {
+      response3 = await fetch(url2, {
         method: options2.method ?? "GET",
         headers,
         credentials: "omit",
@@ -39869,21 +39869,21 @@ var SubnanoClient = class {
       this.observe(0);
       throw new ApiError(0, "network-or-redirect-error");
     }
-    if (response2.status >= 400 && response2.headers.get("x-vercel-mitigated") === "challenge") {
-      this.observe(response2.status, "edge-challenge");
-      void response2.body?.cancel().catch(() => {
+    if (response3.status >= 400 && response3.headers.get("x-vercel-mitigated") === "challenge") {
+      this.observe(response3.status, "edge-challenge");
+      void response3.body?.cancel().catch(() => {
       });
-      throw new EdgeChallengeError(response2);
+      throw new EdgeChallengeError(response3);
     }
-    this.observe(response2.status);
-    return response2;
+    this.observe(response3.status);
+    return response3;
   }
-  async readBytes(response2, limit2) {
-    if (Number(response2.headers.get("content-length")) > limit2) {
-      await response2.body?.cancel();
-      throw new ApiError(response2.status, "response-too-large");
+  async readBytes(response3, limit2) {
+    if (Number(response3.headers.get("content-length")) > limit2) {
+      await response3.body?.cancel();
+      throw new ApiError(response3.status, "response-too-large");
     }
-    const reader = response2.body?.getReader();
+    const reader = response3.body?.getReader();
     if (!reader) return Buffer.alloc(0);
     const chunks = [];
     let length = 0;
@@ -39892,7 +39892,7 @@ var SubnanoClient = class {
         const { value, done } = await reader.read();
         if (done) break;
         length += value.length;
-        if (length > limit2) throw new ApiError(response2.status, "response-too-large");
+        if (length > limit2) throw new ApiError(response3.status, "response-too-large");
         chunks.push(value);
       }
     } finally {
@@ -39901,7 +39901,7 @@ var SubnanoClient = class {
     }
     return Buffer.concat(chunks);
   }
-  problem(response2, data) {
+  problem(response3, data) {
     const value = data && typeof data === "object" ? data : {};
     const nested = value.data && typeof value.data === "object" && !Array.isArray(value.data) ? value.data : {};
     const nativeType = typeof value.type === "string" ? /^https:\/\/subnano\.(?:ai|me)\/problems\/([a-z][a-z0-9-]{0,63})$/.exec(value.type)?.[1] : void 0;
@@ -39910,7 +39910,7 @@ var SubnanoClient = class {
     ) ?? "upstream-request-failed";
     const retrySeconds = nested.retryAfter;
     let connectionLevel;
-    if (response2.status === 403 && code === "mcp-connection-level") {
+    if (response3.status === 403 && code === "mcp-connection-level") {
       const problem = nested.problem && typeof nested.problem === "object" ? nested.problem : nested.code === code ? nested : value;
       const level = external_exports2.object({
         accessLevel: external_exports2.enum(["read", "drafts", "full"]),
@@ -39923,9 +39923,9 @@ var SubnanoClient = class {
           connectionLevel = { accessLevel: level.data.accessLevel, settingsUrl: url2.href };
       }
     }
-    const retryAfter = response2.headers.get("retry-after") ?? (response2.status === 429 && typeof retrySeconds === "number" && Number.isFinite(retrySeconds) && retrySeconds >= 0 && retrySeconds <= Number.MAX_SAFE_INTEGER ? String(retrySeconds) : null);
+    const retryAfter = response3.headers.get("retry-after") ?? (response3.status === 429 && typeof retrySeconds === "number" && Number.isFinite(retrySeconds) && retrySeconds >= 0 && retrySeconds <= Number.MAX_SAFE_INTEGER ? String(retrySeconds) : null);
     return new ApiError(
-      response2.status,
+      response3.status,
       code,
       retryAfter,
       nested.commentId,
@@ -40066,6 +40066,7 @@ var toolGroups = {
     "subnano_feedback",
     "subnano_financial_history",
     "subnano_financial_record",
+    "subnano_post_stats",
     "subnano_notification_preferences_get",
     "subnano_notification_preferences_update",
     "subnano_notifications",
@@ -40973,21 +40974,21 @@ var DiscoveryService = class {
       }).passthrough()
     ).max(12).parse(result.data);
     let previous = -1;
-    return rows.map((row) => {
+    return rows.map((row2) => {
       signal?.throwIfAborted();
-      const position = ids.indexOf(row.id);
-      if (position <= previous || Object.hasOwn(row, "content") || Object.hasOwn(row, "free_content"))
+      const position = ids.indexOf(row2.id);
+      if (position <= previous || Object.hasOwn(row2, "content") || Object.hasOwn(row2, "free_content"))
         throw new Error("invalid-public-batch-response");
-      const failedPreview = row.previewError === true;
-      if (failedPreview ? row.freePreview !== void 0 || row.freePreviewMarkdown !== void 0 || row.freePreviewTruncated !== void 0 : row.freePreview === void 0 || row.freePreviewMarkdown === void 0 || row.freePreviewTruncated === void 0)
+      const failedPreview = row2.previewError === true;
+      if (failedPreview ? row2.freePreview !== void 0 || row2.freePreviewMarkdown !== void 0 || row2.freePreviewTruncated !== void 0 : row2.freePreview === void 0 || row2.freePreviewMarkdown === void 0 || row2.freePreviewTruncated === void 0)
         throw new Error("invalid-public-batch-response");
       previous = position;
       return {
-        post: publicPost(row, this.client, true),
+        post: publicPost(row2, this.client, true),
         preview: failedPreview ? null : {
-          freePreview: row.freePreview,
-          freePreviewMarkdown: row.freePreviewMarkdown,
-          freePreviewTruncated: row.freePreviewTruncated
+          freePreview: row2.freePreview,
+          freePreviewMarkdown: row2.freePreviewMarkdown,
+          freePreviewTruncated: row2.freePreviewTruncated
         }
       };
     });
@@ -41514,6 +41515,7 @@ var toolEffects = {
   subnano_payout_address_get: "private",
   subnano_payout_address_update: "sensitive",
   subnano_post_schedule: "private",
+  subnano_post_stats: "private",
   subnano_preview: "private",
   subnano_profile_image_cancel: "public",
   subnano_profile_image_status: "private",
@@ -41781,7 +41783,7 @@ function validateOpts(curve) {
 }
 function twistedEdwards(curveDef) {
   const CURVE = validateOpts(curveDef);
-  const { Fp: Fp2, n: CURVE_ORDER, prehash, hash: cHash, randomBytes: randomBytes4, nByteLength, h: cofactor } = CURVE;
+  const { Fp: Fp2, n: CURVE_ORDER, prehash, hash: cHash, randomBytes: randomBytes5, nByteLength, h: cofactor } = CURVE;
   const MASK = _2n2 << BigInt(nByteLength * 8) - _1n4;
   const modP2 = Fp2.create;
   const Fn = Field(CURVE.n, CURVE.nBitLength);
@@ -42119,7 +42121,7 @@ function twistedEdwards(curveDef) {
   const utils = {
     getExtendedPublicKey,
     /** ed25519 priv keys are uniform 32b. No need to check for modulo bias, like in secp256k1. */
-    randomPrivateKey: () => randomBytes4(Fp2.BYTES),
+    randomPrivateKey: () => randomBytes5(Fp2.BYTES),
     /**
      * We're doing scalar multiplication (used in getPublicKey etc) with precomputed BASE_POINT
      * values. This slows down first getPublicKey() by milliseconds (see Speed section),
@@ -43036,6 +43038,7 @@ function validateSignature(challenge2, signature) {
 }
 
 // src/auth/connection-sessions.ts
+import { randomBytes as randomBytes3 } from "node:crypto";
 import { readdirSync as readdirSync2 } from "node:fs";
 
 // src/policy/budget.ts
@@ -43717,13 +43720,13 @@ async function getTransactionCount(client, { address: address2, blockHash, block
     blockTag,
     requireCanonical
   });
-  const count4 = await client.request({
+  const count5 = await client.request({
     method: "eth_getTransactionCount",
     params: [address2, block2]
   }, {
     dedupe: typeof blockNumber === "bigint" || blockHash !== void 0
   });
-  return hexToNumber2(count4);
+  return hexToNumber2(count5);
 }
 
 // ../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/actions/wallet/prepareTransactionRequest.js
@@ -44004,12 +44007,12 @@ async function fillTransaction(client, parameters) {
     value
   }, "fillTransaction");
   try {
-    const response2 = await client.request({
+    const response3 = await client.request({
       method: "eth_fillTransaction",
       params: [request]
     });
     const format3 = chain?.formatters?.transaction?.format || formatTransaction;
-    const transaction = format3(response2.tx);
+    const transaction = format3(response3.tx);
     delete transaction.blockHash;
     delete transaction.blockNumber;
     delete transaction.r;
@@ -44059,12 +44062,12 @@ async function fillTransaction(client, parameters) {
         transaction.gasPrice = multiplyFee(transaction.gasPrice);
     }
     return {
-      raw: response2.raw,
+      raw: response3.raw,
       transaction: {
         from: request.from,
         ...transaction
       },
-      ...response2.capabilities ? { capabilities: response2.capabilities } : {}
+      ...response3.capabilities ? { capabilities: response3.capabilities } : {}
     };
   } catch (err) {
     throw getTransactionError(err, {
@@ -44886,23 +44889,23 @@ function getCache(cacheKey2) {
     set: (data) => cache.set(cacheKey3, data)
   });
   const promise2 = buildCache(cacheKey2, promiseCache);
-  const response2 = buildCache(cacheKey2, responseCache);
+  const response3 = buildCache(cacheKey2, responseCache);
   return {
     clear: () => {
       promise2.clear();
-      response2.clear();
+      response3.clear();
     },
     promise: promise2,
-    response: response2
+    response: response3
   };
 }
 async function withCache(fn, { cacheKey: cacheKey2, cacheTime = Number.POSITIVE_INFINITY }) {
   const cache = getCache(cacheKey2);
-  const response2 = cache.response.get();
-  if (response2 && cacheTime > 0) {
-    const age = Date.now() - response2.created.getTime();
+  const response3 = cache.response.get();
+  if (response3 && cacheTime > 0) {
+    const age = Date.now() - response3.created.getTime();
     if (age < cacheTime)
-      return response2.data;
+      return response3.data;
   }
   let promise2 = cache.promise.get();
   if (!promise2) {
@@ -45157,13 +45160,13 @@ async function sendRawTransaction(client, { serializedTransaction }) {
 init_utils4();
 function withRetry(fn, { delay: delay_ = 100, retryCount = 2, shouldRetry: shouldRetry2 = () => true, signal } = {}) {
   return new Promise((resolve5, reject) => {
-    const attemptRetry = async ({ count: count4 = 0 } = {}) => {
+    const attemptRetry = async ({ count: count5 = 0 } = {}) => {
       if (signal?.aborted) {
         reject(getAbortError(signal));
         return;
       }
       const retry = async ({ error: error40 }) => {
-        const delay = typeof delay_ === "function" ? delay_({ count: count4, error: error40 }) : delay_;
+        const delay = typeof delay_ === "function" ? delay_({ count: count5, error: error40 }) : delay_;
         if (delay) {
           try {
             await wait(delay, { signal });
@@ -45172,7 +45175,7 @@ function withRetry(fn, { delay: delay_ = 100, retryCount = 2, shouldRetry: shoul
             return;
           }
         }
-        return attemptRetry({ count: count4 + 1 });
+        return attemptRetry({ count: count5 + 1 });
       };
       try {
         const data = await fn();
@@ -45186,7 +45189,7 @@ function withRetry(fn, { delay: delay_ = 100, retryCount = 2, shouldRetry: shoul
           reject(err);
           return;
         }
-        if (count4 < retryCount && await shouldRetry2({ count: count4, error: err }))
+        if (count5 < retryCount && await shouldRetry2({ count: count5, error: err }))
           return retry({ error: err });
         reject(err);
       }
@@ -45942,15 +45945,15 @@ async function createAccessList(client, args) {
       to,
       value
     }, "createAccessList");
-    const response2 = await client.request({
+    const response3 = await client.request({
       method: "eth_createAccessList",
       params: [request, block2]
     });
-    if (response2.error)
-      throw new BaseError2(response2.error, { details: response2.error });
+    if (response3.error)
+      throw new BaseError2(response3.error, { details: response3.error });
     return {
-      accessList: response2.accessList,
-      gasUsed: BigInt(response2.gasUsed)
+      accessList: response3.accessList,
+      gasUsed: BigInt(response3.gasUsed)
     };
   } catch (err) {
     throw getCallError(err, {
@@ -46094,19 +46097,19 @@ init_fromHex();
 init_toHex();
 async function getBlockTransactionCount(client, { blockHash, blockNumber, blockTag = "latest" } = {}) {
   const blockNumberHex = blockNumber !== void 0 ? numberToHex(blockNumber) : void 0;
-  let count4;
+  let count5;
   if (blockHash) {
-    count4 = await client.request({
+    count5 = await client.request({
       method: "eth_getBlockTransactionCountByHash",
       params: [blockHash]
     }, { dedupe: true });
   } else {
-    count4 = await client.request({
+    count5 = await client.request({
       method: "eth_getBlockTransactionCountByNumber",
       params: [blockNumberHex || blockTag]
     }, { dedupe: Boolean(blockNumberHex) });
   }
-  return hexToNumber2(count4);
+  return hexToNumber2(count5);
 }
 
 // ../node_modules/.pnpm/viem@2.57.3_typescript@5.9.3_zod@3.25.76/node_modules/viem/_esm/actions/public/getCode.js
@@ -46739,13 +46742,13 @@ function buildRequest(request, options2 = {}) {
         }
       }
     }, {
-      delay: ({ count: count4, error: error40 }) => {
+      delay: ({ count: count5, error: error40 }) => {
         if (error40 && error40 instanceof HttpRequestError) {
           const retryAfter = error40?.headers?.get("Retry-After");
           if (retryAfter?.match(/\d/))
             return Number.parseInt(retryAfter, 10) * 1e3;
         }
-        return ~~(1 << count4) * retryDelay;
+        return ~~(1 << count5) * retryDelay;
       },
       retryCount,
       signal,
@@ -46874,7 +46877,7 @@ function getHttpRpcClient(url_, options2 = {}) {
       };
       const { headers, method, signal: signal_ } = fetchOptions;
       try {
-        const response2 = await withTimeout(async ({ signal }) => {
+        const response3 = await withTimeout(async ({ signal }) => {
           const init = {
             ...fetchOptions,
             body: Array.isArray(body) ? stringify(body.map((body2) => ({
@@ -46896,39 +46899,39 @@ function getHttpRpcClient(url_, options2 = {}) {
           };
           const request = new Request(url2, init);
           const args = await onRequest?.(request, init) ?? { ...init, url: url2 };
-          const response3 = await fetchFn(args.url ?? url2, args);
-          return response3;
+          const response4 = await fetchFn(args.url ?? url2, args);
+          return response4;
         }, {
           errorInstance: new TimeoutError({ body, url: url2 }),
           timeout,
           signal: true
         });
         if (onResponse)
-          await onResponse(response2);
+          await onResponse(response3);
         let data;
-        const responseBody = await readResponseBody(response2, {
+        const responseBody = await readResponseBody(response3, {
           maxResponseBodySize
         });
-        if (response2.headers.get("Content-Type")?.startsWith("application/json"))
+        if (response3.headers.get("Content-Type")?.startsWith("application/json"))
           data = JSON.parse(responseBody);
         else {
           data = responseBody;
           try {
             data = JSON.parse(data || "{}");
           } catch (err) {
-            if (response2.ok)
+            if (response3.ok)
               throw err;
             data = { error: data };
           }
         }
-        if (!response2.ok) {
+        if (!response3.ok) {
           if (typeof data.error?.code === "number" && typeof data.error?.message === "string")
             return data;
           throw new HttpRequestError({
             body,
-            details: stringify(data.error) || response2.statusText,
-            headers: response2.headers,
-            status: response2.status,
+            details: stringify(data.error) || response3.statusText,
+            headers: response3.headers,
+            status: response3.status,
             url: url2
           });
         }
@@ -46953,10 +46956,10 @@ function getHttpRpcClient(url_, options2 = {}) {
     }
   };
 }
-async function readResponseBody(response2, { maxResponseBodySize }) {
+async function readResponseBody(response3, { maxResponseBodySize }) {
   if (maxResponseBodySize === false)
-    return response2.text();
-  const contentLength = response2.headers.get("Content-Length");
+    return response3.text();
+  const contentLength = response3.headers.get("Content-Length");
   if (contentLength) {
     const size7 = Number(contentLength);
     if (size7 > maxResponseBodySize)
@@ -46965,8 +46968,8 @@ async function readResponseBody(response2, { maxResponseBodySize }) {
         size: size7
       });
   }
-  if (!response2.body) {
-    const body2 = await response2.text();
+  if (!response3.body) {
+    const body2 = await response3.text();
     const size7 = new TextEncoder().encode(body2).length;
     if (size7 > maxResponseBodySize)
       throw new ResponseBodyTooLargeError({
@@ -46975,7 +46978,7 @@ async function readResponseBody(response2, { maxResponseBodySize }) {
       });
     return body2;
   }
-  const reader = response2.body.getReader();
+  const reader = response3.body.getReader();
   const decoder2 = new TextDecoder();
   let body = "";
   let size6 = 0;
@@ -48266,9 +48269,9 @@ var staticCursor2 = {
   _touch() {
     if (this.recursiveReadLimit === Number.POSITIVE_INFINITY)
       return;
-    const count4 = this.getReadCount();
-    this.positionReadCount.set(this.position, count4 + 1);
-    if (count4 > 0)
+    const count5 = this.getReadCount();
+    this.positionReadCount.set(this.position, count5 + 1);
+    if (count5 > 0)
       this.recursiveReadCount++;
   }
 };
@@ -48303,8 +48306,8 @@ var PositionOutOfBoundsError2 = class extends BaseError3 {
   }
 };
 var RecursiveReadLimitExceededError2 = class extends BaseError3 {
-  constructor({ count: count4, limit: limit2 }) {
-    super(`Recursive read limit of \`${limit2}\` exceeded (recursive read count: \`${count4}\`).`);
+  constructor({ count: count5, limit: limit2 }) {
+    super(`Recursive read limit of \`${limit2}\` exceeded (recursive read count: \`${count5}\`).`);
     Object.defineProperty(this, "name", {
       enumerable: true,
       configurable: true,
@@ -50445,7 +50448,7 @@ async function waitForTransactionReceipt(client, parameters) {
     hash: hash10,
     onReplaced,
     retryCount = 6,
-    retryDelay = ({ count: count4 }) => ~~(1 << count4) * 200,
+    retryDelay = ({ count: count5 }) => ~~(1 << count5) * 200,
     // exponential backoff
     timeout = 18e4
   } = parameters;
@@ -52590,7 +52593,7 @@ var ConnectionSessions = class {
     return value;
   }
   assertUsable(saved) {
-    if (["refresh-dispatched", "unknown"].includes(saved.phase))
+    if (saved.phase === "unknown" || saved.phase === "refresh-dispatched" && !saved.pendingRefresh)
       throw new Error("connection-result-unknown");
     if (saved.phase === "revocation-pending") throw new Error("connection-revocation-unconfirmed");
     if (saved.phase === "revoked") throw new Error("connection-revoked");
@@ -52599,8 +52602,18 @@ var ConnectionSessions = class {
   }
   async refresh(selected, saved) {
     const previous = saved.pair;
-    saved = { ...saved, phase: "refresh-dispatched" };
-    this.files.write("connection", connectionFileBinding(selected), saved, selected.reference);
+    const pendingRefresh = saved.pendingRefresh ?? {
+      accessToken: `${selected.credentialClass === ownerAuthority.credentialClass ? "snmo" : "snma"}_${randomBytes3(32).toString("base64url")}`,
+      refreshToken: `snmr_${randomBytes3(32).toString("base64url")}`
+    };
+    const binding4 = connectionFileBinding(selected);
+    if (saved.phase !== "refresh-dispatched")
+      this.files.write(
+        "connection",
+        binding4,
+        { ...saved, phase: "refresh-dispatched", pendingRefresh },
+        selected.reference
+      );
     let pair;
     try {
       const value = (await this.client.request("/api/v1/mcp/connect/token", {
@@ -52608,23 +52621,28 @@ var ConnectionSessions = class {
         body: {
           ...connectionBinding(selected),
           grantType: "refresh_token",
-          refreshToken: previous.refreshToken
+          refreshToken: previous.refreshToken,
+          nextAccessToken: pendingRefresh.accessToken,
+          nextRefreshToken: pendingRefresh.refreshToken
         }
       })).data;
       pair = parseConnectionPair(value, selected, previous);
+      if (pair.accessToken !== pendingRefresh.accessToken || pair.refreshToken !== pendingRefresh.refreshToken)
+        throw new Error("invalid-connection-response");
     } catch (error40) {
       const latest2 = this.saved(selected);
-      this.files.write(
-        "connection",
-        connectionFileBinding(selected),
-        {
-          ...latest2,
-          phase: latest2.phase === "revocation-pending" || latest2.phase === "revoked" ? latest2.phase : "unknown"
-        },
-        selected.reference
-      );
+      this.assertUsable(latest2);
       if (error40 instanceof EdgeChallengeError) throw error40;
-      throw new Error("connection-result-unknown");
+      if (error40 instanceof ApiError && error40.status === 401 && ["invalid_grant", "replay"].includes(error40.code)) {
+        this.files.write(
+          "connection",
+          binding4,
+          { ...latest2, phase: "unknown", pendingRefresh: void 0 },
+          selected.reference
+        );
+        throw new Error("connection-result-unknown");
+      }
+      throw new Error("connection-refresh-pending");
     }
     const latest = this.saved(selected);
     saved = {
@@ -52634,6 +52652,17 @@ var ConnectionSessions = class {
       familyId: latest.familyId
     };
     this.files.write("connection", connectionFileBinding(selected), saved, selected.reference);
+    return saved;
+  }
+  async renewIfNeeded(selected, saved, leadTimeMs) {
+    this.assertUsable(saved);
+    if (saved.phase === "refresh-dispatched") {
+      saved = await this.refresh(selected, saved);
+      this.assertUsable(saved);
+    }
+    if (Date.parse(saved.pair.accessExpiresAt) <= Date.now() + leadTimeMs)
+      saved = await this.refresh(selected, saved);
+    this.assertUsable(saved);
     return saved;
   }
   /** Renew only the original pending selection; it still has no adopted read authority. */
@@ -52651,19 +52680,14 @@ var ConnectionSessions = class {
         }
       };
       assertStaged();
-      let saved = this.saved(selected);
-      this.assertUsable(saved);
-      if (Date.parse(saved.pair.accessExpiresAt) <= Date.now())
-        saved = await this.refresh(selected, saved);
+      const saved = await this.renewIfNeeded(selected, this.saved(selected), 0);
       assertStaged();
       return saved;
     });
   }
   async usable(selected) {
-    let saved = this.saved(selected);
-    this.assertUsable(saved);
-    if (Date.parse(saved.pair.accessExpiresAt) > Date.now() + 15e3) return saved;
-    saved = await this.refresh(selected, saved);
+    let saved = await this.renewIfNeeded(selected, this.saved(selected), 15e3);
+    if (saved.phase === "verified") return saved;
     this.assertCurrent();
     const verified = await this.verifyPair(saved.pair, selected);
     this.assertCurrent();
@@ -52712,7 +52736,7 @@ var ConnectionSessions = class {
       this.assertCurrent();
       let value;
       try {
-        const response2 = await this.client.request(
+        const response3 = await this.client.request(
           `/api/v1/mcp-connection?clientPolicyVersion=${clientPolicyVersion}`,
           {
             bearer: saved.pair.accessToken,
@@ -52721,7 +52745,7 @@ var ConnectionSessions = class {
           }
         );
         this.assertCurrent();
-        value = parseConnectionSettings(response2.data, selected);
+        value = parseConnectionSettings(response3.data, selected);
       } catch (error40) {
         this.assertCurrent();
         if (!(error40 instanceof ApiError) || error40.status !== 404) throw error40;
@@ -52758,10 +52782,10 @@ var ConnectionSessions = class {
       const context6 = await this.verifyPair(saved.pair, selected);
       if (saved.familyId && context6.credential.familyId !== saved.familyId)
         throw new Error("credential-binding-mismatch");
-      const response2 = await this.client.request(path, { bearer: saved.pair.accessToken });
+      const response3 = await this.client.request(path, { bearer: saved.pair.accessToken });
       this.assertCurrent();
       return {
-        data: response2.data,
+        data: response3.data,
         owner: { ownerId: selected.expectedProfileId, profileId: selected.expectedProfileId }
       };
     });
@@ -55758,11 +55782,11 @@ var DraftDeletionService = class {
   }
   async read(id3, authority, conditional = false) {
     this.stable(authority);
-    const response2 = await this.client.request(`/api/v1/posts/${id3}`, { bearer: authority.token });
+    const response3 = await this.client.request(`/api/v1/posts/${id3}`, { bearer: authority.token });
     this.stable(authority);
-    const post = postSchema.parse(response2.data);
+    const post = postSchema.parse(response3.data);
     if (post.id !== id3) throw new Error("post-identity-mismatch");
-    if (conditional && response2.headers.get("x-post-delete-revision") !== "1")
+    if (conditional && response3.headers.get("x-post-delete-revision") !== "1")
       throw new Error("conditional-draft-delete-unavailable");
     return post;
   }
@@ -55919,12 +55943,12 @@ This deletes the unpublished draft with its content and files. Deletion cannot b
         });
         try {
           this.stable(authority);
-          const response2 = await this.client.request(`/api/v1/posts/${parsed.post_id}`, {
+          const response3 = await this.client.request(`/api/v1/posts/${parsed.post_id}`, {
             method: "DELETE",
             bearer: authority.token,
             headers: { "X-Post-Revision": parsed.revision }
           });
-          const receipt2 = external_exports2.object({ id: postIdSchema, deleted: external_exports2.literal(true), deletedRevision: external_exports2.string() }).parse(response2.data);
+          const receipt2 = external_exports2.object({ id: postIdSchema, deleted: external_exports2.literal(true), deletedRevision: external_exports2.string() }).parse(response3.data);
           if (receipt2.id !== parsed.post_id || receipt2.deletedRevision !== parsed.revision)
             throw new Error("draft-delete-receipt-mismatch");
           operation = this.store.updateOperation(operation.id, "completed", {
@@ -56082,9 +56106,9 @@ var UnpublicationService = class {
   }
   async read(id3, authority) {
     this.stable(authority);
-    const response2 = await this.client.request(`/api/v1/posts/${id3}`, { bearer: authority.token });
+    const response3 = await this.client.request(`/api/v1/posts/${id3}`, { bearer: authority.token });
     this.stable(authority);
-    return this.parse(response2.data, id3);
+    return this.parse(response3.data, id3);
   }
   result(operation) {
     return resultSchema2.parse({
@@ -56146,12 +56170,12 @@ var UnpublicationService = class {
       this.stable(authority);
       operation = this.store.updateOperation(operation.id, "dispatched", operation.data);
       try {
-        const response2 = await this.client.request(`/api/v1/posts/${postId}/unpublish`, {
+        const response3 = await this.client.request(`/api/v1/posts/${postId}/unpublish`, {
           method: "POST",
           bearer: authority.token
         });
         this.stable(authority);
-        const saved = this.parse(response2.data, postId);
+        const saved = this.parse(response3.data, postId);
         if (saved.status !== "draft") throw new Error("unpublish-readback-mismatch");
         operation = this.store.updateOperation(operation.id, "completed", {
           ...operation.data,
@@ -56390,7 +56414,7 @@ function registerAccountMessageTools(server, service) {
 // package.json
 var package_default = {
   name: "subnano-mcp",
-  version: "0.3.70",
+  version: "0.3.71",
   description: "Subnano: local MCP tools and explicit account setup",
   type: "module",
   engines: {
@@ -56746,13 +56770,13 @@ var OriginalHostConflict = class extends Error {
   }
   continuation;
 };
-function requireCurrentPurchaseHost(response2, origin, postId, checkout = false) {
-  const body = record4(response2.data);
+function requireCurrentPurchaseHost(response3, origin, postId, checkout = false) {
+  const body = record4(response3.data);
   const problem = record4(body.data);
-  if (response2.status === 409 && problem.code === "purchase-original-host" || checkout && response2.status === 200 && body.continuation != null)
+  if (response3.status === 409 && problem.code === "purchase-original-host" || checkout && response3.status === 200 && body.continuation != null)
     throw new OriginalHostConflict(
       readOriginalHost(
-        response2.status === 409 ? problem.continuation : body.continuation,
+        response3.status === 409 ? problem.continuation : body.continuation,
         origin,
         postId
       )
@@ -57008,13 +57032,13 @@ var UsdcPurchaseService = class {
       );
       if (input3.grantId) this.requireSigner(selected);
       const auth = await this.authorityForOwner(selected, signal);
-      const response2 = await this.client.raw(`/api/posts/${postId}/purchased-content`, {
+      const response3 = await this.client.raw(`/api/posts/${postId}/purchased-content`, {
         ...auth,
         signal
       });
       this.stable(selected);
-      if (response2.status === 200) {
-        const body = object3(response2.data), purchase = object3(body.purchase);
+      if (response3.status === 200) {
+        const body = object3(response3.data), purchase = object3(body.purchase);
         if (!UUID.test(String(purchase.id)) || purchase.post_id !== postId || !["paid", "swept"].includes(String(purchase.status)) || !Object.hasOwn(body, "content"))
           throw new Error("owner-entitlement-check-failed");
         const current2 = this.selection();
@@ -57029,7 +57053,7 @@ var UsdcPurchaseService = class {
           })
         };
       }
-      if (response2.status !== 403 || object3(object3(response2.data).data).code !== "NOT_PURCHASED")
+      if (response3.status !== 403 || object3(object3(response3.data).data).code !== "NOT_PURCHASED")
         throw new Error("owner-entitlement-check-failed");
       const pricing = object3(
         (await this.client.request(`/api/posts/${postId}/offers`, { ...auth, signal })).data
@@ -57123,21 +57147,21 @@ var UsdcPurchaseService = class {
       this.spending.assertActive(operation.data.grantId, this.context(this.bound(operation)));
       if (!operation.data.quote) {
         operation = this.update(operation, "quote-request-unresolved");
-        const response2 = await this.client.raw(`${operation.data.resourceUrl}?rail=usdc`, {
+        const response3 = await this.client.raw(`${operation.data.resourceUrl}?rail=usdc`, {
           ...auth,
           headers: { ...auth.headers, "Idempotency-Key": operation.data.requestKey },
           signal
         });
         this.bound(operation);
-        requireCurrentPurchaseHost(response2, operation.context.origin, operation.data.postId);
-        if (response2.status === 200) {
-          if (object3(object3(response2.data).post).id !== operation.data.postId)
+        requireCurrentPurchaseHost(response3, operation.context.origin, operation.data.postId);
+        if (response3.status === 200) {
+          if (object3(object3(response3.data).post).id !== operation.data.postId)
             throw new Error("purchase-post-mismatch");
           if (operation.data.reservationId) this.budget.release(operation.data.reservationId);
           return this.view(this.update(operation, "already-accessible"));
         }
-        if (response2.status !== 402) throw new Error("usdc-purchase-quote-unavailable");
-        const header = response2.headers.get("payment-required");
+        if (response3.status !== 402) throw new Error("usdc-purchase-quote-unavailable");
+        const header = response3.headers.get("payment-required");
         if (!header) throw new Error("usdc-payment-required-missing");
         const quote2 = this.validateQuote(decode3(header), operation.data);
         operation = this.update(operation, "quoted", {
@@ -57203,7 +57227,7 @@ Payment destination: ${operation.data.quote.accepts[0].payTo}`,
           return this.recoverOriginal(operation, signal);
       }
       {
-        const response2 = await this.checkout(
+        const response3 = await this.checkout(
           operation,
           {
             action: "prepare-signing",
@@ -57212,7 +57236,7 @@ Payment destination: ${operation.data.quote.accepts[0].payTo}`,
           },
           signal
         );
-        const data = object3(response2);
+        const data = object3(response3);
         if (contractInfo(operation.data.quote)) {
           const contract = await readPurchaseContract(
             this.client,
@@ -57356,7 +57380,7 @@ Payment destination: ${operation.data.quote.accepts[0].payTo}`,
       }
       this.assertPrivateProof(operation, payment);
       const auth = await this.authority(operation, signal);
-      const response2 = await this.client.raw(operation.data.resourceUrl, {
+      const response3 = await this.client.raw(operation.data.resourceUrl, {
         ...auth,
         headers: {
           ...auth.headers,
@@ -57366,12 +57390,12 @@ Payment destination: ${operation.data.quote.accepts[0].payTo}`,
         signal
       });
       this.bound(operation);
-      requireCurrentPurchaseHost(response2, operation.context.origin, operation.data.postId);
-      if (response2.status === 200) {
-        const body = object3(response2.data);
+      requireCurrentPurchaseHost(response3, operation.context.origin, operation.data.postId);
+      if (response3.status === 200) {
+        const body = object3(response3.data);
         if (object3(body.post).id !== operation.data.postId)
           throw new Error("purchase-post-mismatch");
-        const encoded = response2.headers.get("payment-response");
+        const encoded = response3.headers.get("payment-response");
         if (encoded) {
           const receipt2 = this.validateReceipt(decode3(encoded), operation.data);
           operation = this.update(operation, "receipt-confirmed", { receipt: receipt2 });
@@ -57506,7 +57530,7 @@ Payment destination: ${operation.data.quote.accepts[0].payTo}`,
   }
   async checkout(operation, body, signal) {
     const auth = await this.authority(operation, signal);
-    const response2 = await this.originalRequest(
+    const response3 = await this.originalRequest(
       operation,
       `/api/posts/${operation.data.postId}/usdc-checkout`,
       {
@@ -57521,13 +57545,13 @@ Payment destination: ${operation.data.quote.accepts[0].payTo}`,
       }
     );
     this.bound(operation);
-    return response2.data;
+    return response3.data;
   }
   async originalRequest(operation, path, options2) {
-    const response2 = await this.client.raw(path, options2);
+    const response3 = await this.client.raw(path, options2);
     this.bound(operation);
-    requireCurrentPurchaseHost(response2, operation.context.origin, operation.data.postId, true);
-    return this.client.requireSuccess(response2);
+    requireCurrentPurchaseHost(response3, operation.context.origin, operation.data.postId, true);
+    return this.client.requireSuccess(response3);
   }
   async refreshConfirmation(operation, signal) {
     if (!contractInfo(operation.data.quote) || operation.data.contract?.receiptText)
@@ -58477,7 +58501,7 @@ var ExperimentalMcpServerTasks = class {
 
 // ../node_modules/.pnpm/@modelcontextprotocol+sdk@1.32.1_@cfworker+json-schema@4.1.1_zod@3.25.76/node_modules/@modelcontextprotocol/sdk/dist/esm/server/mcp.js
 function toolInputElementCount(value, max) {
-  let count4 = 0;
+  let count5 = 0;
   const stack = [value];
   while (stack.length > 0) {
     const node = stack.pop();
@@ -58485,8 +58509,8 @@ function toolInputElementCount(value, max) {
       continue;
     if (Array.isArray(node)) {
       for (const child of node) {
-        if (++count4 > max)
-          return count4;
+        if (++count5 > max)
+          return count5;
         if (child !== null && typeof child === "object")
           stack.push(child);
       }
@@ -58494,15 +58518,15 @@ function toolInputElementCount(value, max) {
       for (const key in node) {
         if (!Object.prototype.hasOwnProperty.call(node, key))
           continue;
-        if (++count4 > max)
-          return count4;
+        if (++count5 > max)
+          return count5;
         const child = node[key];
         if (child !== null && typeof child === "object")
           stack.push(child);
       }
     }
   }
-  return count4;
+  return count5;
 }
 function resolveMaxToolInputElements(value) {
   if (value === void 0 || value === Infinity)
@@ -59998,7 +60022,7 @@ var DraftService = class {
     });
     try {
       this.writable(verified);
-      const response2 = object3(
+      const response3 = object3(
         (await this.client.request("/api/v1/posts", {
           method: "POST",
           bearer: verified.token,
@@ -60006,12 +60030,12 @@ var DraftService = class {
           body: saved.data.body
         })).data
       );
-      const id3 = postIdSchema.parse(response2.id);
+      const id3 = postIdSchema.parse(response3.id);
       saved = this.store.updateOperation(saved.id, "response-received", {
         ...saved.data,
         postId: id3
       });
-      const post = detailSchema.parse(response2);
+      const post = detailSchema.parse(response3);
       this.stable(verified);
       post.tags = trustedPostTags(post.tags, verified.origin, verified.profileId);
       draftOnly(post);
@@ -60412,9 +60436,9 @@ var PublishedEditService = class {
   }
   async post(id3, authority) {
     this.stable(authority);
-    const response2 = await this.client.request(`/api/v1/posts/${id3}`, { bearer: authority.token });
+    const response3 = await this.client.request(`/api/v1/posts/${id3}`, { bearer: authority.token });
     this.stable(authority);
-    const post = detailSchema.parse(response2.data);
+    const post = detailSchema.parse(response3.data);
     if (post.id !== id3) throw new Error("post-identity-mismatch");
     post.tags = trustedPostTags(post.tags, authority.origin, authority.profileId);
     return post;
@@ -60631,7 +60655,7 @@ var PublishedEditService = class {
         let dispatchPending = true;
         try {
           this.stable(verified);
-          const response2 = await this.client.request(`/api/v1/posts/${parsed.post_id}`, {
+          const response3 = await this.client.request(`/api/v1/posts/${parsed.post_id}`, {
             method: "PATCH",
             bearer: verified.token,
             headers: {
@@ -60642,7 +60666,7 @@ var PublishedEditService = class {
           });
           dispatchPending = false;
           this.stable(verified);
-          const changed = detailSchema.parse(response2.data);
+          const changed = detailSchema.parse(response3.data);
           if (changed.id !== parsed.post_id || changed.status !== "published")
             throw new Error("published-edit-readback-mismatch");
           changed.tags = trustedPostTags(changed.tags, verified.origin, verified.profileId);
@@ -60852,9 +60876,9 @@ var TagService = class {
   }
   async post(id3, authority) {
     this.stable(authority);
-    const response2 = await this.client.request(`/api/v1/posts/${id3}`, { bearer: authority.token });
+    const response3 = await this.client.request(`/api/v1/posts/${id3}`, { bearer: authority.token });
     this.stable(authority);
-    return this.parsePost(response2.data, id3, authority);
+    return this.parsePost(response3.data, id3, authority);
   }
   async list(input3 = {}) {
     const parsed = listTagsSchema.parse(input3);
@@ -60862,11 +60886,11 @@ var TagService = class {
     const query = new URLSearchParams();
     for (const [key, value] of Object.entries(parsed))
       if (value !== void 0) query.set(key, String(value));
-    const response2 = await this.client.request(`/api/v1/tags${query.size ? `?${query}` : ""}`, {
+    const response3 = await this.client.request(`/api/v1/tags${query.size ? `?${query}` : ""}`, {
       bearer: authority.token
     });
     this.stable(authority);
-    const result = listOutputSchema.omit({ untrustedData: true }).parse(response2.data);
+    const result = listOutputSchema.omit({ untrustedData: true }).parse(response3.data);
     return {
       ...result,
       items: result.items.map(
@@ -60944,14 +60968,14 @@ var TagService = class {
         });
         try {
           this.assertMutation(mode, verified);
-          const response2 = await this.client.request(`/api/v1/posts/${id3}`, {
+          const response3 = await this.client.request(`/api/v1/posts/${id3}`, {
             method: "PATCH",
             bearer: verified.token,
             headers: { "X-Post-Revision": revision5 },
             body: { tags }
           });
           this.stable(verified);
-          const changed = this.parsePost(response2.data, id3, verified);
+          const changed = this.parsePost(response3.data, id3, verified);
           if (!matchesPostTagNames(tags, changed.tags))
             throw new Error("post-tags-readback-mismatch");
           operation = this.store.updateOperation(operation.id, "completed", {
@@ -61637,8 +61661,8 @@ var ReadEngagementService = class {
   }
   reader;
   async preferences() {
-    const response2 = await this.reader.request("/api/v1/notification-preferences");
-    const result = notificationPreferencesSchema.parse(response2.data);
+    const response3 = await this.reader.request("/api/v1/notification-preferences");
+    const result = notificationPreferencesSchema.parse(response3.data);
     this.reader.assertCurrent();
     return result;
   }
@@ -61650,8 +61674,8 @@ var ReadEngagementService = class {
       includeAll: String(parsed.include_all ?? false),
       preferenceSchema: "2"
     });
-    const response2 = await this.reader.request(`/api/v1/notifications?${query}`);
-    const result = notificationsResponseSchema.parse(response2.data);
+    const response3 = await this.reader.request(`/api/v1/notifications?${query}`);
+    const result = notificationsResponseSchema.parse(response3.data);
     this.reader.assertCurrent();
     return { ...result, untrustedData: true };
   }
@@ -61703,12 +61727,12 @@ var EngagementService = class {
       const owner = await ownerAuthority2(this.credentials, this.client.origin);
       if (consent) this.policy.assertConsent(consent);
       stableOwner(this.credentials, expected);
-      const response2 = await this.client.request(path, {
+      const response3 = await this.client.request(path, {
         bearer: owner.token,
         ...body === void 0 ? {} : { method, body }
       });
       stableOwner(this.credentials, owner);
-      return { data: response2.data, owner };
+      return { data: response3.data, owner };
     } catch (error40) {
       stableOwner(this.credentials, expected);
       throw error40;
@@ -61722,31 +61746,31 @@ var EngagementService = class {
       includeAll: String(parsed.include_all ?? false),
       preferenceSchema: "2"
     });
-    const response2 = await this.request(`/api/v1/notifications?${query}`);
-    const result = notificationsResponseSchema.parse(response2.data);
-    stableOwner(this.credentials, response2.owner);
+    const response3 = await this.request(`/api/v1/notifications?${query}`);
+    const result = notificationsResponseSchema.parse(response3.data);
+    stableOwner(this.credentials, response3.owner);
     return { ...result, untrustedData: true };
   }
   async preferences() {
-    const response2 = await this.request("/api/v1/notification-preferences");
-    const result = notificationPreferencesSchema.parse(response2.data);
-    stableOwner(this.credentials, response2.owner);
+    const response3 = await this.request("/api/v1/notification-preferences");
+    const result = notificationPreferencesSchema.parse(response3.data);
+    stableOwner(this.credentials, response3.owner);
     return result;
   }
   async updatePreferences(input3) {
     const parsed = external_exports2.object({ updates: notificationPreferencesPatchSchema }).strict().parse(input3);
-    const response2 = await this.request("/api/v1/notification-preferences", parsed.updates, "PUT");
-    const result = notificationPreferencesSchema.parse(response2.data);
-    stableOwner(this.credentials, response2.owner);
+    const response3 = await this.request("/api/v1/notification-preferences", parsed.updates, "PUT");
+    const result = notificationPreferencesSchema.parse(response3.data);
+    stableOwner(this.credentials, response3.owner);
     return result;
   }
   async markRead(input3) {
     const parsed = markReadSchema.parse(input3);
     const ids = [...new Set(parsed.ids)];
     if (!ids.length) return { updated: 0 };
-    const response2 = await this.request("/api/v1/notifications/mark-read", { ids });
-    const result = markReadResponseSchema.parse(response2.data);
-    stableOwner(this.credentials, response2.owner);
+    const response3 = await this.request("/api/v1/notifications/mark-read", { ids });
+    const result = markReadResponseSchema.parse(response3.data);
+    stableOwner(this.credentials, response3.owner);
     return result;
   }
   async comments(input3) {
@@ -61754,19 +61778,19 @@ var EngagementService = class {
     const query = new URLSearchParams({ limit: String(parsed.limit ?? 50) });
     if (parsed.cursor !== void 0) query.set("cursor", parsed.cursor);
     if (parsed.thread_root_id !== void 0) query.set("threadRootId", parsed.thread_root_id);
-    const response2 = await this.request(`/api/v1/posts/${parsed.post_id}/comments?${query}`);
-    const result = commentsResponseSchema.parse(response2.data);
+    const response3 = await this.request(`/api/v1/posts/${parsed.post_id}/comments?${query}`);
+    const result = commentsResponseSchema.parse(response3.data);
     if (result.comments.some((comment) => comment.post_id !== parsed.post_id))
       throw new Error("comment-post-identity-mismatch");
-    stableOwner(this.credentials, response2.owner);
+    stableOwner(this.credentials, response3.owner);
     return { ...result, untrustedData: true };
   }
   async comment(commentId) {
     const id3 = postIdSchema.parse(commentId);
-    const response2 = await this.request(`/api/v1/comments/${id3}`);
-    const result = parseComment(response2.data);
+    const response3 = await this.request(`/api/v1/comments/${id3}`);
+    const result = parseComment(response3.data);
     if (result.id !== id3) throw new Error("comment-identity-mismatch");
-    stableOwner(this.credentials, response2.owner);
+    stableOwner(this.credentials, response3.owner);
     return result;
   }
   async reactions(input3) {
@@ -61777,11 +61801,11 @@ var EngagementService = class {
     });
     if (parsed.reaction !== void 0) query.set("reaction", parsed.reaction);
     const route = parsed.target_type === "post" ? "posts" : "comments";
-    const response2 = await this.request(`/api/v1/${route}/${parsed.target_id}/reactions?${query}`);
-    const result = reactionsResponseSchema.parse(response2.data);
+    const response3 = await this.request(`/api/v1/${route}/${parsed.target_id}/reactions?${query}`);
+    const result = reactionsResponseSchema.parse(response3.data);
     if (result.reaction !== (parsed.reaction ?? null) || !parsed.reaction && (result.reactors.length || result.pagination !== null))
       throw new Error("invalid-reactions-response");
-    stableOwner(this.credentials, response2.owner);
+    stableOwner(this.credentials, response3.owner);
     return { ...result, untrustedData: true };
   }
 };
@@ -61840,6 +61864,52 @@ function registerEngagementTools(server, service) {
   );
 }
 
+// src/http/post-stats.ts
+var windowSchema = external_exports2.enum(["7d", "30d"]);
+var postStatsInput = external_exports2.object({
+  post_id: postIdSchema.optional().describe("One owned published Post UUID. Omit to include all."),
+  window: windowSchema.optional().describe("UTC reporting window, including today. Default: 7d."),
+  cursor: external_exports2.string().regex(/^[0-9a-f]{64}\.[1-9]\d{0,14}$/).optional().describe(
+    "Pass nextCursor with the same filters. On post-stats-restart-required, restart without a cursor."
+  )
+}).strict();
+var count2 = external_exports2.number().int().safe().nonnegative();
+var revenue = external_exports2.number().finite().nonnegative();
+var row = external_exports2.object({
+  post_id: postIdSchema,
+  post_title: external_exports2.string(),
+  visits: count2,
+  unique_visitors: count2,
+  unlocks: count2,
+  tips: count2,
+  total_revenue_xno: revenue,
+  unlock_revenue_usdc: revenue
+});
+var response2 = external_exports2.object({
+  window: windowSchema,
+  refreshed_at: external_exports2.string().datetime({ offset: true }).nullable(),
+  posts: external_exports2.array(row).max(25),
+  totals: external_exports2.object({
+    visits: count2,
+    unlocks: count2,
+    tips: count2,
+    total_revenue_xno: revenue,
+    unlock_revenue_usdc: revenue
+  }),
+  postCount: count2,
+  post_id: postIdSchema.nullable(),
+  nextCursor: postStatsInput.shape.cursor.unwrap().nullable()
+});
+function postStatsReport(data, window2, postId) {
+  const result = response2.safeParse(data);
+  if (!result.success || result.data.window !== window2)
+    throw new Error("invalid-post-stats-response");
+  const page = result.data;
+  if (page.post_id !== (postId ?? null) || postId && (page.postCount > 1 || page.posts.length > 1 || page.posts.some((row2) => row2.post_id.toLowerCase() !== postId)))
+    throw new Error("post-stats-scope-mismatch");
+  return { ...page, untrustedData: true };
+}
+
 // src/http/financial.ts
 var financialSourceSchema = external_exports2.enum(["sale", "post_tip", "post_comment_tip"]);
 var financialFilterFields = {
@@ -61858,7 +61928,7 @@ var financialStatusSchema = external_exports2.enum([
   "paid",
   "failed"
 ]);
-var count2 = external_exports2.number().int().nonnegative().safe();
+var count3 = external_exports2.number().int().nonnegative().safe();
 var amount = external_exports2.string().max(256).regex(/^[0-9]+$/);
 var nullableAmount = amount.nullable();
 var text = external_exports2.string().max(16384).nullable();
@@ -61984,19 +62054,19 @@ var financialItemSchema = external_exports2.object({
   ).max(100).optional()
 });
 var sourceSummarySchema = external_exports2.object({
-  count: count2,
+  count: count3,
   gross_raw: nullableAmount,
   net_raw: nullableAmount,
   commission_raw: nullableAmount,
   earned_raw: nullableAmount,
   unpaid_raw: nullableAmount,
   confirmed_sent_raw: amount,
-  unresolved_count: count2,
+  unresolved_count: count3,
   last_payout_at: time3
 });
 var financialHistoryResponseSchema = external_exports2.object({
   items: external_exports2.array(financialItemSchema).max(50),
-  total: count2,
+  total: count3,
   summary: sourceSummarySchema.extend({
     source_breakdown: external_exports2.object({
       sale: sourceSummarySchema,
@@ -62008,14 +62078,14 @@ var financialHistoryResponseSchema = external_exports2.object({
   asset_summaries: external_exports2.array(
     external_exports2.object({
       ...assetFields,
-      count: count2,
+      count: count3,
       gross_atomic: nullableAmount,
       commission_atomic: nullableAmount,
       net_atomic: nullableAmount,
       earned_atomic: nullableAmount,
       unpaid_atomic: nullableAmount,
       confirmed_sent_atomic: amount,
-      unresolved_count: count2
+      unresolved_count: count3
     })
   ).max(100).optional()
 });
@@ -62061,7 +62131,8 @@ var nativeProblems = /* @__PURE__ */ new Set([
   "not-found",
   "rate-limit",
   "temporarily-unavailable",
-  "server-error"
+  "server-error",
+  "post-stats-restart-required"
 ]);
 var FinancialService = class {
   constructor(client, credentials, reader) {
@@ -62085,9 +62156,9 @@ var FinancialService = class {
     const owner = await ownerAuthority2(this.credentials, this.client.origin);
     this.current(owner);
     try {
-      const response2 = await this.client.request(path, { bearer: owner.token });
+      const response3 = await this.client.request(path, { bearer: owner.token });
       this.current(owner);
-      return { data: response2.data, owner };
+      return { data: response3.data, owner };
     } catch (error40) {
       this.current(owner);
       if (error40 instanceof ApiError && error40.status === 401)
@@ -62119,22 +62190,33 @@ var FinancialService = class {
       "network"
     ])
       if (parsed[key] !== void 0) query.set(key, parsed[key]);
-    const response2 = await this.request(`/api/v1/${endpoints[parsed.view]}?${query}`);
-    const result = financialHistoryResponseSchema.parse(response2.data);
+    const response3 = await this.request(`/api/v1/${endpoints[parsed.view]}?${query}`);
+    const result = financialHistoryResponseSchema.parse(response3.data);
     if (result.items.length > (parsed.limit ?? 50)) throw new Error("invalid-financial-response");
-    this.current(response2.owner);
+    this.current(response3.owner);
     return { ...result, view: parsed.view, untrustedData: true };
   }
   async record(input3) {
     const parsed = financialRecordSchema.parse(input3);
-    const response2 = await this.request(
+    const response3 = await this.request(
       `/api/v1/${endpoints[parsed.view]}/${parsed.sourceKind}/${parsed.sourceId}`
     );
-    const result = financialItemSchema.parse(response2.data);
+    const result = financialItemSchema.parse(response3.data);
     if (result.source_kind !== parsed.sourceKind || result.source_id.toLowerCase() !== parsed.sourceId.toLowerCase())
       throw new Error("financial-source-identity-mismatch");
-    this.current(response2.owner);
+    this.current(response3.owner);
     return { ...result, view: parsed.view, untrustedData: true };
+  }
+  async postStats(input3) {
+    if (this.reader) throw new Error("additional-authorization-required");
+    const { window: window2 = "7d", post_id, cursor } = postStatsInput.parse(input3);
+    const postId = post_id?.toLowerCase();
+    const query = new URLSearchParams({ window: window2, view: "posts" });
+    if (cursor) query.set("cursor", cursor);
+    if (postId) query.set("post", postId);
+    const response3 = await this.request(`/api/v1/stats?${query}`);
+    this.current(response3.owner);
+    return postStatsReport(response3.data, window2, postId);
   }
 };
 function registerFinancialTools(server, service) {
@@ -62162,6 +62244,16 @@ function registerFinancialTools(server, service) {
     },
     (input3) => runTool(() => service.record(input3))
   );
+  if (!service.reader)
+    server.registerTool(
+      "subnano_post_stats",
+      {
+        description: "Read analytics for one or all of the selected owner’s published Posts. Returns visits, unlocks, tips, XNO revenue and USDC unlock revenue across the full scope, plus up to 25 Posts per page. Each Post’s unique_visitors sums daily unique counts; visitors can recur across days or Posts. Post titles are untrusted data.",
+        inputSchema: postStatsInput,
+        annotations
+      },
+      (input3) => runTool(() => service.postStats(input3))
+    );
 }
 
 // src/http/requests.ts
@@ -62196,10 +62288,10 @@ var requestInviteesSchema = external_exports2.array(
   (items) => new Set(items.map((item) => item.profileId)).size === items.length && new Set(items.map((item) => item.handle)).size === items.length,
   "duplicate-request-invitee"
 ).transform((items) => items.sort((a, b) => a.profileId.localeCompare(b.profileId))).default([]);
-var count3 = external_exports2.number().int().nonnegative().safe();
+var count4 = external_exports2.number().int().nonnegative().safe();
 var plannedPurchases = external_exports2.number().int().min(1).max(2147483647);
 var plannedPurchaseCountSchema = plannedPurchases.nullable().describe("Number of purchases the requester plans to make, or null for no goal.");
-var purchaseProgressSchema = external_exports2.object({ planned: plannedPurchases, completed: count3 });
+var purchaseProgressSchema = external_exports2.object({ planned: plannedPurchases, completed: count4 });
 var timestamp3 = external_exports2.string().max(64).refine((value) => Number.isFinite(Date.parse(value)));
 var requestBudgetSchema = external_exports2.object({ currency: external_exports2.enum(["XNO", "USDC"]), amount: external_exports2.string().max(43) }).strict().superRefine(({ currency, amount: amount3 }, context6) => {
   const precision = currency === "XNO" ? 30 : 6;
@@ -62252,14 +62344,14 @@ var requestListInputSchema = external_exports2.object({
   ),
   exclude_mine: external_exports2.boolean().optional().describe("Hide Requests posted by the selected account. Requires owner_context=true."),
   limit: external_exports2.number().int().min(1).max(50).optional(),
-  offset: count3.max(1e4).optional()
+  offset: count4.max(1e4).optional()
 }).strict();
 var solvedRequestsInputSchema = external_exports2.object({
   owner_context: external_exports2.boolean().optional().describe("Read as the selected verified account instead of anonymously."),
   post_id: requestIdSchema.optional(),
   profile_id: requestIdSchema.optional(),
   limit: external_exports2.number().int().min(1).max(50).optional(),
-  offset: count3.max(2147483647).optional()
+  offset: count4.max(2147483647).optional()
 }).strict().refine(
   ({ post_id, profile_id }) => post_id === void 0 !== (profile_id === void 0),
   "Provide exactly one of post_id or profile_id"
@@ -62302,14 +62394,14 @@ var subnanoRequestSchema = external_exports2.object({
   answered: external_exports2.boolean().optional(),
   editLocked: external_exports2.boolean().optional(),
   moderation: requestModerationSchema.optional(),
-  proposalCount: count3,
+  proposalCount: count4,
   // Public conversation signals; absent from servers that predate them.
-  questionCount: count3.optional(),
-  interestedCount: count3.optional(),
-  helpOfferCount: count3.optional(),
+  questionCount: count4.optional(),
+  interestedCount: count4.optional(),
+  helpOfferCount: count4.optional(),
   // List reads only: distinct proposal authors and how many the requester verifiably bought from.
-  proposalAuthorCount: count3.optional(),
-  purchasedAuthorCount: count3.optional(),
+  proposalAuthorCount: count4.optional(),
+  purchasedAuthorCount: count4.optional(),
   firstResponseAt: timestamp3.nullable().optional(),
   lastActivityAt: timestamp3.optional(),
   selectedProposalIds: external_exports2.array(requestIdSchema).max(100),
@@ -62334,7 +62426,7 @@ var requestPostSchema = external_exports2.object({
   imageUrl: external_exports2.string().max(2048).nullable(),
   excerpt: external_exports2.string().max(1e3).nullable(),
   publishedAt: timestamp3,
-  attachments: external_exports2.object({ count: external_exports2.number().int().positive().safe(), totalBytes: count3 }).nullable()
+  attachments: external_exports2.object({ count: external_exports2.number().int().positive().safe(), totalBytes: count4 }).nullable()
 });
 var requestAmountSchema = external_exports2.object({
   currency: external_exports2.enum(["XNO", "USDC"]),
@@ -62445,23 +62537,23 @@ var requestDetailEditabilitySchema = external_exports2.object({
 });
 var requestListSchema = external_exports2.object({
   items: external_exports2.array(subnanoRequestSchema).max(50),
-  total: count3,
+  total: count4,
   limit: external_exports2.number().int().min(1).max(50),
-  offset: count3.max(1e4)
+  offset: count4.max(1e4)
 });
-var solvedRequestListSchema = requestListSchema.extend({ offset: count3.max(2147483647) });
+var solvedRequestListSchema = requestListSchema.extend({ offset: count4.max(2147483647) });
 var requestMetricsSchema = external_exports2.object({
-  requests: count3,
-  withProposals: count3,
-  solved: count3,
-  withConfirmedPurchase: count3
+  requests: count4,
+  withProposals: count4,
+  solved: count4,
+  withConfirmedPurchase: count4
 });
 var requestWorkspaceInputSchema = external_exports2.object({
   view: external_exports2.enum(["mine", "invited", "helping", "proposals"]).default("invited"),
   status: external_exports2.enum(["open", "solved", "closed", "all", "deleted"]).default("all"),
   q: external_exports2.string().trim().max(200).optional(),
   limit: external_exports2.number().int().min(1).max(50).optional(),
-  offset: count3.max(1e4).optional()
+  offset: count4.max(1e4).optional()
 }).strict().refine(
   ({ view: view2, status }) => status !== "deleted" || view2 === "mine",
   "Deleted filter requires mine view"
@@ -62541,10 +62633,10 @@ async function listRequests(client, input3, signal, bearer) {
   for (const [key, value] of Object.entries(parsed))
     if (value !== void 0) query.set(names[key] ?? key, String(value));
   const path = `/api/requests?${query}`;
-  const response2 = bearer ? await client.request(path, { signal, bearer }) : await discoveryRead(client, path, signal);
-  if (parsed.wanted_by_on_or_before !== void 0 && response2.headers.get("X-Subnano-Wanted-By-On-Or-Before") !== parsed.wanted_by_on_or_before)
+  const response3 = bearer ? await client.request(path, { signal, bearer }) : await discoveryRead(client, path, signal);
+  if (parsed.wanted_by_on_or_before !== void 0 && response3.headers.get("X-Subnano-Wanted-By-On-Or-Before") !== parsed.wanted_by_on_or_before)
     throw new Error(requestWantedByFilterUnavailable);
-  return { ...requestListSchema.parse(response2.data), untrustedData: true };
+  return { ...requestListSchema.parse(response3.data), untrustedData: true };
 }
 async function solvedRequests(client, input3, signal, bearer) {
   const { owner_context: _ownerContext, ...parsed } = solvedRequestsInputSchema.parse(input3);
@@ -62554,13 +62646,13 @@ async function solvedRequests(client, input3, signal, bearer) {
   if (parsed.offset !== void 0) query.set("offset", String(parsed.offset));
   const suffix = query.size ? `?${query}` : "";
   const path = `/api/requests/solved/${target}${suffix}`;
-  const response2 = bearer ? await client.request(path, { signal, bearer }) : await discoveryRead(client, path, signal);
-  return { ...solvedRequestListSchema.parse(response2.data), untrustedData: true };
+  const response3 = bearer ? await client.request(path, { signal, bearer }) : await discoveryRead(client, path, signal);
+  return { ...solvedRequestListSchema.parse(response3.data), untrustedData: true };
 }
 async function readRequest(client, id3, signal) {
   const requestId = requestIdSchema.parse(id3);
-  const response2 = await client.request(`/api/requests/${requestId}`, { signal });
-  const detail = requestDetailSchema.parse(response2.data);
+  const response3 = await client.request(`/api/requests/${requestId}`, { signal });
+  const detail = requestDetailSchema.parse(response3.data);
   if (detail.request.id !== requestId) throw new Error("request-readback-mismatch");
   delete detail.participation;
   delete detail.participants;
@@ -62809,6 +62901,15 @@ function reconnectAction(context6) {
 }
 function connectionFailure(error40, duringVerification = false, context6) {
   const raw2 = error40 instanceof ApiError ? error40.code : error40 instanceof Error ? error40.message : "";
+  if (raw2 === "connection-refresh-pending") {
+    return {
+      code: raw2,
+      kind: "read-connection-action-required",
+      retryable: true,
+      nextAction: "retry-same-connection",
+      next: "Retry on the same named connection after service or network access returns. The client saved the exact renewal request and will resume it."
+    };
+  }
   if ([
     "additional-authorization-required",
     "credential-source-changed",
@@ -63057,6 +63158,7 @@ async function readConnectionContext(store, client, connections2) {
     context6 = void 0;
     const candidate = error40 instanceof Error ? error40.message : "";
     code = [
+      "connection-refresh-pending",
       "connection-result-unknown",
       "connection-revocation-unconfirmed",
       "connection-revoked",
@@ -63104,7 +63206,7 @@ async function readConnectionContext(store, client, connections2) {
         ...code ? {
           error: {
             code,
-            nextAction: code === "connection-result-unknown" ? "connect-cancel" : "connect-status"
+            nextAction: code === "connection-result-unknown" ? "connect-cancel" : code === "connection-refresh-pending" ? "retry-same-connection" : "connect-status"
           }
         } : {}
       },
@@ -63485,9 +63587,9 @@ function registerPurchaseTools(server, purchases) {
     },
     (rawInput, extra) => runTool(async () => {
       const input3 = validatedPurchaseInputSchema.parse(rawInput);
-      const response2 = (value) => purchaseResponse(value, input3.detail);
+      const response3 = (value) => purchaseResponse(value, input3.detail);
       if ("amount_raw" in input3)
-        return response2(
+        return response3(
           await purchases.buy(
             {
               postId: input3.post_id,
@@ -63499,7 +63601,7 @@ function registerPurchaseTools(server, purchases) {
           )
         );
       if (input3.payment.asset === "XNO")
-        return response2(
+        return response3(
           await purchases.buy(
             {
               postId: input3.post_id,
@@ -63510,7 +63612,7 @@ function registerPurchaseTools(server, purchases) {
             extra.signal
           )
         );
-      return response2(
+      return response3(
         await purchases.buy(
           {
             postId: input3.post_id,
@@ -63612,7 +63714,7 @@ var AttachmentUploadClient = class {
     if (part.url !== this.url || part.method !== "PUT" || part.header !== "x-part-capability" || ![1, 2].includes(partNumber) || part.partNumber !== partNumber || part.offset !== offset2 || part.sizeBytes !== length || bytes2.length !== length || length <= 0 || totalBytes > 2 * ZIP_PART_BYTES || !Number.isSafeInteger(part.generation) || part.generation < 1 || !/^[A-Za-z0-9_-]{43}$/.test(part.capability))
       throw new Error("attachment-transfer-invalid");
     try {
-      const response2 = await fetch(this.url, {
+      const response3 = await fetch(this.url, {
         method: "PUT",
         redirect: "error",
         credentials: "omit",
@@ -63623,7 +63725,7 @@ var AttachmentUploadClient = class {
         },
         body: new Uint8Array(bytes2).buffer
       });
-      const reader = response2.body?.getReader();
+      const reader = response3.body?.getReader();
       let length2 = 0;
       try {
         if (reader)
@@ -63637,7 +63739,7 @@ var AttachmentUploadClient = class {
         await reader?.cancel().catch(() => {
         });
       }
-      if (!response2.ok) throw new Error("attachment-transfer-unconfirmed");
+      if (!response3.ok) throw new Error("attachment-transfer-unconfirmed");
     } catch {
       throw new Error("attachment-transfer-unconfirmed");
     }
@@ -64284,7 +64386,7 @@ var CreatorAttachmentService = class {
       error: void 0
     });
     try {
-      const response2 = await this.client.request(`/api/v1/posts/${saved.data.postId}/attachments`, {
+      const response3 = await this.client.request(`/api/v1/posts/${saved.data.postId}/attachments`, {
         method: "POST",
         bearer: current2.token,
         headers: {
@@ -64298,9 +64400,9 @@ var CreatorAttachmentService = class {
       });
       const latest = this.store.operation(saved.id);
       if (latest.status === "removed") return this.result(latest);
-      if (response2.status === 202)
+      if (response3.status === 202)
         saved = this.store.updateOperation(saved.id, "received", { ...saved.data, received: true });
-      const mutation = external_exports2.object({ attachment: attachmentSchema, currentRevision: revision2.nullable() }).parse(response2.data);
+      const mutation = external_exports2.object({ attachment: attachmentSchema, currentRevision: revision2.nullable() }).parse(response3.data);
       this.stable(current2);
       return this.record(saved, mutation.attachment, mutation.currentRevision, current2);
     } catch (error40) {
@@ -64348,7 +64450,7 @@ var CreatorAttachmentService = class {
         rejection: void 0,
         error: void 0
       });
-      const response2 = await this.client.request(`${path}${suffix}`, {
+      const response3 = await this.client.request(`${path}${suffix}`, {
         method: "POST",
         bearer: authority.token,
         body,
@@ -64363,7 +64465,7 @@ var CreatorAttachmentService = class {
         attachment: attachmentSchema,
         currentRevision: revision2.nullable(),
         transfer: transferSchema.nullable().optional()
-      }).parse(response2.data);
+      }).parse(response3.data);
       await this.record(saved, mutation.attachment, mutation.currentRevision, authority);
       observedAttachment = mutation.attachment;
       saved = this.store.operation(saved.id);
@@ -64489,12 +64591,12 @@ var CreatorAttachmentService = class {
     if (operation.status === "removed") return this.result(operation);
     if (operation.data.protocol) {
       try {
-        const response2 = await this.client.request(
+        const response3 = await this.client.request(
           `/api/v1/posts/${operation.data.postId}/attachments/uploads?requestKey=${encodeURIComponent(operation.data.requestKey)}`,
           { bearer: authority.token, timeoutMs: ZIP_TRANSFER_TIMEOUT_MS }
         );
         this.stable(authority);
-        const mutation = external_exports2.object({ attachment: attachmentSchema, currentRevision: revision2.nullable() }).parse(response2.data);
+        const mutation = external_exports2.object({ attachment: attachmentSchema, currentRevision: revision2.nullable() }).parse(response3.data);
         return this.record(operation, mutation.attachment, mutation.currentRevision, authority);
       } catch (error40) {
         if (error40 instanceof ApiError && error40.status === 404 && error40.code === "not-found" && operation.data.received)
@@ -65330,7 +65432,7 @@ var PublicationService = class {
     if (this.authorAttested(snapshot)) return snapshot;
     let responseRevision;
     try {
-      const response2 = object3(
+      const response3 = object3(
         (await this.client.request(`/api/v1/posts/${snapshot.postId}`, {
           method: "PATCH",
           bearer: authority.token,
@@ -65338,9 +65440,9 @@ var PublicationService = class {
           body: { creationAttested: true }
         })).data
       );
-      if (response2.id !== snapshot.postId || response2.status !== "draft" || response2.creationAttested !== true)
+      if (response3.id !== snapshot.postId || response3.status !== "draft" || response3.creationAttested !== true)
         throw new Error("publication-response-mismatch");
-      responseRevision = revision3.parse(response2.updatedAt);
+      responseRevision = revision3.parse(response3.updatedAt);
     } catch (error40) {
       if (error40 instanceof ApiError && error40.status < 500) throw error40;
       throw new Error("publication-author-attestation-unconfirmed");
@@ -65386,7 +65488,7 @@ var PublicationService = class {
           firstDispatchAt: Date.now()
         });
         try {
-          const response2 = object3(
+          const response3 = object3(
             (await this.client.request(`/api/posts/${input3.post_id}/publication-attestation`, {
               method: "POST",
               bearer: await this.ownerToken(verified),
@@ -65398,11 +65500,11 @@ var PublicationService = class {
             })).data
           );
           this.stable(verified);
-          if (response2.postId !== input3.post_id || response2.operationId !== operation.id || response2.snapshotDigest !== input3.snapshot_digest || response2.humanReviewed !== true)
+          if (response3.postId !== input3.post_id || response3.operationId !== operation.id || response3.snapshotDigest !== input3.snapshot_digest || response3.humanReviewed !== true)
             throw new Error("publication-response-mismatch");
           saved = this.store.updateOperation(saved.id, "response-received", {
             ...saved.data,
-            resultRevision: revision3.parse(response2.revision)
+            resultRevision: revision3.parse(response3.revision)
           });
           return await this.reconcile(saved, verified);
         } catch (error40) {
@@ -65784,13 +65886,13 @@ var PublicationService = class {
       return this.failed(operation, error40, true);
     }
     try {
-      const response2 = object3(data);
+      const response3 = object3(data);
       const saved = this.store.updateOperation(operation.id, "response-received", {
         ...operation.data,
-        resultRevision: revision3.parse(response2.updatedAt)
+        resultRevision: revision3.parse(response3.updatedAt)
       });
       this.stable(authority);
-      if (response2.id !== operation.data.snapshot.postId || response2.status !== "published" || response2.publishResult !== "published")
+      if (response3.id !== operation.data.snapshot.postId || response3.status !== "published" || response3.publishResult !== "published")
         throw new Error("publication-response-mismatch");
       return await this.reconcile(saved, authority);
     } catch (error40) {
@@ -66084,9 +66186,9 @@ function readVerifiedFile(path, expected, links, recorded) {
     const bytes2 = Buffer.alloc(expected.sizeBytes + 1);
     let length = 0;
     while (length < bytes2.length) {
-      const count4 = readSync(fd, bytes2, length, bytes2.length - length, null);
-      if (!count4) break;
-      length += count4;
+      const count5 = readSync(fd, bytes2, length, bytes2.length - length, null);
+      if (!count5) break;
+      length += count5;
     }
     const after = fstatSync2(fd);
     safeFile(after, links, recorded);
@@ -66293,13 +66395,13 @@ function verifyExtractedArchive(outputDirectory, name, expected, completed, auth
         const hash10 = createHash15("sha256"), buffer2 = Buffer.alloc(64 * 1024);
         let size6 = 0;
         while (true) {
-          const count4 = readSync2(fd, buffer2);
-          if (!count4) break;
-          size6 += count4;
-          total += count4;
+          const count5 = readSync2(fd, buffer2);
+          if (!count5) break;
+          size6 += count5;
+          total += count5;
           if (size6 > MAX_MEMBER_BYTES || total > MAX_TOTAL_BYTES)
             throw new Error("archive-output-mismatch");
-          hash10.update(buffer2.subarray(0, count4));
+          hash10.update(buffer2.subarray(0, count5));
         }
         const after = fstatSync3(fd);
         if (size6 !== file2.sizeBytes || after.size !== actual.size || after.mtimeMs !== actual.mtimeMs || hash10.digest("hex") !== file2.sha256)
@@ -66590,13 +66692,13 @@ var AttachmentService = class {
     };
   }
   async manifest(postId, owner, token, signal) {
-    const response2 = await this.client.request(`/api/posts/${postId}/attachments`, {
+    const response3 = await this.client.request(`/api/posts/${postId}/attachments`, {
       bearer: token,
       headers: attachmentFormatsHeaders,
       signal
     });
     this.stable(owner);
-    const parsed = external_exports2.object({ attachments: external_exports2.array(attachmentSchema2).max(3) }).safeParse(response2.data);
+    const parsed = external_exports2.object({ attachments: external_exports2.array(attachmentSchema2).max(3) }).safeParse(response3.data);
     if (!parsed.success) throw new Error("attachment-manifest-invalid");
     const assets = parsed.data.attachments;
     if (new Set(assets.map((asset) => asset.id)).size !== assets.length)
@@ -66654,7 +66756,7 @@ var AttachmentService = class {
       };
       authorize();
       const proof = this.purchases.originalProof(saved.data.postId);
-      const response2 = await this.client.bytes(
+      const response3 = await this.client.bytes(
         saved.data.attachment.downloadUrl,
         {
           bearer: token,
@@ -66665,13 +66767,13 @@ var AttachmentService = class {
         MAX_ZIP_BYTES
       );
       this.stable(owner);
-      if (response2.headers.get("content-type")?.split(";")[0].trim() !== saved.data.attachment.mimeType)
+      if (response3.headers.get("content-type")?.split(";")[0].trim() !== saved.data.attachment.mimeType)
         throw new Error(
           saved.data.attachment.mimeType === "application/zip" ? "attachment-zip-required" : "attachment-type-mismatch"
         );
-      if (response2.headers.get("content-length") !== String(saved.data.attachment.sizeBytes))
+      if (response3.headers.get("content-length") !== String(saved.data.attachment.sizeBytes))
         throw new Error("attachment-byte-mismatch");
-      verifyBytes(response2.data, saved.data.attachment);
+      verifyBytes(response3.data, saved.data.attachment);
       const path = join5(saved.data.outputDir, saved.data.artifactName);
       const resumed = saved.data.downloadAttempt ? resumeVerifiedDownload(
         saved.data.outputDir,
@@ -66686,7 +66788,7 @@ var AttachmentService = class {
           readVerifiedDownload(path, saved.data.attachment);
         } else
           promoteVerifiedDownload(
-            response2.data,
+            response3.data,
             saved.data.outputDir,
             saved.data.artifactName,
             saved.data.attachment,
@@ -67071,7 +67173,7 @@ var ImageService = class {
       error: void 0
     });
     try {
-      const response2 = await this.client.request(
+      const response3 = await this.client.request(
         `/api/v1/posts/${saved.data.postId}/images?intent=${saved.data.intent}`,
         {
           method: "POST",
@@ -67086,7 +67188,7 @@ var ImageService = class {
           }
         }
       );
-      const receipt2 = responseSchema.parse(response2.data);
+      const receipt2 = responseSchema.parse(response3.data);
       if (receipt2.safety.received)
         saved = this.store.updateOperation(saved.id, "received", { ...saved.data, received: true });
       return this.result(this.record(saved, receipt2, authority));
@@ -67206,9 +67308,9 @@ var ImageService = class {
     if (!authority.originalRead) await this.authority();
     this.stable(authority);
     const d2 = op.data;
-    let response2;
+    let response3;
     if (d2.nativeId)
-      response2 = (await this.client.request(`/api/v1/upload-operations/${d2.nativeId}`, {
+      response3 = (await this.client.request(`/api/v1/upload-operations/${d2.nativeId}`, {
         bearer: authority.token
       })).data;
     else {
@@ -67225,9 +67327,9 @@ var ImageService = class {
       );
       this.stable(authority);
       if (!found.operations.length) return op;
-      response2 = found.operations[0];
+      response3 = found.operations[0];
     }
-    return this.record(op, response2, authority);
+    return this.record(op, response3, authority);
   }
   async operation(id3, action) {
     if (this.client.origin !== this.policy.origin) throw new Error("identity-origin-mismatch");
@@ -67293,11 +67395,11 @@ var ImageService = class {
   async cancelSaved(op, authority) {
     await this.authority();
     this.stable(authority);
-    const response2 = await this.client.request(`/api/v1/upload-operations/${op.data.nativeId}`, {
+    const response3 = await this.client.request(`/api/v1/upload-operations/${op.data.nativeId}`, {
       method: "DELETE",
       bearer: authority.token
     });
-    const saved = this.record(op, response2.data, authority);
+    const saved = this.record(op, response3.data, authority);
     if (saved.data.receipt.safety.desired) throw new Error("image-cancellation-unconfirmed");
     return this.result(
       this.store.updateOperation(op.id, saved.status, { ...saved.data, cancelRequested: false })
@@ -67345,11 +67447,11 @@ var ImageService = class {
           try {
             await this.authority();
             this.stable(authority);
-            const response2 = await this.client.request(
+            const response3 = await this.client.request(
               `/api/v1/upload-operations/${op.data.nativeId}/associate`,
               { method: "POST", bearer: authority.token }
             );
-            return this.result(this.record(op, response2.data, authority));
+            return this.result(this.record(op, response3.data, authority));
           } catch (error40) {
             return this.result(this.failure(op, error40));
           }
@@ -67519,14 +67621,14 @@ var SellerInformationService = class {
       const latest = informationResponse.nullable().parse((await this.client.request(path, { bearer: verified.token })).data);
       this.policy.revalidate(consent);
       if (canonical(latest) !== canonical(current2)) throw new Error("seller-information-changed");
-      const response2 = await this.client.request(path, {
+      const response3 = await this.client.request(path, {
         bearer: verified.token,
         method: "POST",
         body: information
       });
       stableOwner(this.credentials, verified);
       return {
-        sellerInformation: informationResponse.parse(response2.data),
+        sellerInformation: informationResponse.parse(response3.data),
         untrustedData: true
       };
     } catch (error40) {
@@ -67858,16 +67960,16 @@ var ReplyService = class {
       failure: void 0
     });
     try {
-      const response2 = await this.client.request(`/api/v1/posts/${saved.data.postId}/comments`, {
+      const response3 = await this.client.request(`/api/v1/posts/${saved.data.postId}/comments`, {
         method: "POST",
         bearer: owner.token,
         headers: { "Idempotency-Key": saved.data.requestKey },
         body: saved.data.body,
         signal
       });
-      const acquired = external_exports2.object({ id: normalizedId2 }).safeParse(response2.data);
-      if (!acquired.success) throw new ApiError(response2.status, "invalid-reply-response");
-      const record5 = response2.data;
+      const acquired = external_exports2.object({ id: normalizedId2 }).safeParse(response3.data);
+      if (!acquired.success) throw new ApiError(response3.status, "invalid-reply-response");
+      const record5 = response3.data;
       saved = this.store.updateOperation(saved.id, "readback-pending", {
         ...saved.data,
         receipt: {
@@ -67879,7 +67981,7 @@ var ReplyService = class {
         failure: void 0
       });
       try {
-        const receipt2 = parseReceipt(response2.data, saved);
+        const receipt2 = parseReceipt(response3.data, saved);
         saved = this.store.updateOperation(saved.id, "readback-pending", {
           ...saved.data,
           receipt: receipt2,
@@ -67925,12 +68027,12 @@ var ReplyService = class {
     let saved = operation;
     try {
       this.current(owner);
-      const response2 = await this.client.request(`/api/v1/comments/${operation.data.receipt.id}`, {
+      const response3 = await this.client.request(`/api/v1/comments/${operation.data.receipt.id}`, {
         bearer: owner.token,
         signal
       });
       this.current(owner);
-      const comment = commentSchema.parse(response2.data);
+      const comment = commentSchema.parse(response3.data);
       if (comment.id !== operation.data.receipt.id || !matchesComment(comment, operation))
         throw new Error("comment-readback-mismatch");
       saved = this.store.updateOperation(operation.id, "completed", {
@@ -68337,7 +68439,7 @@ var ScheduleService = class {
           return this.store.updateOperation(prepared.id, "dispatched", prepared.data);
         });
         try {
-          const response2 = await this.client.raw(
+          const response3 = await this.client.raw(
             `/api/v1/posts/${input3.post_id}/publication-schedule`,
             {
               method: action === "create" ? "POST" : action === "replace" ? "PATCH" : "DELETE",
@@ -68347,8 +68449,8 @@ var ScheduleService = class {
             }
           );
           this.stable(authority);
-          if (response2.status === 200) {
-            const receipt2 = this.validateReceipt(response2.data, operation);
+          if (response3.status === 200) {
+            const receipt2 = this.validateReceipt(response3.data, operation);
             return this.result(
               this.store.updateOperation(operation.id, "accepted", { ...operation.data, receipt: receipt2 })
             );
@@ -68357,9 +68459,9 @@ var ScheduleService = class {
             type: external_exports2.string().optional(),
             code: external_exports2.string().optional(),
             schedule: publicationScheduleSchema.nullable().optional()
-          }).parse(response2.data);
+          }).parse(response3.data);
           const reason = problem.code ?? /^https:\/\/subnano\.me\/problems\/([a-z0-9-]+)$/.exec(problem.type ?? "")?.[1] ?? "schedule-request-rejected";
-          const rejected = response2.status >= 400 && response2.status < 500;
+          const rejected = response3.status >= 400 && response3.status < 500;
           if (problem.schedule && problem.schedule.postId !== input3.post_id)
             throw new Error("schedule-response-mismatch");
           return this.result(
@@ -68435,15 +68537,15 @@ var ScheduleService = class {
     this.check(operation, authority);
     let saved = operation;
     try {
-      const response2 = external_exports2.object({ receipt: scheduleReceiptSchema.nullable() }).parse(
+      const response3 = external_exports2.object({ receipt: scheduleReceiptSchema.nullable() }).parse(
         (await this.client.request(
           `/api/v1/publication-schedule-commands/${operation.data.input.command_id}`,
           { bearer: authority.token }
         )).data
       );
       this.stable(authority);
-      if (response2.receipt) {
-        const receipt2 = this.validateReceipt(response2.receipt, operation);
+      if (response3.receipt) {
+        const receipt2 = this.validateReceipt(response3.receipt, operation);
         saved = this.store.updateOperation(operation.id, "accepted", {
           ...operation.data,
           receipt: receipt2,
@@ -68974,7 +69076,7 @@ var RequestsService = class {
         mode: input3.mode,
         limit: String(input3.limit)
       });
-      const response2 = await this.client.request(`/api/requests/invitees?${query}`, {
+      const response3 = await this.client.request(`/api/requests/invitees?${query}`, {
         bearer: owner.token,
         signal
       });
@@ -68989,7 +69091,7 @@ var RequestsService = class {
               authorKind: external_exports2.enum(["human", "agent"])
             })
           )
-        }).parse(response2.data),
+        }).parse(response3.data),
         untrustedData: true
       };
     } finally {
@@ -69007,12 +69109,12 @@ var RequestsService = class {
       includeUrl: "true"
     });
     if (rich) query.set("content", "rich");
-    const response2 = await this.client.request(`/api/v1/requests/${id3}?${query}`, {
+    const response3 = await this.client.request(`/api/v1/requests/${id3}?${query}`, {
       bearer: owner.token,
       signal
     });
     this.current(owner);
-    const detail = requestDetailSchema.parse(response2.data);
+    const detail = requestDetailSchema.parse(response3.data);
     if (detail.request.id !== id3) throw new Error("request-readback-mismatch");
     if (detail.participation && detail.participation.profileId !== owner.profileId)
       delete detail.participation;
@@ -69025,7 +69127,7 @@ var RequestsService = class {
         delete proposal.setAsideRevision;
       }
     }
-    const content2 = rich ? requestDetailEditabilitySchema.parse(response2.data).request.content : void 0;
+    const content2 = rich ? requestDetailEditabilitySchema.parse(response3.data).request.content : void 0;
     return content2 ? { ...detail, request: { ...detail.request, content: content2 } } : detail;
   }
   async detail(input3, signal) {
@@ -69049,9 +69151,9 @@ var RequestsService = class {
   async privateRead(path, signal) {
     const owner = await ownerAuthority2(this.ownerCredentials(), this.client.origin);
     try {
-      const response2 = await this.client.request(path, { bearer: owner.token, signal });
+      const response3 = await this.client.request(path, { bearer: owner.token, signal });
       this.current(owner);
-      return response2.data;
+      return response3.data;
     } finally {
       this.current(owner);
     }
@@ -69064,12 +69166,12 @@ var RequestsService = class {
     const parsed = requestOwnPostsInputSchema.parse(input3);
     const owner = await ownerAuthority2(this.ownerCredentials(), this.client.origin);
     try {
-      const response2 = await this.client.request("/api/v1/requests/own-posts", {
+      const response3 = await this.client.request("/api/v1/requests/own-posts", {
         bearer: owner.token,
         signal
       });
       this.current(owner);
-      const posts = external_exports2.object({ items: external_exports2.array(requestPostSchema).max(100) }).parse(response2.data);
+      const posts = external_exports2.object({ items: external_exports2.array(requestPostSchema).max(100) }).parse(response3.data);
       if (!parsed.request_id || !parsed.post_id) return { ...posts, untrustedData: true };
       const post = posts.items.find((item) => item.id === parsed.post_id);
       if (!post) throw new Error("eligible-owned-post-required");
@@ -69106,7 +69208,7 @@ var RequestsService = class {
     const owner = await ownerAuthority2(this.ownerCredentials(), this.client.origin);
     try {
       this.current(owner);
-      const response2 = await this.client.request(
+      const response3 = await this.client.request(
         `/api/v1/requests/${parsed.request_id}/share-draft?includeUrl=true`,
         {
           method: "POST",
@@ -69121,7 +69223,7 @@ var RequestsService = class {
         text: external_exports2.string().min(1).max(1e3),
         source: external_exports2.enum(["luna", "template"]),
         urlPath: external_exports2.string().max(103).regex(/^\/requests\/[a-z0-9]+(?:-[a-z0-9]+)*-[0-9a-f]{12}$/).optional()
-      }).parse(response2.data);
+      }).parse(response3.data);
       return {
         ...draft,
         requestUrl: `${this.client.origin}${draft.urlPath ?? `/requests/${parsed.request_id}`}`,
@@ -69459,7 +69561,7 @@ var RequestsService = class {
       failure: void 0
     });
     try {
-      const response2 = await this.client.request(saved.data.path, {
+      const response3 = await this.client.request(saved.data.path, {
         method: saved.data.method,
         body: saved.data.body,
         bearer: owner.token,
@@ -69467,7 +69569,7 @@ var RequestsService = class {
         signal
       });
       const data = saved.data;
-      const receipt2 = isParticipantControl(data.action) ? requestParticipantControlReceiptSchema.parse(response2.data) : isProposalTriage(data.action) ? requestProposalTriageReceiptSchema.parse(response2.data) : data.action === "report" ? requestReportReceiptSchema.parse(response2.data) : requestReceiptSchema.parse(response2.data);
+      const receipt2 = isParticipantControl(data.action) ? requestParticipantControlReceiptSchema.parse(response3.data) : isProposalTriage(data.action) ? requestProposalTriageReceiptSchema.parse(response3.data) : data.action === "report" ? requestReportReceiptSchema.parse(response3.data) : requestReceiptSchema.parse(response3.data);
       if ("participantId" in receipt2) {
         validateControlReceipt(data, receipt2);
       } else if ("setAsideRevision" in receipt2) {
@@ -70442,17 +70544,17 @@ var NanoRpc = class {
   timeoutMs;
   async request(input3, signal) {
     try {
-      const response2 = await fetch(this.url, {
+      const response3 = await fetch(this.url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(input3),
         redirect: "error",
         signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(this.timeoutMs)]) : AbortSignal.timeout(this.timeoutMs)
       });
-      if (!response2.ok) throw new Error();
-      const length = Number(response2.headers.get("content-length"));
+      if (!response3.ok) throw new Error();
+      const length = Number(response3.headers.get("content-length"));
       if (length > 1048576) throw new Error();
-      const reader = response2.body?.getReader();
+      const reader = response3.body?.getReader();
       if (!reader) throw new Error();
       const chunks = [];
       let total = 0;
@@ -71611,7 +71713,7 @@ var CommentTipService = class {
             allocationAttempted: true,
             error: void 0
           });
-          const response2 = await this.client.request(
+          const response3 = await this.client.request(
             `/api/v1/posts/${operation.data.postId}/comments/${operation.data.commentId}/tips/session`,
             {
               method: "POST",
@@ -71624,7 +71726,7 @@ var CommentTipService = class {
               signal
             }
           );
-          const session = this.session(object3(response2.data).session, operation);
+          const session = this.session(object3(response3.data).session, operation);
           const index2 = `comment-tip-session:${JSON.stringify([context6.origin, context6.ownerId, session.id])}`;
           operation = this.store.transaction(() => {
             const originalId = this.store.get(index2);
@@ -71689,12 +71791,12 @@ var CommentTipService = class {
     if (intent2.grantId) this.grants.get(intent2.grantId, this.context(), false);
   }
   async readSession(operation, token, signal) {
-    const response2 = await this.client.request(
+    const response3 = await this.client.request(
       `${this.base(operation.data)}/${operation.data.session.id}`,
       { bearer: token, signal }
     );
     this.stable(operation);
-    return this.session(object3(response2.data).session, operation);
+    return this.session(object3(response3.data).session, operation);
   }
   receipt(session, operation) {
     const intent2 = operation.data;
@@ -71772,11 +71874,11 @@ var CommentTipService = class {
     for (let page = 0; page < 100; page++) {
       const query = new URLSearchParams({ limit: "100" });
       if (cursor) query.set("cursor", cursor);
-      const response2 = await this.client.request(
+      const response3 = await this.client.request(
         `/api/posts/${operation.data.postId}/comments?${query}`,
         { signal }
       );
-      const data = commentsResponseSchema.parse(response2.data);
+      const data = commentsResponseSchema.parse(response3.data);
       this.stable(operation);
       if (data.comments.some((comment2) => comment2.post_id !== operation.data.postId))
         throw new Error("comment-tip-public-readback-mismatch");
@@ -71994,14 +72096,14 @@ function createReleaseChecker({
       }, timeoutMs);
     });
     const request = async () => {
-      const response2 = await fetcher(`${origin}/downloads/subnano/${pointer}`, {
+      const response3 = await fetcher(`${origin}/downloads/subnano/${pointer}`, {
         signal: controller.signal,
         redirect: "error",
         credentials: "omit",
         headers: { Accept: "application/json" }
       });
-      if (!response2.ok || !response2.body) throw new Error("release-check-unavailable");
-      const reader = response2.body.getReader();
+      if (!response3.ok || !response3.body) throw new Error("release-check-unavailable");
+      const reader = response3.body.getReader();
       const chunks = [];
       let size6 = 0;
       try {
@@ -72391,9 +72493,9 @@ var ProfileService = class {
   credentials;
   async read(authority) {
     stableOwner(this.credentials, authority);
-    const response2 = await this.client.request(endpoint, { bearer: authority.token });
+    const response3 = await this.client.request(endpoint, { bearer: authority.token });
     stableOwner(this.credentials, authority);
-    return payoutSchema2.parse(response2.data);
+    return payoutSchema2.parse(response3.data);
   }
   async payoutAddress() {
     return this.read(await ownerAuthority2(this.credentials, this.client.origin));
@@ -72672,7 +72774,7 @@ var ProfileImageService = class {
     if (op.data.received || op.data.cancelRequested) throw new Error("image-already-received");
     let saved = this.store.updateOperation(op.id, "dispatched", { ...op.data, reason: void 0 });
     try {
-      const response2 = await this.client.request(`/api/v1/profile/${saved.data.target}`, {
+      const response3 = await this.client.request(`/api/v1/profile/${saved.data.target}`, {
         method: "POST",
         bearer: authority.token,
         body,
@@ -72682,7 +72784,7 @@ var ProfileImageService = class {
           "Content-Length": String(body.length)
         }
       });
-      const receipt2 = responseSchema.parse(response2.data);
+      const receipt2 = responseSchema.parse(response3.data);
       if (receipt2.safety.received)
         saved = this.store.updateOperation(saved.id, "received", { ...saved.data, received: true });
       return this.result(await this.record(saved, receipt2, authority));
@@ -72694,10 +72796,10 @@ var ProfileImageService = class {
     this.stable(authority);
     const nativeId = op.data.receipt?.safety.operationId;
     if (nativeId) {
-      const response2 = await this.client.request(`/api/v1/upload-operations/${nativeId}`, {
+      const response3 = await this.client.request(`/api/v1/upload-operations/${nativeId}`, {
         bearer: authority.token
       });
-      return this.record(op, response2.data, authority);
+      return this.record(op, response3.data, authority);
     }
     const query = new URLSearchParams({
       requestKey: op.data.requestKey,
@@ -72793,11 +72895,11 @@ var ProfileImageService = class {
       if (op.data.cancelRequested) {
         const nativeId = op.data.receipt?.safety.operationId;
         if (!nativeId) return op;
-        const response2 = await this.client.request(`/api/v1/upload-operations/${nativeId}`, {
+        const response3 = await this.client.request(`/api/v1/upload-operations/${nativeId}`, {
           method: "DELETE",
           bearer: authority.token
         });
-        op = await this.record(op, response2.data, authority);
+        op = await this.record(op, response3.data, authority);
         if (op.data.receipt.safety.desired) throw new Error("image-cancellation-unconfirmed");
         return this.store.updateOperation(op.id, op.status, { ...op.data, cancelRequested: false });
       }
@@ -73226,9 +73328,9 @@ This includes subfolders. Images uploaded to a draft get a public, unlisted addr
       const buffer2 = Buffer.alloc(expected.size + 1);
       let sizeBytes = 0;
       while (sizeBytes < buffer2.length) {
-        const count4 = readSync4(descriptor, buffer2, sizeBytes, buffer2.length - sizeBytes, null);
-        if (!count4) break;
-        sizeBytes += count4;
+        const count5 = readSync4(descriptor, buffer2, sizeBytes, buffer2.length - sizeBytes, null);
+        if (!count5) break;
+        sizeBytes += count5;
       }
       const after = fstatSync5(descriptor);
       if (sizeBytes !== expected.size || after.size !== expected.size || after.mtimeMs !== expected.mtimeMs)
@@ -73267,7 +73369,7 @@ import { randomUUID as randomUUID21 } from "node:crypto";
 import { join as join9 } from "node:path";
 
 // src/auth/browser-connect.ts
-import { createHash as createHash21, randomBytes as randomBytes3, randomUUID as randomUUID19, timingSafeEqual } from "node:crypto";
+import { createHash as createHash21, randomBytes as randomBytes4, randomUUID as randomUUID19, timingSafeEqual } from "node:crypto";
 import { createServer } from "node:http";
 import { readdirSync as readdirSync5 } from "node:fs";
 import { spawn } from "node:child_process";
@@ -73346,6 +73448,7 @@ function equalSecret(actual, expected) {
 function recoveryCode(error40, fallback) {
   return error40 instanceof Error && [
     "connection-result-unknown",
+    "connection-refresh-pending",
     "connection-revocation-unconfirmed",
     "connection-control-proof-missing",
     "connection-expired",
@@ -73540,9 +73643,9 @@ var BrowserConnect = class {
     }
     const url2 = endpoint2 ? new URL(endpoint2) : void 0;
     const host = url2?.hostname === "[::1]" ? "::1" : "127.0.0.1";
-    const server = createServer((request, response2) => {
-      response2.setHeader("Cache-Control", "no-store");
-      response2.setHeader("Content-Type", "text/plain; charset=utf-8");
+    const server = createServer((request, response3) => {
+      response3.setHeader("Cache-Control", "no-store");
+      response3.setHeader("Content-Type", "text/plain; charset=utf-8");
       try {
         const attempt = this.current();
         if (!attempt || terminal.has(attempt.phase) || ["exchange-dispatched", "result-unknown", "revocation-pending"].includes(attempt.phase))
@@ -73564,17 +73667,17 @@ var BrowserConnect = class {
           `handoff-${attempt.selection.attemptId}.json`
         );
         this.checkpoint(attempt, { phase: "code-saved" });
-        response2.setHeader("Content-Type", "text/html; charset=utf-8");
-        response2.setHeader("Referrer-Policy", "no-referrer");
-        response2.setHeader("X-Content-Type-Options", "nosniff");
-        response2.setHeader("Content-Security-Policy", completionPolicy);
-        response2.writeHead(200).end(completionHtml(attempt.selection.origin));
+        response3.setHeader("Content-Type", "text/html; charset=utf-8");
+        response3.setHeader("Referrer-Policy", "no-referrer");
+        response3.setHeader("X-Content-Type-Options", "nosniff");
+        response3.setHeader("Content-Security-Policy", completionPolicy);
+        response3.writeHead(200).end(completionHtml(attempt.selection.origin));
         this.closeListener();
         void this.resume().catch(() => {
           this.completed?.();
         });
       } catch {
-        response2.writeHead(400).end("This callback was not accepted.");
+        response3.writeHead(400).end("This callback was not accepted.");
       }
     });
     try {
@@ -73747,9 +73850,9 @@ var BrowserConnect = class {
               "handoff",
               connectionFileBinding(attempt.selection),
               {
-                verifier: randomBytes3(32).toString("base64url"),
-                state: randomBytes3(32).toString("base64url"),
-                controlProof: randomBytes3(32).toString("base64url")
+                verifier: randomBytes4(32).toString("base64url"),
+                state: randomBytes4(32).toString("base64url"),
+                controlProof: randomBytes4(32).toString("base64url")
               },
               reference
             );
@@ -73759,7 +73862,7 @@ var BrowserConnect = class {
         return this.checkpoint(attempt, { phase: "begin-dispatched", code: void 0 });
       });
       const secrets = this.secrets(attempt);
-      const response2 = (await this.client.request("/api/v1/mcp/connect/begin", {
+      const response3 = (await this.client.request("/api/v1/mcp/connect/begin", {
         method: "POST",
         body: {
           ...connectionBinding(attempt.selection),
@@ -73773,9 +73876,9 @@ var BrowserConnect = class {
           controlProof: secrets.controlProof
         }
       })).data;
-      const status = parseConnectionStatus(response2, attempt.selection);
+      const status = parseConnectionStatus(response3, attempt.selection);
       const approvalUrl = `${this.client.origin}/connect/local-mcp?attemptId=${attempt.selection.attemptId}`;
-      if (response2.approvalUrl !== approvalUrl || status.status !== "pending")
+      if (response3.approvalUrl !== approvalUrl || status.status !== "pending")
         throw new Error("invalid-connection-status");
       attempt = this.checkpoint(attempt, {
         phase: "approval-wait",
@@ -74088,7 +74191,7 @@ var BrowserConnect = class {
           return result;
         }
         this.completed?.();
-        return this.result(attempt, "connection-verification-required");
+        return this.result(attempt, recoveryCode(error40, "connection-verification-required"));
       }
     });
   }
@@ -74310,8 +74413,8 @@ function windowText(ms) {
   ];
   if (ms === 864e5) return "24 hours";
   const [size6, name] = units.find(([size7]) => ms % size7 === 0);
-  const count4 = ms / size6;
-  return count4 === 1 ? name : `${count4} ${name}s`;
+  const count5 = ms / size6;
+  return count5 === 1 ? name : `${count5} ${name}s`;
 }
 function creationReview(fields4) {
   const profile = completeFields.parse(fields4);
@@ -74723,7 +74826,7 @@ function registerSetupTool(server, onboarding, isAgent = () => false) {
               nextAction: "ask-human-account-intent",
               question: "Create a new agent account, create a new human account, or connect an existing account?"
             };
-          const response2 = await ask({
+          const response3 = await ask({
             mode: "form",
             message: "Choose how to use Subnano. This choice saves intent only and creates no account.",
             requestedSchema: {
@@ -74743,7 +74846,7 @@ function registerSetupTool(server, onboarding, isAgent = () => false) {
               required: ["accountKind"]
             }
           });
-          accountKind = external_exports2.enum(accountKinds).parse(response2?.accountKind);
+          accountKind = external_exports2.enum(accountKinds).parse(response3?.accountKind);
         }
       } else {
         accountKind ??= intent2.fields.accountKind;
@@ -74764,7 +74867,7 @@ function registerSetupTool(server, onboarding, isAgent = () => false) {
             status: "public-fields-required",
             nextAction: "ask-human-public-profile-and-connection-name"
           };
-        const response2 = await ask({
+        const response3 = await ask({
           mode: "form",
           message: accountKind === "existing" ? "Enter the public @handle of your existing account and a short name for this connection. Nothing is created: next you check the account and access in your browser and approve it there." : `Choose the public profile for the new ${accountKind === "new-agent" ? "agent" : "human"} account. A separate final confirmation follows.`,
           requestedSchema: {
@@ -74797,9 +74900,9 @@ function registerSetupTool(server, onboarding, isAgent = () => false) {
         });
         intent2 = await onboarding.choose({
           accountKind,
-          name: typeof response2?.name === "string" ? response2.name : void 0,
-          handle: typeof response2?.handle === "string" ? response2.handle : void 0,
-          connectionName: typeof response2?.connectionName === "string" ? response2.connectionName : void 0
+          name: typeof response3?.name === "string" ? response3.name : void 0,
+          handle: typeof response3?.handle === "string" ? response3.handle : void 0,
+          connectionName: typeof response3?.connectionName === "string" ? response3.connectionName : void 0
         });
       }
       if (intent2.fields.accountKind !== "existing" && intent2.phase === "selected") {
@@ -74827,9 +74930,9 @@ function registerSetupTool(server, onboarding, isAgent = () => false) {
         if (isAgent() || input3.approval_mode !== "url-elicitation" || !server.server.getClientCapabilities()?.elicitation?.url)
           return result;
         const full = "credentialClass" in result && result.credentialClass === "mcp-account-owner" && "scope" in result && result.scope === "account:owner" && "authorityVersion" in result && result.authorityVersion === 2;
-        let response2;
+        let response3;
         try {
-          response2 = await server.server.elicitInput(
+          response3 = await server.server.elicitInput(
             {
               mode: "url",
               elicitationId: result.attemptId,
@@ -74842,7 +74945,7 @@ function registerSetupTool(server, onboarding, isAgent = () => false) {
           await onboarding.cancel(original);
           throw error40;
         }
-        if (response2.action !== "accept" || extra.signal.aborted)
+        if (response3.action !== "accept" || extra.signal.aborted)
           return onboarding.cancel(original);
         return onboarding.status();
       }
@@ -75730,27 +75833,27 @@ var HttpsBrowserSigninTransport = class {
         rejectUnauthorized: true
       };
       try {
-        req = (this.dependencies.request ?? httpsRequest)(url2, settings, (response2) => {
-          const status = response2.statusCode ?? 0;
-          const contentType = response2.headers["content-type"];
-          const encoding = response2.headers["content-encoding"];
-          if (status >= 300 && status < 400 || encoding && encoding !== "identity" || (method === "GET" || status !== 204) && (typeof contentType !== "string" || !/^application\/json(?:\s*;\s*charset=utf-8)?$/i.test(contentType)) || Number(response2.headers["content-length"] ?? 0) > 16384) {
-            response2.destroy();
+        req = (this.dependencies.request ?? httpsRequest)(url2, settings, (response3) => {
+          const status = response3.statusCode ?? 0;
+          const contentType = response3.headers["content-type"];
+          const encoding = response3.headers["content-encoding"];
+          if (status >= 300 && status < 400 || encoding && encoding !== "identity" || (method === "GET" || status !== 204) && (typeof contentType !== "string" || !/^application\/json(?:\s*;\s*charset=utf-8)?$/i.test(contentType)) || Number(response3.headers["content-length"] ?? 0) > 16384) {
+            response3.destroy();
             fail();
             return;
           }
           const chunks = [];
           let size6 = 0;
-          response2.on("data", (chunk) => {
+          response3.on("data", (chunk) => {
             size6 += chunk.length;
             if (size6 > 16384) {
-              response2.destroy();
+              response3.destroy();
               fail();
             } else chunks.push(chunk);
           });
-          response2.on("error", () => fail());
-          response2.on("aborted", () => fail());
-          response2.on("end", () => {
+          response3.on("error", () => fail());
+          response3.on("aborted", () => fail());
+          response3.on("end", () => {
             if (settled) return;
             try {
               if (method === "GET" && status !== 200) throw new Error();
@@ -76398,20 +76501,20 @@ var PurchaseService = class {
             operation.data
           );
           quoteRequestUnresolved = true;
-          const response2 = await this.client.raw(`/api/posts/${operation.data.postId}/access`, {
+          const response3 = await this.client.raw(`/api/posts/${operation.data.postId}/access`, {
             bearer: token2,
             headers: { "Idempotency-Key": operation.data.requestKey },
             signal
           });
-          requireCurrentPurchaseHost(response2, operation.context.origin, operation.data.postId);
-          if (response2.status === 200) {
-            this.validatePost(response2.data, operation.data.postId);
+          requireCurrentPurchaseHost(response3, operation.context.origin, operation.data.postId);
+          if (response3.status === 200) {
+            this.validatePost(response3.data, operation.data.postId);
             return this.view(
               this.store.updateOperation(operation.id, "already-accessible", operation.data)
             );
           }
-          const header = response2.headers.get("payment-required");
-          if (response2.status !== 402 || !header) throw new Error("purchase-quote-unavailable");
+          const header = response3.headers.get("payment-required");
+          if (response3.status !== 402 || !header) throw new Error("purchase-quote-unavailable");
           const quote2 = this.validateQuote(decode4(header, 8 * 1024), operation.data);
           operation = this.store.updateOperation(operation.id, "quote-ready", {
             ...operation.data,
@@ -76506,7 +76609,7 @@ Payment destination: ${operation.data.quote.accepts[0].payTo}`,
             error: void 0
           });
           quoteRequestUnresolved = true;
-          const response2 = await this.client.raw(`/api/posts/${operation.data.postId}/access`, {
+          const response3 = await this.client.raw(`/api/posts/${operation.data.postId}/access`, {
             bearer: token,
             headers: {
               "Idempotency-Key": operation.data.requestKey,
@@ -76521,16 +76624,16 @@ Payment destination: ${operation.data.quote.accepts[0].payTo}`,
               error40 instanceof ApiError ? error40.retryAfter : null
             );
           });
-          requireCurrentPurchaseHost(response2, operation.context.origin, operation.data.postId);
-          if (response2.status === 429 || response2.status >= 500)
+          requireCurrentPurchaseHost(response3, operation.context.origin, operation.data.postId);
+          if (response3.status === 429 || response3.status >= 500)
             throw new ApiError(
-              response2.status,
+              response3.status,
               "purchase-quote-unavailable",
-              response2.headers.get("retry-after")
+              response3.headers.get("retry-after")
             );
-          quoteRequestUnresolved = previouslyUnresolved && (response2.status === 401 || response2.status === 403);
-          if (response2.status === 200) {
-            this.validatePost(response2.data, operation.data.postId);
+          quoteRequestUnresolved = previouslyUnresolved && (response3.status === 401 || response3.status === 403);
+          if (response3.status === 200) {
+            this.validatePost(response3.data, operation.data.postId);
             this.budget.release(operation.data.reservationId);
             this.store.updateOperation(operation.id, "already-accessible", {
               ...operation.data,
@@ -76541,8 +76644,8 @@ Payment destination: ${operation.data.quote.accepts[0].payTo}`,
               status: "already-accessible"
             };
           }
-          if (response2.status !== 402) throw new Error("purchase-quote-unavailable");
-          const encoded = response2.headers.get("payment-required");
+          if (response3.status !== 402) throw new Error("purchase-quote-unavailable");
+          const encoded = response3.headers.get("payment-required");
           if (!encoded) throw new Error("payment-required-header-missing");
           quote2 = this.validateQuote(decode4(encoded, 8 * 1024), operation.data);
           if (operation.data.quote && (canonical(quote2.resource) !== canonical(operation.data.quote.resource) || canonical(quote2.accepts) !== canonical(operation.data.quote.accepts))) {
@@ -76737,7 +76840,7 @@ Payment destination: ${operation.data.quote.accepts[0].payTo}`,
     try {
       this.validateOriginal(operation);
       if (signal?.aborted) throw new Error("purchase-cancelled-after-signing");
-      const response2 = await this.client.raw(`/api/posts/${operation.data.postId}/access`, {
+      const response3 = await this.client.raw(`/api/posts/${operation.data.postId}/access`, {
         bearer: token,
         headers: {
           "Payment-Signature": operation.data.proof,
@@ -76745,10 +76848,10 @@ Payment destination: ${operation.data.quote.accepts[0].payTo}`,
         },
         signal
       });
-      requireCurrentPurchaseHost(response2, operation.context.origin, operation.data.postId);
-      if (response2.status !== 200) throw new Error("original-purchase-reconciliation-required");
-      this.validatePost(response2.data, operation.data.postId);
-      const encoded = response2.headers.get("payment-response");
+      requireCurrentPurchaseHost(response3, operation.context.origin, operation.data.postId);
+      if (response3.status !== 200) throw new Error("original-purchase-reconciliation-required");
+      this.validatePost(response3.data, operation.data.postId);
+      const encoded = response3.headers.get("payment-response");
       let receipt2;
       let receiptSource;
       if (encoded !== null) {
@@ -77437,6 +77540,7 @@ var safeErrors = /* @__PURE__ */ new Set([
   "credential-source-mismatch",
   "credential-source-incomplete",
   "connection-result-unknown",
+  "connection-refresh-pending",
   "connection-revocation-unconfirmed",
   "connection-revoked",
   "connection-expired",

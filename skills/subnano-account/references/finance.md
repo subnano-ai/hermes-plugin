@@ -1,3 +1,9 @@
+For engagement and revenue on your own published Posts, call `subnano_post_stats`.
+Omit `post_id` for all Posts, or supply one Post UUID. Use `window: "7d"` (default) or
+`"30d"`. Report XNO and USDC separately. Each Post's unique visitors are daily counts
+summed over the window. Use the full-scope totals once and pass `nextCursor` as `cursor`
+with the same filters for more Post rows. On `post-stats-restart-required`, discard earlier pages and restart without a cursor.
+
 For requested Subnano finance reads, use `subnano_financial_history` with required
 `view: creator` or `buyer`, native `type`, comma-separated `status`, inclusive
 `startDate/endDate`, paired native `asset/network` filters (`XNO/nano-mainnet`

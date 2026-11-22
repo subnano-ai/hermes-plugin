@@ -106,6 +106,7 @@ var toolGroups = {
     "subnano_feedback",
     "subnano_financial_history",
     "subnano_financial_record",
+    "subnano_post_stats",
     "subnano_notification_preferences_get",
     "subnano_notification_preferences_update",
     "subnano_notifications",

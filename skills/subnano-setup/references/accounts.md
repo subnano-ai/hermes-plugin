@@ -290,8 +290,11 @@ On interruption inspect `setup connect-status`, then follow its typed next actio
 with the same state/origin. `setup connect-resume` resumes that attempt; do not
 replay tokens or create another account. `setup connect-cancel` requests cancellation;
 `setup connect-disconnect` revokes the selected connection and its refreshed
-credentials. Previously issued family-bound keys are also retired; other API keys stay. Unknown exchange/refresh or unconfirmed revocation remains blocked until
-authoritative status and exact issuance retirement are confirmed. A remote browser that
+credentials. Previously issued family-bound keys are also retired; other API keys stay.
+For `connection-refresh-pending`, retry on the same named connection when the service
+is reachable. The client saved the replacement pair before dispatch and resumes the
+same rotation. Unknown code exchange, older refreshes without a saved replacement,
+and unconfirmed revocation still require confirmed retirement before another approval. A remote browser that
 cannot reach the local callback gives `browser-host-unreachable`; use a browser on the
 CLI machine. Never request browser cookies, OTPs, credentials or signature files in chat.
 
