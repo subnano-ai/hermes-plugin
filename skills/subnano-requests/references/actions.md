@@ -69,3 +69,31 @@ cannot widen authority.
   available selected proposal and is separate from selection and purchase.
   Reopen before changing selections on a closed/completed Request. Use the
   requester's `unavailableSelectedProposalIds` to unselect a Post that disappeared.
+
+### Keep collecting, pause or resume
+
+- A first accepted proposal arms the clock, even if later removed. A public requester
+  reply to another participant, applied selection, attributable purchase or explicit
+  **Still looking** renews an open Request. Private triage, tips and edits add no time.
+- Reminder after seven days; pause after fourteen and at least seven days from the
+  first warning opportunity. Wanted by is an independent advisory date.
+- Public `request.inactivity` shows `pauseReason` and the latest publishable
+  `requesterActivity` (`reply`, `selection`, `purchase`, `confirmed`, with `at`).
+  Null activity means no public requester response yet. Do not infer engagement
+  from other contributors, logins or private state.
+- Read owner detail with `owner_context:true`. Only the requester receives
+  `request.inactivityOwner` with `revision`, `reminderAt`, `pauseAt` and
+  `purchasePrompt` and optional `pendingPurchaseIds`. When the prompt is true, ask **Still collecting proposals?**
+  and offer **Still looking** or **Pause**. Reads do not acknowledge it.
+- Use `subnano_transition_request` with `action:confirm_collecting` or `action:pause`,
+  stable `intent_id`, `request_id`, reviewed `expected_version`, and
+  `expected_inactivity_revision` from owner detail. Both require open status;
+  absent metadata means the capability is unavailable. Existing permission policy
+  applies. Copy the reviewed `inactivityOwner.pendingPurchaseIds` exactly as
+  `reviewed_purchase_ids` (up to 100 UUIDs). Omission, null and an empty list
+  acknowledge no purchases. Only verified purchases belonging to this Request
+  can be acknowledged. Purchases outside the reviewed snapshot remain pending.
+- Pause preserves the brief, discussion, proposals, selections and purchases, while
+  stopping intake and removing the Request from open discovery. Existing proposals
+  remain readable and buyable. Only explicit `reopen` resumes, within the usual quota;
+  replies and purchases while paused never resume. Completion still needs selection.

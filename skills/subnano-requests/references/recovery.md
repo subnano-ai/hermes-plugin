@@ -43,3 +43,15 @@ that joining subscribes to in-app proposal and completion notifications, subject
 to preferences. It creates no purchase commitment and adds nothing to the budget.
 Reuse the same intent after uncertain delivery. Read `interestedCount` as demand,
 not promised purchases; authenticated detail returns the selected owner's `interested`.
+
+### Inactivity decisions
+
+Pause and Still looking save both reviewed versions and the exact optional
+`reviewed_purchase_ids` checkpoint, and return an exact native
+`inactivityRevision` receipt. Refresh private owner detail and compare that receipt
+with `request.inactivityOwner.revision`; open status alone never proves confirmation.
+Still looking preserves `request.version`, so its native episode receipt proves renewal.
+Later lifecycle versions or episodes may supersede an accepted decision. A missing
+owner episode leaves recovery pending, and an acquired receipt resumes only GET.
+Never change the reviewed revision or purchase ID list, or issue another confirmation to recover uncertainty. A newer purchase prompt
+can remain pending after the original action succeeds.
