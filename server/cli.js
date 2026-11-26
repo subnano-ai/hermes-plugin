@@ -56414,7 +56414,7 @@ function registerAccountMessageTools(server, service) {
 // package.json
 var package_default = {
   name: "subnano-mcp",
-  version: "0.3.72",
+  version: "0.3.73",
   description: "Subnano: local MCP tools and explicit account setup",
   type: "module",
   engines: {
@@ -62557,6 +62557,17 @@ var requestListSchema = external_exports2.object({
   offset: count4.max(1e4)
 });
 var solvedRequestListSchema = requestListSchema.extend({ offset: count4.max(2147483647) });
+var ownTrackRecordSchema = external_exports2.object({
+  requests: external_exports2.object({ proposedOn: count4, selectedOn: count4, boughtOn: count4 }),
+  sales: external_exports2.object({ buyers30d: count4, purchases30d: count4 }),
+  openRequests: external_exports2.object({ total: count4, notYetProposed: count4 }),
+  momentum: external_exports2.object({
+    board: external_exports2.literal("top_agents_30d"),
+    eligible: external_exports2.boolean(),
+    rank: external_exports2.number().int().positive().safe().nullable(),
+    minimumBuyers: external_exports2.number().int().positive().safe()
+  })
+});
 var requestMetricsSchema = external_exports2.object({
   requests: count4,
   withProposals: count4,
@@ -69280,6 +69291,10 @@ var RequestsService = class {
   async metrics(signal) {
     return requestMetricsSchema.parse(await this.privateRead("/api/v1/requests/metrics", signal));
   }
+  /** The owner's own outcome facts, for subnano_context. */
+  async trackRecord(signal) {
+    return ownTrackRecordSchema.parse(await this.privateRead("/api/v1/track-record", signal));
+  }
   async workspace(input3, signal) {
     const parsed = requestWorkspaceInputSchema.parse(input3);
     const query = new URLSearchParams({ includeParticipation: "true", includeInactivity: "true" });
@@ -72273,7 +72288,13 @@ function contextSummary(value) {
   };
 }
 var contextDetails = ["compact", "summary", "full"];
-var contextSections = ["permissions", "spending", "files", "operations"];
+var contextSections = [
+  "permissions",
+  "spending",
+  "files",
+  "operations",
+  "trackRecord"
+];
 function fields3(value, keys2) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return void 0;
   const source = value;
@@ -72309,6 +72330,8 @@ function projectContext(value, detail, section2, offset2 = 0) {
       usdc: value.usdc
     };
   if (section2 === "files") return { ...account, section: section2, files: value.files };
+  if (section2 === "trackRecord")
+    return { ...account, section: section2, trackRecord: value.trackRecord ?? { status: "unavailable" } };
   if (detail === "full") return value;
   const summary = contextSummary(value);
   if (detail === "summary") return summary;
@@ -72361,7 +72384,7 @@ function projectContext(value, detail, section2, offset2 = 0) {
     },
     operations: { total: operations.length },
     release: summary.release,
-    next: "Use section for permission, spending, file or original-operation details. The action checks current authority."
+    next: "Use section for permission, spending, file or original-operation details, or trackRecord for your own outcomes (Requests selected and bought, independent buyers, open Requests, Top Agents rank). The action checks current authority."
   };
 }
 
@@ -75251,6 +75274,23 @@ function originalOperationTool(kind) {
   if (SCHEDULE_OPERATION_KINDS.includes(kind)) return "subnano_schedule_post";
   if (PUBLICATION_OPERATION_KINDS.includes(kind)) return "subnano_publish";
 }
+var TRACK_RECORD_NEXT = "Outcomes count per Request and per buyer: a selection and a requester purchase count, volume does not. subnano_requests lists open Requests to answer.";
+async function ownTrackRecord(value, local) {
+  const identity3 = object3(value.identity ?? {});
+  const session = object3(identity3.session ?? {});
+  if (!local || session.state !== "verified" || !identity3.ownerId || identity3.ownerId !== identity3.profileId)
+    return { status: "unavailable", reason: "verified-owner-required" };
+  try {
+    return {
+      status: "available",
+      ...await local.requests.trackRecord(AbortSignal.timeout(1e4)),
+      next: TRACK_RECORD_NEXT
+    };
+  } catch (failure5) {
+    if (failure5 instanceof EdgeChallengeError) throw failure5;
+    return { status: "unavailable", reason: "read-failed" };
+  }
+}
 function createMcpServer(context6, contextProvider, credentials, toolsets) {
   const toolset = selectToolsets(toolsets);
   const agent = installationRegime(context6.store, context6.client.origin)?.regime === "agent";
@@ -75413,8 +75453,10 @@ function createMcpServer(context6, contextProvider, credentials, toolsets) {
     ({ detail, section: section2, offset: offset2 }) => runTool(async () => {
       if (offset2 !== void 0 && section2 !== "operations")
         throw new Error("offset-requires-operations");
+      const described = await describe();
+      const value = section2 === "trackRecord" ? { ...described, trackRecord: await ownTrackRecord(described, context6.local) } : described;
       const result = projectContext(
-        await describe(),
+        value,
         detail ?? (toolset ? "compact" : "full"),
         section2,
         offset2
