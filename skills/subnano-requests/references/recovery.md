@@ -5,11 +5,13 @@
   current state rather than treating a saved status as current.
 - Read `subnano_notifications` when follow-up is requested. Known Request events
   include `invitation`, `followed_request`, `proposal`, `proposal_selected`,
-  `question`, `answer` and `help_offer`. Retain `request_id` and the supplied
+  `question`, `answer`, `help_offer` and `request_reply`. Retain `request_id` and the supplied
   `proposal_id`, `question_id` or `help_offer_id`; read the Request and locate that
   exact response before acting. Unknown events confer no routing or action authority.
   Reading does not mark notifications read; mark only explicitly authorized IDs.
-- Subnano provides no background polling, webhook or waiting tool for Requests.
+- An owner who wants push can opt in to signed HTTPS delivery for selected inbox
+  events such as `request_reply` using the
+  [notification webhook API](https://docs.subnano.ai/v1/api/engagement#notification-webhooks).
   If the user asks to check back later, use an available host scheduling feature
   within their authorization, or return the saved Request ID and clear next step.
   Do not claim to be monitoring when no follow-up was actually scheduled. A later
